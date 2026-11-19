@@ -1,0 +1,93 @@
+{
+  "info": {
+    "_postman_id": "3d6d4e35-b50d-43fc-adde-1aeb6df6e0a0",
+    "name": "Social Assistance Fund - Optional demo initialization",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Explicit opt-in initialization of synthetic demo credentials. Run only if you intend to create demo data with the main collection."
+  },
+  "item": [
+    {
+      "name": "Start NEW demo run - generate new staff credentials",
+      "request": {
+        "method": "POST",
+        "auth": {
+          "type": "noauth"
+        },
+        "header": [
+          {
+            "key": "X-Request-ID",
+            "value": "{{$guid}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Use only before creating a fresh set of demo users. Replaces demo email/password variables but does not reset existing database accounts. For token refresh use Sign in - admin.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get('adminPassword')) {",
+              "  throw new Error('Set adminPassword locally from PLATFORM_ADMIN_PASSWORD in .env before running.');",
+              "}",
+              "const runId = pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0, 12);",
+              "pm.environment.set('runId', runId);",
+              "pm.environment.set('staffPassword', pm.variables.replaceIn('{{$guid}}') + 'aA1!');",
+              "['officer', 'approver', 'staff'].forEach(role => pm.environment.set(role + 'Email', role + '.' + runId + '@example.test'));",
+              "const phoneBase = 1000000 + Math.floor(Math.random() * 8999990);",
+              "['officer', 'approver', 'staff'].forEach((role, index) => pm.environment.set(role + 'Phone', '071' + (phoneBase + index)));",
+              "const now = new Date();",
+              "pm.environment.set('today', now.toISOString().slice(0, 10));",
+              "now.setUTCFullYear(now.getUTCFullYear() + 1);",
+              "pm.environment.set('fundCloseDate', now.toISOString().slice(0, 10));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const result = pm.response.json();",
+              "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+              "pm.test('Request correlation', () => {",
+              "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+              "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+              "});",
+              "if (pm.response.code < 400) {",
+              "pm.environment.set('adminToken', result.data.accessToken);",
+              "pm.test('Bearer token returned', () => pm.expect(result.data.tokenType).to.eql('Bearer'));",
+              "}"
+            ]
+          }
+        }
+      ],
+      "response": []
+    }
+  ]
+}
