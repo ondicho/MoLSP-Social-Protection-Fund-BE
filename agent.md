@@ -173,6 +173,39 @@ Available response methods include `badRequest`, `unauthorized`, `forbidden`,
 - Make migrations additive and versioned. Do not edit an already-applied
   migration; add a new migration for schema changes.
 - Preserve foreign keys, uniqueness constraints, and transactional integrity.
+- **Exception — append-only records:** `application_audit_events`,
+  `notification_outbox` and `notification_delivery_attempts` are written with
+  `JdbcTemplate`, not `Base` entities. Audit rows are insert-only (no update or
+  delete code path); outbox rows change only through `NotificationService`'s
+  guarded status updates. They carry explicit actor/time columns because the
+  scheduler and async workers have no authenticated user. Do not add JPA
+  entities/repositories with `save`/`delete` for these tables.
+
+## Application audit and notifications
+
+- `ApplicationAuditService.record(...)` must be called inside the same
+  transaction as every application creation, material modification and workflow
+  transition. Record event type, application ID, actor (user UUID or
+  `PUBLIC_SELF_REGISTRATION`), time, from/to status, reason, field changes and
+  request ID. Redact sensitive changed values (identity number, phones) as
+  `[REDACTED]`; record only that they changed.
+- `NotificationService` is the single owner of applicant communication. Other
+  services only call its enqueue methods (`applicationReceived`,
+  `returnedForCorrection`, `decision`) inside their transaction; they never call a
+  gateway directly. Enqueue is an outbox insert, so a failed or absent provider
+  can never roll back an approval/rejection.
+- Delivery happens after commit on the `notificationExecutor` (async,
+  non-blocking) and from a scheduled poller. Claims use a conditional UPDATE
+  with a `claim_token` and lease; completions are guarded by that token.
+  `idempotency_key = eventType:auditEventId` is unique to stop duplicate enqueue.
+- Gateways implement `notifications.NotificationGateway`. The TechVoyage
+  gateway loads only when `COMMS_PROVIDER=techvoyage` and all `COMMS_*` URLs and
+  credentials are non-blank; `stub` loads the logging stub. With no gateway the
+  app still starts and rows stay `PENDING` (`PROVIDER_NOT_CONFIGURED`) until a
+  provider is configured. Never make the gateway a mandatory bean.
+- Never log recipients, message bodies, tokens or provider credentials. API
+  responses mask recipients. Tests must use a local mock server, never the real
+  SMS endpoint.
 
 ## Error handling and logging
 
@@ -210,10 +243,20 @@ Available response methods include `badRequest`, `unauthorized`, `forbidden`,
 
 ## Current application boundaries
 
+Only the existing geography GET lookups (counties, sub-counties and wards) and
+`GET /api/social-funds` are public read catalogues. Fund detail, create, update
+and archive routes remain `PLATFORM_ADMIN` only. Keep public matchers limited to
+these exact paths and GET; do not permit whole resource trees or write methods.
+Public clients should omit Authorization headers so stale tokens do not reject
+otherwise anonymous requests. No persistence/entity changes are needed for access
+policy changes; preserve DTOs, pagination and archive filtering.
+
 The application includes staff login/management, social fund CRUD, county/
 sub-county/ward lookups, assisted application drafts, public application
-self-registration and approver transitions. Returned applications do not yet
-have an amendment/resubmission path by user decision; plan that in a later phase.
+self-registration, approver transitions, an immutable application audit trail,
+read-only history/actions/notification-lifecycle endpoints and outbox-based
+SMS notifications. Returned applications do not yet have an amendment/
+resubmission path by user decision; plan that in a later phase.
 Lower geography levels (location, sub-location, village) remain text because no
-authoritative hierarchy was supplied. Notifications, frontend, password reset,
+authoritative hierarchy was supplied. Email notifications (applicants have no email), frontend, password reset,
 rate limiting and production-hardening are not implemented; do not imply otherwise.

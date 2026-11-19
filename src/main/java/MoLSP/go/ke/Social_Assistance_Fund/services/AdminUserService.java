@@ -9,6 +9,7 @@ import MoLSP.go.ke.Social_Assistance_Fund.exceptions.ResourceNotFoundException;
 import MoLSP.go.ke.Social_Assistance_Fund.models.User;
 import MoLSP.go.ke.Social_Assistance_Fund.repositories.UserRepository;
 import MoLSP.go.ke.Social_Assistance_Fund.utils.PaginationUtil;
+import MoLSP.go.ke.Social_Assistance_Fund.utils.PhoneNumberNormalizer;
 import MoLSP.go.ke.Social_Assistance_Fund.utils.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ public class AdminUserService {
     private final PaginationUtil pagination;
     private final ResponseHandler responses;
     private final EntityManager entityManager;
+    private final PhoneNumberNormalizer phoneNumbers;
 
     @Transactional(readOnly = true)
     public ResponseEntity<ResponseWrapper<PaginatedResponse<AdminUserDtos.UserResponse>>> list(
@@ -57,13 +59,14 @@ public class AdminUserService {
         if (users.findByEmail(email).isPresent()) {
             throw new DuplicateResourceException("User email already exists");
         }
+        String phoneNumber = uniquePhoneNumber(request.phoneNumber(), null);
         String firstName = request.firstName().strip();
         String middleName = request.middleName() != null ? request.middleName().strip() : null;
         String lastName = request.lastName().strip();
         validateFullName(firstName, middleName, lastName);
         User user = new User(firstName, middleName, lastName);
         user.setEmail(email);
-        user.setPhoneNumber(request.phoneNumber());
+        user.setPhoneNumber(phoneNumber);
         user.setRole(request.role());
         ensurePasswordLength(request.temporaryPassword());
         user.setPasswordHash(passwords.encode(request.temporaryPassword()));
@@ -77,6 +80,7 @@ public class AdminUserService {
         ensureManagedRole(request.role());
         ensureVersion(user, request.version());
         ensureUniqueEmail(request.email(), id);
+        String phoneNumber = uniquePhoneNumber(request.phoneNumber(), id);
         ensureEnabledAdministratorRemains(user, request.role(), user.isEnabled());
 
         String firstName = request.firstName().strip();
@@ -88,7 +92,7 @@ public class AdminUserService {
         user.setMiddleName(middleName);
         user.setFullName(firstName + " " + (middleName != null ? middleName + " " : "") + lastName);
         user.setEmail(normalizeEmail(request.email()));
-        user.setPhoneNumber(request.phoneNumber());
+        user.setPhoneNumber(phoneNumber);
         user.setRole(request.role());
         if (request.newPassword() != null && !request.newPassword().isBlank()) {
             ensurePasswordLength(request.newPassword());
@@ -149,6 +153,14 @@ public class AdminUserService {
                 throw new DuplicateResourceException("User email already exists");
             }
         });
+    }
+
+    private String uniquePhoneNumber(String phoneNumber, UUID id) {
+        String normalized = phoneNumbers.normalize(phoneNumber);
+        if (users.countByPhoneNumberExcludingId(normalized, id) > 0) {
+            throw new DuplicateResourceException("User phone number already exists");
+        }
+        return normalized;
     }
 
     private void ensureEnabledAdministratorRemains(User user, Role nextRole, boolean nextEnabled) {

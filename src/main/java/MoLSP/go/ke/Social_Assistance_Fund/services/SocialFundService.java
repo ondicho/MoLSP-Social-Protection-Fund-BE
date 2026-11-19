@@ -1,5 +1,6 @@
 package MoLSP.go.ke.Social_Assistance_Fund.services;
 
+import MoLSP.go.ke.Social_Assistance_Fund.dtos.GeographyDtos;
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.PaginatedResponse;
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.ResponseWrapper;
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.SocialFundDtos;
@@ -209,9 +210,15 @@ public class SocialFundService {
     }
 
     private SocialFundDtos.FundResponse toResponse(SocialFund fund) {
+        List<GeographyDtos.County> counties = fund.getCountyIds().isEmpty() ? List.of()
+                : jdbc.query("SELECT id, name FROM counties WHERE id IN ("
+                        + fund.getCountyIds().stream().map(id -> "?").collect(Collectors.joining(","))
+                        + ") ORDER BY id",
+                        (rs, row) -> new GeographyDtos.County(rs.getInt("id"), rs.getString("name")),
+                        fund.getCountyIds().toArray());
         return new SocialFundDtos.FundResponse(fund.getId(), fund.getName(), fund.getSlug(), fund.getType(),
                 fund.getCoverage(), fund.getOpenDate(), fund.getCloseDate(), fund.getMinAmount(),
-                fund.getMaxAmount(), fund.getCountyIds().stream().sorted().toList(),
+                fund.getMaxAmount(), counties,
                 fund.getVersion(), fund.getCreatedAt(), fund.getUpdatedAt());
     }
 

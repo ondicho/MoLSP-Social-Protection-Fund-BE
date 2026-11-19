@@ -1,9 +1,11 @@
 # Social Assistance Fund
 
+Frontend agent handoff: [Frontend implementation guide](docs/frontend-implementation-guide.md).
+
 Java 21 / Spring Boot application with MySQL 8.4 and Flyway migrations.
 This is an evolving implementation, not a complete assessment submission:
-applicant correction/resubmission, notifications and frontend are not yet
-implemented.
+applicant correction/resubmission, email notifications and frontend are not
+yet implemented.
 
 ## Docker deployment
 
@@ -70,7 +72,7 @@ environment instead; never share or commit that credential-bearing file.
 
 | Stream | Contents |
 |---|---|
-| `access.log` | Servlet dispatch completion status/duration and correlation ID, including authentication failures; no URL, query, IP, headers or body. Async/error redispatch may produce multiple entries for one request. |
+| `access.log` | HTTP method, matched route template (never raw path), status, duration and correlation ID. Successful GET/HEAD health probes are suppressed; failed probes remain visible. Rejections use WARN and server failures ERROR. No query, IP, headers or body. Async/error redispatch may produce multiple entries for one request; requests rejected before route matching show `UNRESOLVED`. |
 | `application.log` | Operational events (including WARN/ERROR), excluding access entries. |
 | `error.log` | ERROR events only, also present in the application log. |
 | Container stdout | All three streams, using Docker's bounded `local` logging driver. |
@@ -92,6 +94,13 @@ encrypt the underlying disk and configure remote collection/access/retention
 according to the Ministry-approved policy. Do not run external `logrotate` against
 files already managed by Logback. Set filesystem quotas/monitor disk usage: archive
 caps are not whole-volume quotas. See [data/logging design](docs/DESIGN_NOTE.md).
+
+Application validation logs include safe diagnostic metadata: invalid fund
+selections record `field=programmeCodes`, a stable reason, and requested/matched/
+active fund counts, not submitted slugs or applicant fields. General HTTP errors
+record status/category and invalid-field count. Use `X-Request-ID` to correlate
+these entries with the response. A fund list saved before demo cleanup is stale;
+fetch the current list and create a real fund before applying if it is empty.
 
 ## Verification
 
@@ -116,5 +125,7 @@ catalogue and exact-name-matched wards on startup. See
 [repository coding standards and structure](agent.md).
 
 Phase 2 provides platform-admin staff/fund management and assisted/public
-application intake with approver transitions. See [Phase 2 API and workflow
-notes](docs/PHASE_TWO.md).
+application intake with approver transitions, an immutable application audit
+trail and an async transactional-outbox SMS notification flow (optional
+TechVoyage gateway via `COMMS_*` env values; the app starts without them). See
+[Phase 2 API and workflow notes](docs/PHASE_TWO.md#audit-trail-and-notifications).

@@ -36,7 +36,7 @@ public final class ApplicationDtos {
             @Size(max = 500) String physicalAddress,
             List<@NotBlank @Size(max = 64) String> telephoneContacts,
             LocalDate applicationDate,
-            List<@NotBlank @Size(max = 40) String> programmeCodes,
+            List<@NotBlank @Size(max = 250) String> programmeCodes,
             @Size(max = 200) String otherProgramme,
             LocalDate applicantSignedDate) {
     }

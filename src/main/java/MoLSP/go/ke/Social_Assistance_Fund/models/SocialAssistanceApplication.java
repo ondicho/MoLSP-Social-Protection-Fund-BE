@@ -60,6 +60,6 @@ public class SocialAssistanceApplication extends Base {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "application_programmes", joinColumns = @JoinColumn(name = "application_id"))
-    @Column(name = "programme_code", nullable = false, length = 40)
+    @Column(name = "programme_code", nullable = false, length = 250)
     private Set<String> programmeCodes = new HashSet<>();
 }

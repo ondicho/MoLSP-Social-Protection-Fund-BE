@@ -10,12 +10,14 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.slf4j.MDC;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ResponseHandler {
 
     public <T> ResponseEntity<ResponseWrapper<T>> createResponse(
@@ -55,6 +57,10 @@ public class ResponseHandler {
         }
         ProblemDetail problem = ApiProblemDetails.create(status, detail, request, errors);
         var response = createResponse(false, status.getReasonPhrase(), problem, detail, status, requestId(request));
+        if (status.is4xxClientError()) {
+            log.warn("event=request_rejected status={} category={} invalidFieldCount={}",
+                    status.value(), status.name(), errors.size());
+        }
         problem.setProperty("timestamp", response.getBody().getTimestamp());
         problem.setProperty("requestId", response.getBody().getRequestId());
         return response;

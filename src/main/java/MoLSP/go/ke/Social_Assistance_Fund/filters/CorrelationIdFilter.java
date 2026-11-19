@@ -13,6 +13,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerMapping;
 
 import java.io.IOException;
 
@@ -46,9 +47,25 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             completed = true;
         } finally {
-            ACCESS_LOG.info("event=http_dispatch_completed status={} durationMs={}",
-                    completed ? response.getStatus() : HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    (System.nanoTime() - start) / 1_000_000);
+            int status = completed ? response.getStatus() : HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+            boolean healthyProbe = status >= 200 && status < 300
+                    && ("GET".equals(request.getMethod()) || "HEAD".equals(request.getMethod()))
+                    && switch (request.getRequestURI()) {
+                        case "/actuator/health", "/actuator/health/readiness", "/actuator/health/liveness" -> true;
+                        default -> false;
+                    };
+            if (!healthyProbe) {
+                Object pattern = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+                String route = pattern == null ? "UNRESOLVED" : pattern.toString();
+                String method = switch (request.getMethod()) {
+                    case "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS" -> request.getMethod();
+                    default -> "OTHER";
+                };
+                var level = status >= 500 ? ACCESS_LOG.atError()
+                        : status >= 400 ? ACCESS_LOG.atWarn() : ACCESS_LOG.atInfo();
+                level.log("event=http_dispatch_completed method={} route={} status={} durationMs={}",
+                        method, route, status, (System.nanoTime() - start) / 1_000_000);
+            }
             if (previous == null) {
                 MDC.remove("requestId");
             } else {

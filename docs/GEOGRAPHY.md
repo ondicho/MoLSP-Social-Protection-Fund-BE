@@ -100,7 +100,7 @@ authenticated user, while JPA `Base` auditing rejects unauthenticated writes.
 These tables are lookup data, not JPA entities, and have no misleading user audit
 actor. Do not expose direct reference-table writes to normal users.
 
-Authenticated cascading lookup endpoints:
+Public, read-only cascading lookup endpoints (no bearer token required):
 
 - `GET /api/geography/counties` returns paginated `id` and `name` values.
 - `GET /api/geography/counties/{countyId}/sub-counties` returns
@@ -113,9 +113,10 @@ All collection endpoints accept optional `pageNo`, `pageSize`, `sortBy`, and
 `sortDirection` parameters. Defaults are page 0, page size 2, and descending name
 for reference lookups; page size is capped at 100.
 
-Results are alphabetically sorted and use the standard response wrapper. Login
-and user provisioning are not implemented yet, so tokens must currently be
-provisioned through a controlled development method.
+Results are alphabetically sorted and use the standard response wrapper.
+Only the three GET routes above are public; no reference-data write routes are
+exposed. Omit Authorization on anonymous requests, since invalid or expired
+bearer tokens are still rejected.
 
 **Technical debt:** Locations, sub-locations and villages are not yet modelled,
 seeded, or exposed in an application form. The intended interim behaviour is

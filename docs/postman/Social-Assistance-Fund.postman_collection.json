@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "ed209dd4-1e89-4dab-bad1-a4cf6e44f49f",
+    "_postman_id": "1526fe0f-4c63-49d4-a45c-c3b9e67da57d",
     "name": "Social Assistance Fund - Complete API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Run folders in numeric order against a local/demo database. Creates persistent synthetic staff, funds and applications. Import the accompanying environment and supply adminPassword locally. Tokens, IDs and optimistic versions are captured automatically. Every implemented controller endpoint plus public health/OpenAPI routes is included. See README.md in this package."
@@ -221,7 +221,7 @@
     },
     {
       "name": "01 - Authentication",
-      "description": "Run first after health checks. Starts a fresh demo run with unique emails, applicant identities and generated temporary staff password. Does not change the bootstrap administrator.",
+      "description": "Ordinary Sign in refreshes tokens without changing staff credentials. Demo initialization is in the separate opt-in setup collection.",
       "item": [
         {
           "name": "Sign in - admin",
@@ -263,25 +263,6 @@
             }
           },
           "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (!pm.environment.get('adminPassword')) {",
-                  "  throw new Error('Set adminPassword locally from PLATFORM_ADMIN_PASSWORD in .env before running.');",
-                  "}",
-                  "const runId = pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0, 12);",
-                  "pm.environment.set('runId', runId);",
-                  "pm.environment.set('staffPassword', pm.variables.replaceIn('{{$guid}}') + 'aA1!');",
-                  "['officer', 'approver', 'staff'].forEach(role => pm.environment.set(role + 'Email', role + '.' + runId + '@example.test'));",
-                  "const now = new Date();",
-                  "pm.environment.set('today', now.toISOString().slice(0, 10));",
-                  "now.setUTCFullYear(now.getUTCFullYear() + 1);",
-                  "pm.environment.set('fundCloseDate', now.toISOString().slice(0, 10));"
-                ]
-              }
-            },
             {
               "listen": "test",
               "script": {
@@ -348,7 +329,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Officer\",\n  \"email\": \"{{officerEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"DATA_ENTRY_OFFICER\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Officer\",\n  \"email\": \"{{officerEmail}}\",\n  \"phoneNumber\": \"{{officerPhone}}\",\n  \"role\": \"DATA_ENTRY_OFFICER\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -371,6 +352,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('officerId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('officerSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('officerVersion', result.data.version);",
                   "}"
                 ]
@@ -417,7 +399,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Approver\",\n  \"email\": \"{{approverEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"APPROVER\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Approver\",\n  \"email\": \"{{approverEmail}}\",\n  \"phoneNumber\": \"{{approverPhone}}\",\n  \"role\": \"APPROVER\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -440,6 +422,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('approverId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('approverSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('approverVersion', result.data.version);",
                   "}"
                 ]
@@ -486,7 +469,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Administrator\",\n  \"email\": \"{{staffEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"PLATFORM_ADMIN\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Administrator\",\n  \"email\": \"{{staffEmail}}\",\n  \"phoneNumber\": \"{{staffPhone}}\",\n  \"role\": \"PLATFORM_ADMIN\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -509,6 +492,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('staffSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
                   "}"
                 ]
@@ -659,6 +643,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('staffSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
                   "}"
                 ]
@@ -706,7 +691,7 @@
             "description": "newPassword is optional; omit to preserve the existing password.",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Updated\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Administrator\",\n  \"email\": \"{{staffEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"PLATFORM_ADMIN\",\n  \"version\": {{staffVersion}}\n}",
+              "raw": "{\n  \"firstName\": \"Updated\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Administrator\",\n  \"email\": \"{{staffEmail}}\",\n  \"phoneNumber\": \"{{staffPhone}}\",\n  \"role\": \"PLATFORM_ADMIN\",\n  \"version\": {{staffVersion}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -729,6 +714,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('staffSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
                   "}"
                 ]
@@ -786,6 +772,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('staffSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
                   "pm.test('Disabled', () => pm.expect(result.data.enabled).to.eql(false));",
                   "}"
@@ -851,6 +838,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('staffSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
                   "}"
                 ]
@@ -915,6 +903,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('staffSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
                   "}"
                 ]
@@ -1058,14 +1047,7 @@
           "request": {
             "method": "GET",
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{adminToken}}",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "header": [
               {
@@ -1138,14 +1120,7 @@
           "request": {
             "method": "GET",
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{adminToken}}",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "header": [
               {
@@ -1220,14 +1195,7 @@
           "request": {
             "method": "GET",
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{adminToken}}",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "header": [
               {
@@ -1363,7 +1331,13 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('fundSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "pm.test('County DTOs instead of IDs', () => {",
+                  "  pm.expect(result.data).not.to.have.property('countyIds');",
+                  "  pm.expect(result.data.counties).to.deep.eql([{id: Number(pm.environment.get('countyId')), name: 'Baringo'}]);",
+                  "});",
+                  "",
                   "}"
                 ]
               }
@@ -1431,7 +1405,12 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('nationalFundId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('nationalFundSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('nationalFundVersion', result.data.version);",
+                  "pm.test('National fund has no county restrictions', () => {",
+                  "  pm.expect(result.data.counties).to.deep.eql([]);",
+                  "  pm.expect(result.data).not.to.have.property('countyIds');",
+                  "});",
                   "}"
                 ]
               }
@@ -1444,14 +1423,7 @@
           "request": {
             "method": "GET",
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{adminToken}}",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "header": [
               {
@@ -1518,7 +1490,14 @@
                   "  pm.expect(result).not.to.have.property('content');",
                   "});",
                   "if (pm.response.code < 400) {",
-                  "",
+                  "pm.test('List contains county DTOs', () => result.data.content.forEach(fund => {",
+                  "  pm.expect(fund).not.to.have.property('countyIds');",
+                  "  pm.expect(fund.counties).to.be.an('array');",
+                  "  fund.counties.forEach(county => {",
+                  "    pm.expect(county.id).to.be.a('number');",
+                  "    pm.expect(county.name).to.be.a('string');",
+                  "  });",
+                  "}));",
                   "}"
                 ]
               }
@@ -1574,7 +1553,13 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('fundSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "pm.test('County DTOs instead of IDs', () => {",
+                  "  pm.expect(result.data).not.to.have.property('countyIds');",
+                  "  pm.expect(result.data.counties).to.deep.eql([{id: Number(pm.environment.get('countyId')), name: 'Baringo'}]);",
+                  "});",
+                  "",
                   "}"
                 ]
               }
@@ -1643,7 +1628,13 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('fundSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "pm.test('County DTOs instead of IDs', () => {",
+                  "  pm.expect(result.data).not.to.have.property('countyIds');",
+                  "  pm.expect(result.data.counties).to.deep.eql([{id: Number(pm.environment.get('countyId')), name: 'Baringo'}]);",
+                  "});",
+                  "",
                   "}"
                 ]
               }
@@ -1866,6 +1857,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('fundSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
                   "}"
                 ]
@@ -1911,7 +1903,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}PUB\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}PUB\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"{{fundSlug}}\",\n    \"{{nationalFundSlug}}\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1934,6 +1926,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('publicApplicationId', result.data.applicationId);",
+                  "if (result.data.slug !== undefined) pm.environment.set('publicApplicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('publicApplicationVersion', result.data.version);",
                   "pm.test('Submitted receipt only', () => {",
                   "  pm.expect(result.data.status).to.eql('SUBMITTED');",
@@ -1989,7 +1982,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}APP\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}APP\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"{{fundSlug}}\",\n    \"{{nationalFundSlug}}\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2012,6 +2005,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('applicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
                   "pm.test('Draft created', () => pm.expect(result.data.status).to.eql('DRAFT'));",
                   "}"
@@ -2089,7 +2083,7 @@
                 },
                 {
                   "key": "programme",
-                  "value": "OVC",
+                  "value": "{{fundSlug}}",
                   "disabled": true
                 },
                 {
@@ -2196,6 +2190,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('applicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
                   "}"
                 ]
@@ -2242,7 +2237,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"version\": {{applicationVersion}},\n  \"form\": {\n    \"firstName\": \"Demo\",\n    \"middleName\": \"Postman\",\n    \"lastName\": \"Applicant\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"maritalStatus\": \"SINGLE\",\n    \"identityNumber\": \"P{{runId}}APP\",\n    \"subCountyId\": {{subCountyId}},\n    \"location\": \"Town\",\n    \"subLocation\": \"Central\",\n    \"village\": \"Village\",\n    \"postalAddress\": \"P.O. Box 1\",\n    \"physicalAddress\": \"Updated Demo Street\",\n    \"telephoneContacts\": [\n      \"0712345678\"\n    ],\n    \"applicationDate\": \"{{today}}\",\n    \"programmeCodes\": [\n      \"OVC\",\n      \"ELDERLY\"\n    ],\n    \"applicantSignedDate\": \"{{today}}\"\n  }\n}",
+              "raw": "{\n  \"version\": {{applicationVersion}},\n  \"form\": {\n    \"firstName\": \"Demo\",\n    \"middleName\": \"Postman\",\n    \"lastName\": \"Applicant\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"maritalStatus\": \"SINGLE\",\n    \"identityNumber\": \"P{{runId}}APP\",\n    \"subCountyId\": {{subCountyId}},\n    \"location\": \"Town\",\n    \"subLocation\": \"Central\",\n    \"village\": \"Village\",\n    \"postalAddress\": \"P.O. Box 1\",\n    \"physicalAddress\": \"Updated Demo Street\",\n    \"telephoneContacts\": [\n      \"0712345678\"\n    ],\n    \"applicationDate\": \"{{today}}\",\n    \"programmeCodes\": [\n      \"{{fundSlug}}\",\n      \"{{nationalFundSlug}}\"\n    ],\n    \"applicantSignedDate\": \"{{today}}\"\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2265,6 +2260,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('applicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
                   "}"
                 ]
@@ -2420,6 +2416,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('applicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
                   "}"
                 ]
@@ -2502,7 +2499,7 @@
                 },
                 {
                   "key": "programme",
-                  "value": "OVC",
+                  "value": "{{fundSlug}}",
                   "disabled": true
                 },
                 {
@@ -2623,6 +2620,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('applicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
                   "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('UNDER_REVIEW'));",
                   "}"
@@ -2694,6 +2692,7 @@
                   "});",
                   "if (pm.response.code < 400) {",
                   "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.slug !== undefined) pm.environment.set('applicationSlug', result.data.slug);",
                   "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
                   "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('APPROVED'));",
                   "}"
@@ -2744,7 +2743,7 @@
                 "description": "",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}REJ\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+                  "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}REJ\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"{{fundSlug}}\",\n    \"{{nationalFundSlug}}\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -2767,6 +2766,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('rejectionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
                       "}"
                     ]
@@ -2837,6 +2837,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('rejectionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
                       "}"
                     ]
@@ -2907,6 +2908,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('rejectionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
                       "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('UNDER_REVIEW'));",
                       "}"
@@ -2978,6 +2980,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('rejectionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
                       "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('REJECTED'));",
                       "}"
@@ -3030,7 +3033,7 @@
                 "description": "",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}COR\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+                  "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}COR\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"{{fundSlug}}\",\n    \"{{nationalFundSlug}}\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -3053,6 +3056,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('correctionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
                       "}"
                     ]
@@ -3123,6 +3127,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('correctionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
                       "}"
                     ]
@@ -3193,6 +3198,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('correctionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
                       "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('UNDER_REVIEW'));",
                       "}"
@@ -3264,6 +3270,7 @@
                       "});",
                       "if (pm.response.code < 400) {",
                       "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.slug !== undefined) pm.environment.set('correctionSlug', result.data.slug);",
                       "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
                       "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('RETURNED_FOR_CORRECTION'));",
                       "}"
@@ -3421,7 +3428,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}BAD\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}BAD\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"{{fundSlug}}\",\n    \"{{nationalFundSlug}}\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3617,7 +3624,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"version\": 0,\n  \"form\": {\n    \"firstName\": \"Demo\",\n    \"middleName\": \"Postman\",\n    \"lastName\": \"Applicant\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"maritalStatus\": \"SINGLE\",\n    \"identityNumber\": \"P{{runId}}APP\",\n    \"subCountyId\": {{subCountyId}},\n    \"location\": \"Town\",\n    \"subLocation\": \"Central\",\n    \"village\": \"Village\",\n    \"postalAddress\": \"P.O. Box 1\",\n    \"physicalAddress\": \"Demo Street\",\n    \"telephoneContacts\": [\n      \"0712345678\"\n    ],\n    \"applicationDate\": \"{{today}}\",\n    \"programmeCodes\": [\n      \"OVC\",\n      \"ELDERLY\"\n    ],\n    \"applicantSignedDate\": \"{{today}}\"\n  }\n}",
+              "raw": "{\n  \"version\": 0,\n  \"form\": {\n    \"firstName\": \"Demo\",\n    \"middleName\": \"Postman\",\n    \"lastName\": \"Applicant\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"maritalStatus\": \"SINGLE\",\n    \"identityNumber\": \"P{{runId}}APP\",\n    \"subCountyId\": {{subCountyId}},\n    \"location\": \"Town\",\n    \"subLocation\": \"Central\",\n    \"village\": \"Village\",\n    \"postalAddress\": \"P.O. Box 1\",\n    \"physicalAddress\": \"Demo Street\",\n    \"telephoneContacts\": [\n      \"0712345678\"\n    ],\n    \"applicationDate\": \"{{today}}\",\n    \"programmeCodes\": [\n      \"{{fundSlug}}\",\n      \"{{nationalFundSlug}}\"\n    ],\n    \"applicantSignedDate\": \"{{today}}\"\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3747,7 +3754,7 @@
             "description": "",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}PUB\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}PUB\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"{{fundSlug}}\",\n    \"{{nationalFundSlug}}\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3832,6 +3839,528 @@
                   "if (pm.response.code < 400) {",
                   "",
                   "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "09 - Application audit and notifications",
+      "description": "Read-only audit timeline, server-driven available actions and the SMS notification outbox lifecycle. Requires folders 06-07 in the same run. Notifications are delivered asynchronously; status may be PENDING (provider not configured or not yet dispatched), RETRY_SCHEDULED, SENT or FAILED.",
+      "item": [
+        {
+          "name": "Approved application history - audit timeline",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/history?pageNo=0&pageSize=10&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "history"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "const events = result.data.content.map(e => e.eventType);",
+                  "pm.test('Starts with CREATED and ends with APPROVED', () => {",
+                  "  pm.expect(events[0]).to.eql('CREATED');",
+                  "  pm.expect(events[events.length - 1]).to.eql('APPROVED');",
+                  "  pm.expect(events).to.include.members(['SUBMITTED', 'REVIEW_STARTED']);",
+                  "});",
+                  "const approved = result.data.content[result.data.content.length - 1];",
+                  "pm.test('Transition details recorded', () => {",
+                  "  pm.expect(approved.fromStatus).to.eql('UNDER_REVIEW');",
+                  "  pm.expect(approved.toStatus).to.eql('APPROVED');",
+                  "  pm.expect(approved.actorRole).to.eql('APPROVER');",
+                  "  pm.expect(approved.changes.map(c => c.field)).to.include('officialName');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Approved application history - newest first",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/history?pageNo=0&pageSize=2&sortDirection=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "history"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "pm.test('Descending order', () => pm.expect(result.data.content[0].eventType).to.eql('APPROVED'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Available actions - approved is terminal",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/actions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "actions"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "pm.test('No actions on APPROVED', () => {",
+                  "  pm.expect(result.data.status).to.eql('APPROVED');",
+                  "  pm.expect(result.data.actions).to.eql([]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Notification lifecycle - received and approved",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/notifications?pageNo=0&pageSize=10&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "const types = result.data.content.map(n => n.eventType);",
+                  "pm.test('Received and approval notifications queued once', () => {",
+                  "  pm.expect(types).to.eql(['APPLICATION_RECEIVED', 'APPROVED']);",
+                  "});",
+                  "pm.test('Recipient is masked', () => result.data.content.forEach(n => pm.expect(n.recipient).to.match(/^\\*+\\d{4}$/)));",
+                  "pm.test('Lifecycle state present', () => result.data.content.forEach(n =>",
+                  "  pm.expect(['PENDING','SENDING','RETRY_SCHEDULED','SENT','FAILED']).to.include(n.status)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Notification lifecycle - rejection",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{rejectionId}}/notifications?pageNo=0&pageSize=10&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{rejectionId}}",
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "pm.test('Rejection notification queued', () => pm.expect(result.data.content.map(n => n.eventType)).to.include('REJECTED'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Notification lifecycle - returned for correction (owner officer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{correctionId}}/notifications?pageNo=0&pageSize=10&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{correctionId}}",
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "pm.test('Correction notification queued', () => pm.expect(result.data.content.map(n => n.eventType)).to.include('RETURNED_FOR_CORRECTION'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Returned application history - reason recorded",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{correctionId}}/history?pageNo=0&pageSize=1&sortDirection=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{correctionId}}",
+                "history"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "1"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "const last = result.data.content[0];",
+                  "pm.test('Return reason recorded', () => {",
+                  "  pm.expect(last.eventType).to.eql('RETURNED_FOR_CORRECTION');",
+                  "  pm.expect(last.reason).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Notification lifecycle requires a token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/notifications?pageNo=0&pageSize=10&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', () => pm.response.to.have.status(401));",
+                  "const result = pm.response.json();",
+                  "pm.test('Request correlation', () => pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID')));",
+                  "pm.test('Wrapped error', () => pm.expect(result.success).to.eql(false));"
                 ]
               }
             }

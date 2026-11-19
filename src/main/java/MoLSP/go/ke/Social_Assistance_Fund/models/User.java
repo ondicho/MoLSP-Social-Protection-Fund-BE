@@ -39,7 +39,7 @@ public class User extends Base implements UserDetails {
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "phone_number", length = 16)
+    @Column(name = "phone_number", length = 16, unique = true)
     private String phoneNumber;
 
     @Column(name = "full_name", nullable = false, length = 200)

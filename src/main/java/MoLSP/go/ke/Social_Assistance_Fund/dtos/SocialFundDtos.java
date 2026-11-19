@@ -51,7 +51,7 @@ public final class SocialFundDtos {
             LocalDate closeDate,
             BigDecimal minAmount,
             BigDecimal maxAmount,
-            List<Integer> countyIds,
+            List<GeographyDtos.County> counties,
             long version,
             Instant createdAt,
             Instant updatedAt) {

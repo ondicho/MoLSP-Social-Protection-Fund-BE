@@ -14,6 +14,12 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
     Optional<User> findByEmail(String email);
+
+    @Query(value = """
+            SELECT COUNT(*) FROM users
+            WHERE phone_number = :phoneNumber AND (:id IS NULL OR id <> :id)
+            """, nativeQuery = true)
+    long countByPhoneNumberExcludingId(@Param("phoneNumber") String phoneNumber, @Param("id") UUID id);
     long countByRoleAndEnabledTrue(MoLSP.go.ke.Social_Assistance_Fund.enums.Role role);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

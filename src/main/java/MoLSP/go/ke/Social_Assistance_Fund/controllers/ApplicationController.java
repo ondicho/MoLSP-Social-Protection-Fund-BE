@@ -1,6 +1,8 @@
 package MoLSP.go.ke.Social_Assistance_Fund.controllers;
 
+import MoLSP.go.ke.Social_Assistance_Fund.dtos.ApplicationAuditDtos;
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.ApplicationDtos;
+import MoLSP.go.ke.Social_Assistance_Fund.dtos.NotificationDtos;
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.PaginatedResponse;
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.ResponseWrapper;
 import MoLSP.go.ke.Social_Assistance_Fund.enums.ApplicationStatus;
@@ -69,6 +71,38 @@ public class ApplicationController {
             @PathVariable UUID id, HttpServletRequest request) {
         String requestId = responses.requestId(request);
         return service.get(id, requestId);
+    }
+
+    @GetMapping("/{id}/history")
+    @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','APPROVER','DATA_ENTRY_OFFICER')")
+    public ResponseEntity<ResponseWrapper<PaginatedResponse<ApplicationAuditDtos.AuditEventResponse>>> history(
+            @PathVariable UUID id,
+            @RequestParam(required = false) Integer pageNo,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) String sortDirection,
+            HttpServletRequest request) {
+        String requestId = responses.requestId(request);
+        return service.history(id, pageNo, pageSize, sortDirection, requestId);
+    }
+
+    @GetMapping("/{id}/notifications")
+    @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','APPROVER','DATA_ENTRY_OFFICER')")
+    public ResponseEntity<ResponseWrapper<PaginatedResponse<NotificationDtos.NotificationResponse>>> notifications(
+            @PathVariable UUID id,
+            @RequestParam(required = false) Integer pageNo,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) String sortDirection,
+            HttpServletRequest request) {
+        String requestId = responses.requestId(request);
+        return service.notifications(id, pageNo, pageSize, sortDirection, requestId);
+    }
+
+    @GetMapping("/{id}/actions")
+    @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','APPROVER','DATA_ENTRY_OFFICER')")
+    public ResponseEntity<ResponseWrapper<ApplicationAuditDtos.AvailableActionsResponse>> availableActions(
+            @PathVariable UUID id, HttpServletRequest request) {
+        String requestId = responses.requestId(request);
+        return service.availableActions(id, requestId);
     }
 
     @PutMapping("/{id}")

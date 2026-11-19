@@ -8,6 +8,7 @@ import org.springframework.boot.health.actuate.endpoint.HealthEndpoint;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -53,6 +54,11 @@ public class SecurityConfig {
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).denyAll()
                         .requestMatchers(BLOCKED_URLS).denyAll()
                         .requestMatchers(WHITELISTED_URLS).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/geography/counties",
+                                "/api/geography/counties/{countyId}/sub-counties",
+                                "/api/geography/counties/{countyId}/sub-counties/{subCountyId}/wards",
+                                "/api/social-funds").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtProvider, UsernamePasswordAuthenticationFilter.class)

@@ -139,6 +139,33 @@ class JpaAuditingTests {
         assertTrue(passwordEncoder.matches("Temporary-Password-987!", officer.getPassword()));
 
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .post("/api/admin/users").header("Authorization", adminBearer)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"firstName":"Duplicate","lastName":"Phone","email":"duplicate.phone@example.test",
+                                 "phoneNumber":"+254712345678","role":"APPROVER",
+                                 "temporaryPassword":"Temporary-Password-987!"}
+                                """))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isConflict());
+        User other = createTestUser(Role.APPROVER);
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .put("/api/admin/users/" + other.getId()).header("Authorization", adminBearer)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"firstName":"Other","lastName":"Approver","email":"other.phone@example.test",
+                                 "phoneNumber":"+254712345678","role":"APPROVER","version":%d}
+                                """.formatted(other.getVersion())))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isConflict());
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .put("/api/admin/users/" + officer.getId()).header("Authorization", adminBearer)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"firstName":"Amina","lastName":"Officer","email":"amina.officer@example.test",
+                                 "phoneNumber":"+254712345678","role":"DATA_ENTRY_OFFICER","version":%d}
+                                """.formatted(officer.getVersion())))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk());
+
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                         .post("/api/admin/users")
                         .header("Authorization", adminBearer)
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
@@ -180,7 +207,11 @@ class JpaAuditingTests {
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.data.slug").value("child-support-2026-01-01-2026-12-31"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.data.countyIds[0]").value(30))
+                        .jsonPath("$.data.counties[0].id").value(30))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.counties[0].name").value("Baringo"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.countyIds").doesNotExist())
                 .andReturn();
         var json = tools.jackson.databind.json.JsonMapper.builder().build()
                 .readTree(created.getResponse().getContentAsString());
@@ -221,14 +252,40 @@ class JpaAuditingTests {
         var mvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup(webContext)
                 .apply(org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity())
                 .build();
+        User bootstrap = users.findByEmail("bootstrap@example.test").orElseThrow();
+        var fundResult = mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .post("/api/social-funds")
+                        .header("Authorization", "Bearer " + jwtProvider.generateAccessToken(bootstrap.getId()))
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"name":"Intake Test Fund","type":"NATIONAL","coverage":"OPEN",
+                                 "openDate":"2026-01-01","closeDate":"2027-01-01",
+                                 "minAmount":100,"maxAmount":1000,"countyIds":[]}
+                                """))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isCreated())
+                .andReturn();
+        String fundSlug = tools.jackson.databind.json.JsonMapper.builder().build()
+                .readTree(fundResult.getResponse().getContentAsString()).get("data").get("slug").asString();
         String publicForm = """
                 {"firstName":"Public","middleName":"Test","lastName":"Applicant","gender":"FEMALE",
                  "dateOfBirth":"1990-01-01","maritalStatus":"SINGLE","identityNumber":"PUBLIC1234",
                  "subCountyId":%d,"location":"Town","subLocation":"Central","village":"Village",
                  "postalAddress":"P.O. Box 1","physicalAddress":"Main Street",
                  "telephoneContacts":["0712345678"],"applicationDate":"2026-11-18",
-                 "programmeCodes":["OVC"],"applicantSignedDate":"2026-11-19"}
-                """.formatted(subCountyId);
+                 "programmeCodes":["%s"],"applicantSignedDate":"2026-11-19"}
+                """.formatted(subCountyId, fundSlug);
+
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .post("/api/applications/self-registration")
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(publicForm.replace(fundSlug, "OVC")))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isBadRequest());
+        jdbc.update("UPDATE social_funds SET deleted_at = CURRENT_TIMESTAMP WHERE slug = ?", fundSlug);
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .post("/api/applications/self-registration")
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON).content(publicForm))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isBadRequest());
+        jdbc.update("UPDATE social_funds SET deleted_at = NULL WHERE slug = ?", fundSlug);
 
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                         .post("/api/applications/self-registration")
@@ -243,9 +300,17 @@ class JpaAuditingTests {
                         .jsonPath("$.data.status").value("SUBMITTED"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.data.identityNumber").doesNotExist());
-        assertEquals(1, jdbc.queryForObject(
-                "SELECT COUNT(*) FROM application_transitions WHERE actor_id = 'PUBLIC_SELF_REGISTRATION'",
-                Integer.class));
+        assertEquals(1, jdbc.queryForObject("""
+                SELECT COUNT(*) FROM application_audit_events
+                WHERE actor_id = 'PUBLIC_SELF_REGISTRATION' AND event_type = 'CREATED' AND to_status = 'SUBMITTED'
+                """, Integer.class));
+        assertEquals(1, jdbc.queryForObject("""
+                SELECT COUNT(*) FROM notification_outbox o
+                JOIN application_audit_events e ON e.id = o.audit_event_id
+                WHERE e.actor_id = 'PUBLIC_SELF_REGISTRATION' AND o.event_type = 'APPLICATION_RECEIVED'
+                  AND o.status = 'PENDING' AND o.last_error = 'PROVIDER_NOT_CONFIGURED'
+                  AND o.recipient = '254712345678' AND o.body LIKE '%Intake Test Fund%'
+                """, Integer.class));
 
         User officer = createTestUser(Role.DATA_ENTRY_OFFICER);
         String officerBearer = "Bearer " + jwtProvider.generateAccessToken(officer.getId());
@@ -306,12 +371,138 @@ class JpaAuditingTests {
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk())
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.data.status").value("APPROVED"));
+        var ok = org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk();
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .get("/api/applications/" + applicationId + "/history")
+                        .param("pageSize", "10").header("Authorization", officerBearer))
+                .andExpect(ok)
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.totalElements").value(4))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[*].eventType")
+                        .value(org.hamcrest.Matchers.contains("CREATED", "SUBMITTED", "REVIEW_STARTED", "APPROVED")))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[3].fromStatus").value("UNDER_REVIEW"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[3].actorRole").value("APPROVER"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[3].changes[0].field").value("officialName"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[3].changes[0].after").value("Approver Name"));
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .get("/api/applications/" + applicationId + "/notifications")
+                        .param("pageSize", "10").header("Authorization", approverBearer))
+                .andExpect(ok)
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[*].eventType")
+                        .value(org.hamcrest.Matchers.contains("APPLICATION_RECEIVED", "APPROVED")))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[0].recipient").value("********5678"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.content[1].status").value("PENDING"));
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .get("/api/applications/" + applicationId + "/actions").header("Authorization", approverBearer))
+                .andExpect(ok)
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.status").value("APPROVED"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.data.actions").isEmpty());
+        User otherOfficer = createTestUser(Role.DATA_ENTRY_OFFICER);
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .get("/api/applications/" + applicationId + "/history")
+                        .header("Authorization", "Bearer " + jwtProvider.generateAccessToken(otherOfficer.getId())))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isForbidden());
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .get("/api/applications/" + applicationId + "/notifications"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isUnauthorized());
+        assertThrows(org.springframework.dao.DataIntegrityViolationException.class, () -> jdbc.update(
+                "INSERT INTO notification_outbox (id, application_id, audit_event_id, event_type, channel, recipient, "
+                        + "subject, title, body, status, attempts, max_attempts, next_attempt_at, idempotency_key, "
+                        + "created_at, updated_at) SELECT UUID_TO_BIN(UUID()), application_id, audit_event_id, "
+                        + "event_type, channel, recipient, subject, title, body, status, 0, max_attempts, "
+                        + "next_attempt_at, idempotency_key, created_at, updated_at FROM notification_outbox LIMIT 1"));
+        verifyOutboxDelivery(UUID.fromString(applicationId));
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                         .post("/api/applications/" + applicationId + "/review")
                         .header("Authorization", approverBearer)
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                         .content("{\"version\":3}"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isConflict());
+    }
+
+    private void verifyOutboxDelivery(UUID applicationId) throws Exception {
+        byte[] appId = MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.toBytes(applicationId);
+        UUID approvedNotification = jdbc.queryForObject(
+                "SELECT id FROM notification_outbox WHERE application_id = ? AND event_type = 'APPROVED'",
+                (rs, rowNum) -> MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.fromBytes(rs.getBytes(1)), appId);
+        UUID receivedNotification = jdbc.queryForObject(
+                "SELECT id FROM notification_outbox WHERE application_id = ? AND event_type = 'APPLICATION_RECEIVED'",
+                (rs, rowNum) -> MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.fromBytes(rs.getBytes(1)), appId);
+        var properties = new MoLSP.go.ke.Social_Assistance_Fund.notifications.NotificationProperties("test", 2,
+                java.time.Duration.ZERO, java.time.Duration.ZERO, java.time.Duration.ofMinutes(1), 20, null, null,
+                null);
+        var calls = new java.util.concurrent.atomic.AtomicInteger();
+        var release = new java.util.concurrent.CountDownLatch(1);
+        var failing = new java.util.concurrent.atomic.AtomicBoolean(true);
+        MoLSP.go.ke.Social_Assistance_Fund.notifications.NotificationGateway gateway =
+                new MoLSP.go.ke.Social_Assistance_Fund.notifications.NotificationGateway() {
+                    public String providerName() {
+                        return "test";
+                    }
+
+                    public MoLSP.go.ke.Social_Assistance_Fund.notifications.DeliveryResult send(
+                            MoLSP.go.ke.Social_Assistance_Fund.notifications.OutboundNotification notification) {
+                        calls.incrementAndGet();
+                        if (failing.get()) {
+                            throw new IllegalStateException("gateway down");
+                        }
+                        try {
+                            release.await(5, java.util.concurrent.TimeUnit.SECONDS);
+                        } catch (InterruptedException exception) {
+                            Thread.currentThread().interrupt();
+                        }
+                        return MoLSP.go.ke.Social_Assistance_Fund.notifications.DeliveryResult.delivered("ref-1");
+                    }
+                };
+        var beans = new org.springframework.beans.factory.support.StaticListableBeanFactory();
+        beans.addBean("testGateway", gateway);
+        var service = new MoLSP.go.ke.Social_Assistance_Fund.services.NotificationService(jdbc,
+                beans.getBeanProvider(MoLSP.go.ke.Social_Assistance_Fund.notifications.NotificationGateway.class),
+                properties, event -> { });
+
+        jdbc.update("UPDATE notification_outbox SET max_attempts = 2 WHERE id = ?",
+                MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.toBytes(approvedNotification));
+        assertTrue(service.dispatch(approvedNotification));
+        assertEquals("RETRY_SCHEDULED", jdbc.queryForObject(
+                "SELECT status FROM notification_outbox WHERE id = ?", String.class,
+                MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.toBytes(approvedNotification)));
+        assertTrue(service.dispatch(approvedNotification));
+        assertFalse(service.dispatch(approvedNotification));
+        assertEquals("FAILED|2|PROVIDER_ERROR", jdbc.queryForObject(
+                "SELECT CONCAT(status, '|', attempts, '|', last_error) FROM notification_outbox WHERE id = ?",
+                String.class, MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.toBytes(approvedNotification)));
+        assertEquals(2, jdbc.queryForObject(
+                "SELECT COUNT(*) FROM notification_delivery_attempts WHERE notification_id = ?", Integer.class,
+                MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.toBytes(approvedNotification)));
+        assertEquals("APPROVED", jdbc.queryForObject(
+                "SELECT status_code FROM social_assistance_applications WHERE id = ?", String.class, appId));
+
+        failing.set(false);
+        calls.set(0);
+        var pool = java.util.concurrent.Executors.newFixedThreadPool(2);
+        try {
+            var first = pool.submit(() -> service.dispatch(receivedNotification));
+            var second = pool.submit(() -> service.dispatch(receivedNotification));
+            Thread.sleep(300);
+            release.countDown();
+            assertEquals(1, (first.get() ? 1 : 0) + (second.get() ? 1 : 0));
+        } finally {
+            pool.shutdownNow();
+        }
+        assertEquals(1, calls.get());
+        assertEquals("SENT|ref-1", jdbc.queryForObject(
+                "SELECT CONCAT(status, '|', provider_reference) FROM notification_outbox WHERE id = ?",
+                String.class, MoLSP.go.ke.Social_Assistance_Fund.utils.UuidBytes.toBytes(receivedNotification)));
     }
 
     private User createTestUser(Role role) {
@@ -432,20 +623,15 @@ class JpaAuditingTests {
     }
 
     @Test
-    void geographyHttpEndpointsRequireAuthenticationAndReturnScopedResults() throws Exception {
-        User actor = newUser();
-        authenticate();
-        transactions.executeWithoutResult(status -> users.saveAndFlush(actor));
-        String bearer = "Bearer " + jwtProvider.generateAccessToken(actor.getId());
+    void geographyHttpEndpointsArePublicAndReturnScopedResults() throws Exception {
         SecurityContextHolder.clearContext();
         var mvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup(webContext)
                 .apply(org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity())
                 .build();
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/geography/counties"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isUnauthorized());
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk());
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                         .get("/api/geography/counties/47/sub-counties?pageSize=100")
-                        .header("Authorization", bearer)
                         .header("X-Request-ID", "geography-list-test"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk())
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -463,13 +649,12 @@ class JpaAuditingTests {
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.data.content[0].subCountyName").isNotEmpty());
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                        .get("/api/geography/counties/999/sub-counties").header("Authorization", bearer))
+                        .get("/api/geography/counties/999/sub-counties"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isNotFound());
         Integer baringoCentralId = jdbc.queryForObject(
                 "SELECT id FROM sub_counties WHERE county_id = 30 AND name = 'Baringo Central'", Integer.class);
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                        .get("/api/geography/counties/30/sub-counties/" + baringoCentralId + "/wards?pageSize=100")
-                        .header("Authorization", bearer))
+                        .get("/api/geography/counties/30/sub-counties/" + baringoCentralId + "/wards?pageSize=100"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk())
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.data.content.length()").value(5))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -481,8 +666,7 @@ class JpaAuditingTests {
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.data.content[0].wardId").isNumber());
         mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                        .get("/api/geography/counties/47/sub-counties/" + baringoCentralId + "/wards")
-                        .header("Authorization", bearer))
+                        .get("/api/geography/counties/47/sub-counties/" + baringoCentralId + "/wards"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isNotFound());
     }
 
@@ -528,7 +712,7 @@ class JpaAuditingTests {
         assertEquals(saved.getCreatedAt(), saved.getUpdatedAt());
         assertEquals(creator.toString(), saved.getCreatedBy());
         assertEquals(creator.toString(), saved.getUpdatedBy());
-        assertEquals("+254712345678", saved.getPhoneNumber());
+        assertTrue(saved.getPhoneNumber().matches("\\+25471\\d{7}"));
 
         UUID editor = authenticate();
         User updated = transactions.execute(status -> {
@@ -556,7 +740,19 @@ class JpaAuditingTests {
             existing.setPhoneNumber("+12025550123");
             users.flush();
         }));
-        assertEquals("+254712345678", users.findById(saved.getId()).orElseThrow().getPhoneNumber());
+        assertEquals(saved.getPhoneNumber(), users.findById(saved.getId()).orElseThrow().getPhoneNumber());
+    }
+
+    @Test
+    void databaseRejectsDuplicatePhonesEvenForDeactivatedAccounts() {
+        authenticate();
+        User first = newUser();
+        first.setEnabled(false);
+        transactions.execute(status -> users.saveAndFlush(first));
+        User duplicate = newUser();
+        duplicate.setPhoneNumber(first.getPhoneNumber());
+        assertThrows(org.springframework.dao.DataIntegrityViolationException.class,
+                () -> transactions.execute(status -> users.saveAndFlush(duplicate)));
     }
 
     @Test
@@ -623,7 +819,10 @@ class JpaAuditingTests {
         user.setEmail(UUID.randomUUID() + "@example.test");
         user.setPasswordHash("test-only-hash");
         user.setRole(Role.DATA_ENTRY_OFFICER);
-        user.setPhoneNumber("0712345678");
+        user.setPhoneNumber("071" + String.format("%07d", PHONE_SEQUENCE.incrementAndGet()));
         return user;
     }
+
+    private static final java.util.concurrent.atomic.AtomicInteger PHONE_SEQUENCE =
+            new java.util.concurrent.atomic.AtomicInteger(1000000);
 }

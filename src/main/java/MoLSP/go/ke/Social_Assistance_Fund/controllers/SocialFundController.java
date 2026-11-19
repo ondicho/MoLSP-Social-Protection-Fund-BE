@@ -24,6 +24,7 @@ public class SocialFundController {
     private final ResponseHandler responses;
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity<ResponseWrapper<PaginatedResponse<SocialFundDtos.FundResponse>>> list(
             @RequestParam(required = false) Integer pageNo,
             @RequestParam(required = false) Integer pageSize,
