@@ -4,8 +4,19 @@ Frontend agent handoff: [Frontend implementation guide](docs/frontend-implementa
 
 Java 21 / Spring Boot application with MySQL 8.4 and Flyway migrations.
 This is an evolving implementation, not a complete assessment submission:
-applicant correction/resubmission, email notifications and frontend are not
-yet implemented.
+applicant correction/resubmission and email notifications are not yet
+implemented. See the [technical debt register](docs/TECHNICAL_DEBT.md) for known
+gaps, risks and next steps.
+
+## Time spent
+
+| Activity | Time | When |
+|---|---|---|
+| Design, implementation and tests | 8 hours (time-box) | 19 November 2026, 11:00 a.m. – 8:00 p.m. EAT, with a 1-hour lunch break |
+| Deployment of the hosted prototype (bonus, outside the time-box) | 45 minutes – 1 hour | After the coding session |
+
+Development stopped when the 8-hour time-box ended. Incomplete items are
+recorded in the [technical debt register](docs/TECHNICAL_DEBT.md).
 
 ## Docker deployment
 
