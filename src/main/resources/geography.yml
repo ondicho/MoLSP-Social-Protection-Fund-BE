@@ -1,0 +1,1237 @@
+# Provisional 2009/2019 census geography; see docs/GEOGRAPHY.md.
+geography:
+  counties:
+    - code: 30
+      name: "Baringo"
+      population2009: 555561
+      population2019: 666763
+      sub-counties:
+        - name: "Baringo Central"
+          population2009: 89174
+          population2019: 96951
+        - name: "Baringo North"
+          population2009: 93789
+          population2019: 104871
+        - name: "East Pokot"
+          population2009: 57740
+          population2019: 79923
+        - name: "Koibatek"
+          population2009: 105273
+          population2019: 129535
+        - name: "Marigat (incl. Lake Baringo)"
+          population2009: 74413
+          population2019: 90958
+        - name: "Mogotio"
+          population2009: 60959
+          population2019: 91104
+        - name: "Tiaty East"
+          population2009: 74213
+          population2019: 73421
+    - code: 36
+      name: "Bomet"
+      population2009: 730129
+      population2019: 875689
+      sub-counties:
+        - name: "Bomet Central"
+          population2009: 136537
+          population2019: 175215
+        - name: "Bomet East"
+          population2009: 119641
+          population2019: 144275
+        - name: "Chepalungu"
+          population2009: 140926
+          population2019: 164837
+        - name: "Konoin (incl. Mau Forest)"
+          population2009: 145057
+          population2019: 163507
+        - name: "Sotik"
+          population2009: 187968
+          population2019: 227855
+    - code: 39
+      name: "Bungoma"
+      population2009: 1375063
+      population2019: 1670570
+      sub-counties:
+        - name: "Bumula"
+          population2009: 178897
+          population2019: 215892
+        - name: "Bungoma Central"
+          population2009: 141113
+          population2019: 177748
+        - name: "Bungoma East"
+          population2009: 113073
+          population2019: 114548
+        - name: "Bungoma North"
+          population2009: 103604
+          population2019: 121317
+        - name: "Bungoma South"
+          population2009: 229701
+          population2019: 287765
+        - name: "Bungoma West"
+          population2009: 102422
+          population2019: 119875
+        - name: "Cheptais"
+          population2009: 101242
+          population2019: 136035
+        - name: "Kimilili-Bungoma"
+          population2009: 132822
+          population2019: 162038
+        - name: "Mount Elgon"
+          population2009: 68671
+          population2019: 78873
+        - name: "Tongaren"
+          population2009: 83874
+          population2019: 100343
+        - name: "Webuye West"
+          population2009: 117180
+          population2019: 152515
+    - code: 40
+      name: "Busia"
+      population2009: 743946
+      population2019: 893681
+      sub-counties:
+        - name: "Bunyala"
+          population2009: 66723
+          population2019: 85977
+        - name: "Busia"
+          population2009: 111345
+          population2019: 142408
+        - name: "Butula"
+          population2009: 121870
+          population2019: 140334
+        - name: "Nambale"
+          population2009: 94637
+          population2019: 111636
+        - name: "Samia"
+          population2009: 93500
+          population2019: 107176
+        - name: "Teso North"
+          population2009: 117947
+          population2019: 138034
+        - name: "Teso South"
+          population2009: 137924
+          population2019: 168116
+    - code: 28
+      name: "Elgeyo-Marakwet"
+      population2009: 369998
+      population2019: 454480
+      sub-counties:
+        - name: "Keiyo North"
+          population2009: 73715
+          population2019: 99176
+        - name: "Keiyo South"
+          population2009: 109160
+          population2019: 120750
+        - name: "Marakwet East"
+          population2009: 78749
+          population2019: 97041
+        - name: "Marakwet West"
+          population2009: 108374
+          population2019: 137513
+    - code: 14
+      name: "Embu"
+      population2009: 516212
+      population2019: 608599
+      sub-counties:
+        - name: "Embu East"
+          population2009: 117962
+          population2019: 129564
+        - name: "Embu North"
+          population2009: 78131
+          population2019: 79556
+        - name: "Embu West"
+          population2009: 100899
+          population2019: 127100
+        - name: "Mbeere North"
+          population2009: 89035
+          population2019: 108881
+        - name: "Mbeere South"
+          population2009: 130185
+          population2019: 163476
+    - code: 7
+      name: "Garissa"
+      population2009: 623060
+      population2019: 841353
+      sub-counties:
+        - name: "Balambala"
+          population2009: 62390
+          population2019: 32257
+        - name: "Dadaab"
+          population2009: 152487
+          population2019: 185252
+        - name: "Fafi"
+          population2009: 112531
+          population2019: 134040
+        - name: "Garissa"
+          population2009: 127672
+          population2019: 163914
+        - name: "Hulugho"
+          population2009: 28959
+          population2019: 133984
+        - name: "Ijara"
+          population2009: 46385
+          population2019: 141591
+        - name: "Lagdera"
+          population2009: 92636
+          population2019: 50315
+    - code: 43
+      name: "Homa Bay"
+      population2009: 963794
+      population2019: 1131950
+      sub-counties:
+        - name: "Homa Bay"
+          population2009: 90442
+          population2019: 117439
+        - name: "Ndhiwa"
+          population2009: 172212
+          population2019: 218136
+        - name: "Rachuonyo East"
+          population2009: 107549
+          population2019: 121822
+        - name: "Rachuonyo North"
+          population2009: 162045
+          population2019: 178686
+        - name: "Rachuonyo South"
+          population2009: 113117
+          population2019: 130814
+        - name: "Rangwe"
+          population2009: 103966
+          population2019: 117732
+        - name: "Suba North"
+          population2009: 111409
+          population2019: 124938
+        - name: "Suba South"
+          population2009: 103054
+          population2019: 122383
+    - code: 11
+      name: "Isiolo"
+      population2009: 143294
+      population2019: 268002
+      sub-counties:
+        - name: "Garbatulla"
+          population2009: 43118
+          population2019: 99730
+        - name: "Isiolo"
+          population2009: 79835
+          population2019: 121066
+        - name: "Merti"
+          population2009: 20341
+          population2019: 47206
+    - code: 34
+      name: "Kajiado"
+      population2009: 687312
+      population2019: 1117840
+      sub-counties:
+        - name: "Isinya"
+          population2009: 87009
+          population2019: 210473
+        - name: "Kajiado Central"
+          population2009: 104153
+          population2019: 161862
+        - name: "Kajiado North"
+          population2009: 193386
+          population2019: 306596
+        - name: "Kajiado West"
+          population2009: 123613
+          population2019: 182849
+        - name: "Loitokitok"
+          population2009: 137496
+          population2019: 191846
+        - name: "Mashuuru"
+          population2009: 41655
+          population2019: 64214
+    - code: 37
+      name: "Kakamega"
+      population2009: 1660651
+      population2019: 1867579
+      sub-counties:
+        - name: "Butere"
+          population2009: 139780
+          population2019: 154100
+        - name: "Kakamega Central"
+          population2009: 160229
+          population2019: 188212
+        - name: "Kakamega East"
+          population2009: 159475
+          population2019: 167641
+        - name: "Kakamega North"
+          population2009: 205166
+          population2019: 238330
+        - name: "Kakamega South"
+          population2009: 104669
+          population2019: 111743
+        - name: "Khwisero"
+          population2009: 102635
+          population2019: 113476
+        - name: "Likuyani"
+          population2009: 125137
+          population2019: 152055
+        - name: "Lugari"
+          population2009: 106123
+          population2019: 122728
+        - name: "Matete"
+          population2009: 60891
+          population2019: 66172
+        - name: "Matungu"
+          population2009: 146563
+          population2019: 166940
+        - name: "Mumias East"
+          population2009: 100956
+          population2019: 116851
+        - name: "Mumias West"
+          population2009: 111862
+          population2019: 115354
+        - name: "Navakholo"
+          population2009: 137165
+          population2019: 153977
+    - code: 35
+      name: "Kericho"
+      population2009: 752396
+      population2019: 901777
+      sub-counties:
+        - name: "Belgut"
+          population2009: 136229
+          population2019: 145072
+        - name: "Bureti"
+          population2009: 167649
+          population2019: 199470
+        - name: "Kericho East"
+          population2009: 136804
+          population2019: 170625
+        - name: "Kipkelion"
+          population2009: 89442
+          population2019: 122530
+        - name: "Londiani (incl. Mau Forest, Tinderet Forest)"
+          population2009: 117148
+          population2019: 137580
+        - name: "Soin Sigowet"
+          population2009: 105124
+          population2019: 126500
+    - code: 22
+      name: "Kiambu"
+      population2009: 1623282
+      population2019: 2417735
+      sub-counties:
+        - name: "Gatundu North"
+          population2009: 106376
+          population2019: 109870
+        - name: "Gatundu South"
+          population2009: 108415
+          population2019: 122103
+        - name: "Githunguri"
+          population2009: 147763
+          population2019: 165232
+        - name: "Juja"
+          population2009: 118793
+          population2019: 300948
+        - name: "Kabete"
+          population2009: 140427
+          population2019: 199653
+        - name: "Kiambaa"
+          population2009: 145053
+          population2019: 236400
+        - name: "Kiambu"
+          population2009: 108698
+          population2019: 145903
+        - name: "Kikuyu"
+          population2009: 125402
+          population2019: 187122
+        - name: "Lari"
+          population2009: 123895
+          population2019: 135303
+        - name: "Limuru"
+          population2009: 131132
+          population2019: 159314
+        - name: "Ruiru"
+          population2009: 201986
+          population2019: 371111
+        - name: "Thika East"
+          population2009: 26570
+          population2019: 38956
+        - name: "Thika West"
+          population2009: 138772
+          population2019: 245820
+    - code: 3
+      name: "Kilifi"
+      population2009: 1109735
+      population2019: 1453787
+      sub-counties:
+        - name: "Chonyi"
+          population2009: 56304
+          population2019: 62335
+        - name: "Ganze"
+          population2009: 117074
+          population2019: 143906
+        - name: "Kaloleni"
+          population2009: 155739
+          population2019: 193682
+        - name: "Kauma"
+          population2009: 13676
+          population2019: 22638
+        - name: "Kilifi North"
+          population2009: 126019
+          population2019: 178824
+        - name: "Kilifi South"
+          population2009: 143224
+          population2019: 206753
+        - name: "Magarini"
+          population2009: 151159
+          population2019: 191610
+        - name: "Malindi"
+          population2009: 249355
+          population2019: 333226
+        - name: "Rabai"
+          population2009: 97185
+          population2019: 120813
+    - code: 20
+      name: "Kirinyaga"
+      population2009: 528054
+      population2019: 610411
+      sub-counties:
+        - name: "Kirinyaga Central"
+          population2009: 113355
+          population2019: 122740
+        - name: "Kirinyaga East"
+          population2009: 124672
+          population2019: 135559
+        - name: "Kirinyaga West"
+          population2009: 99515
+          population2019: 114660
+        - name: "Mwea East"
+          population2009: 103248
+          population2019: 132554
+        - name: "Mwea West"
+          population2009: 87264
+          population2019: 104828
+    - code: 45
+      name: "Kisii"
+      population2009: 1152282
+      population2019: 1266860
+      sub-counties:
+        - name: "Etago"
+          population2009: 80929
+          population2019: 83787
+        - name: "Gucha"
+          population2009: 75156
+          population2019: 83740
+        - name: "Gucha South"
+          population2009: 78120
+          population2019: 83623
+        - name: "Kenyenya"
+          population2009: 125573
+          population2019: 131740
+        - name: "Kisii Central"
+          population2009: 129745
+          population2019: 166906
+        - name: "Kisii South"
+          population2009: 114615
+          population2019: 135134
+        - name: "Kitutu Central"
+          population2009: 132131
+          population2019: 154175
+        - name: "Marani"
+          population2009: 103869
+          population2019: 107464
+        - name: "Masaba South"
+          population2009: 122070
+          population2019: 122396
+        - name: "Nyamache"
+          population2009: 126262
+          population2019: 130898
+        - name: "Sameta"
+          population2009: 63812
+          population2019: 66997
+    - code: 42
+      name: "Kisumu"
+      population2009: 968909
+      population2019: 1155574
+      sub-counties:
+        - name: "Kisumu Central"
+          population2009: 168892
+          population2019: 174145
+        - name: "Kisumu East"
+          population2009: 150124
+          population2019: 220997
+        - name: "Kisumu West"
+          population2009: 131246
+          population2019: 172821
+        - name: "Muhoroni"
+          population2009: 145764
+          population2019: 154116
+        - name: "Nyakach"
+          population2009: 133041
+          population2019: 150320
+        - name: "Nyando"
+          population2009: 141037
+          population2019: 161508
+        - name: "Seme"
+          population2009: 98805
+          population2019: 121667
+    - code: 15
+      name: "Kitui"
+      population2009: 1012709
+      population2019: 1136187
+      sub-counties:
+        - name: "Ikutha"
+          population2009: 77510
+          population2019: 82964
+        - name: "Katulani"
+          population2009: 45141
+          population2019: 47108
+        - name: "Kisasi"
+          population2009: 43588
+          population2019: 46142
+        - name: "Kitui Central"
+          population2009: 94337
+          population2019: 105991
+        - name: "Kitui West"
+          population2009: 61510
+          population2019: 70871
+        - name: "Kyuso"
+          population2009: 58822
+          population2019: 76867
+        - name: "Lower Yatta"
+          population2009: 55068
+          population2019: 63329
+        - name: "Matinyani"
+          population2009: 42789
+          population2019: 47811
+        - name: "Migwani"
+          population2009: 63570
+          population2019: 79255
+        - name: "Mumoni"
+          population2009: 34225
+          population2019: 29344
+        - name: "Mutitu"
+          population2009: 49871
+          population2019: 55287
+        - name: "Mutitu North"
+          population2009: 19098
+          population2019: 21215
+        - name: "Mutomo"
+          population2009: 102638
+          population2019: 113356
+        - name: "Mwingi Central"
+          population2009: 104826
+          population2019: 108713
+        - name: "Mwingi East"
+          population2009: 76585
+          population2019: 85139
+        - name: "Nzambani"
+          population2009: 36211
+          population2019: 46788
+        - name: "Thagicu"
+          population2009: 13084
+          population2019: 15136
+        - name: "Tseikuru"
+          population2009: 33836
+          population2019: 40871
+    - code: 2
+      name: "Kwale"
+      population2009: 649931
+      population2019: 866820
+      sub-counties:
+        - name: "Kinango"
+          population2009: 61195
+          population2019: 94220
+        - name: "Lunga Lunga"
+          population2009: 153354
+          population2019: 198423
+        - name: "Matuga"
+          population2009: 150634
+          population2019: 194252
+        - name: "Msambweni"
+          population2009: 136383
+          population2019: 177690
+        - name: "Samburu-Kwale"
+          population2009: 148365
+          population2019: 202235
+    - code: 31
+      name: "Laikipia"
+      population2009: 399227
+      population2019: 518560
+      sub-counties:
+        - name: "Laikipia Central"
+          population2009: 73910
+          population2019: 95594
+        - name: "Laikipia East"
+          population2009: 73085
+          population2019: 102815
+        - name: "Laikipia North"
+          population2009: 22696
+          population2019: 36184
+        - name: "Laikipia West"
+          population2009: 82376
+          population2019: 129263
+        - name: "Nyahururu"
+          population2009: 147160
+          population2019: 154704
+    - code: 5
+      name: "Lamu"
+      population2009: 101539
+      population2019: 143920
+      sub-counties:
+        - name: "Lamu East"
+          population2009: 18239
+          population2019: 22258
+        - name: "Lamu West"
+          population2009: 83300
+          population2019: 121662
+    - code: 16
+      name: "Machakos"
+      population2009: 1098584
+      population2019: 1421932
+      sub-counties:
+        - name: "Athi River"
+          population2009: 139502
+          population2019: 322499
+        - name: "Kalama"
+          population2009: 56640
+          population2019: 54462
+        - name: "Kangundo"
+          population2009: 94367
+          population2019: 97917
+        - name: "Kathiani"
+          population2009: 104217
+          population2019: 111890
+        - name: "Machakos"
+          population2009: 142571
+          population2019: 170606
+        - name: "Masinga"
+          population2009: 125940
+          population2019: 148522
+        - name: "Matungulu"
+          population2009: 124736
+          population2019: 161557
+        - name: "Mwala"
+          population2009: 163032
+          population2019: 181896
+        - name: "Yatta"
+          population2009: 147579
+          population2019: 172583
+    - code: 17
+      name: "Makueni"
+      population2009: 884527
+      population2019: 987653
+      sub-counties:
+        - name: "Kathonzweni"
+          population2009: 76605
+          population2019: 79780
+        - name: "Kibwezi"
+          population2009: 178402
+          population2019: 197000
+        - name: "Kilungu"
+          population2009: 60601
+          population2019: 60952
+        - name: "Makindu"
+          population2009: 70302
+          population2019: 84946
+        - name: "Makueni"
+          population2009: 102780
+          population2019: 130375
+        - name: "Mbooni East"
+          population2009: 87315
+          population2019: 97756
+        - name: "Mbooni West"
+          population2009: 97309
+          population2019: 102594
+        - name: "Mukaa"
+          population2009: 87864
+          population2019: 107549
+        - name: "Nzaui"
+          population2009: 123349
+          population2019: 126701
+    - code: 9
+      name: "Mandera"
+      population2009: 1025756
+      population2019: 867457
+      sub-counties:
+        - name: "Banisa"
+          population2009: 158074
+          population2019: 152598
+        - name: "Kotulo"
+          population2009: 70329
+          population2019: 72394
+        - name: "Lafey"
+          population2009: 109856
+          population2019: 83457
+        - name: "Mandera Central"
+          population2009: 203937
+          population2019: 157220
+        - name: "Mandera East"
+          population2009: 178831
+          population2019: 159638
+        - name: "Mandera North"
+          population2009: 143028
+          population2019: 143850
+        - name: "Mandera West"
+          population2009: 161701
+          population2019: 98300
+    - code: 10
+      name: "Marsabit"
+      population2009: 291166
+      population2019: 459785
+      sub-counties:
+        - name: "Loiyangalani"
+          population2009: 26111
+          population2019: 35713
+        - name: "Marsabit Central"
+          population2009: 46502
+          population2019: 79181
+        - name: "Marsabit North"
+          population2009: 29561
+          population2019: 54297
+        - name: "Marsabit South"
+          population2009: 39558
+          population2019: 65376
+        - name: "Moyale"
+          population2009: 81373
+          population2019: 108949
+        - name: "North Horr"
+          population2009: 45635
+          population2019: 71447
+        - name: "Sololo"
+          population2009: 22426
+          population2019: 44822
+    - code: 12
+      name: "Meru"
+      population2009: 1356301
+      population2019: 1545714
+      sub-counties:
+        - name: "Buuri East"
+          population2009: 69929
+          population2019: 76598
+        - name: "Buuri West"
+          population2009: 59201
+          population2019: 80762
+        - name: "Igembe Central"
+          population2009: 192948
+          population2019: 221412
+        - name: "Igembe North"
+          population2009: 154814
+          population2019: 169317
+        - name: "Igembe South"
+          population2009: 134550
+          population2019: 161646
+        - name: "Imenti North"
+          population2009: 149144
+          population2019: 177567
+        - name: "Imenti South"
+          population2009: 179604
+          population2019: 206506
+        - name: "Meru Central"
+          population2009: 116847
+          population2019: 133818
+        - name: "Tigania Central"
+          population2009: 93970
+          population2019: 104730
+        - name: "Tigania East"
+          population2009: 70319
+          population2019: 72549
+        - name: "Tigania West"
+          population2009: 128937
+          population2019: 139961
+    - code: 44
+      name: "Migori"
+      population2009: 917170
+      population2019: 1116436
+      sub-counties:
+        - name: "Awendo"
+          population2009: 108913
+          population2019: 117290
+        - name: "Kuria East"
+          population2009: 81833
+          population2019: 96872
+        - name: "Kuria West"
+          population2009: 174253
+          population2019: 208513
+        - name: "Nyatike"
+          population2009: 144625
+          population2019: 176162
+        - name: "Rongo"
+          population2009: 100547
+          population2019: 124587
+        - name: "Suna East"
+          population2009: 97121
+          population2019: 122674
+        - name: "Suna West"
+          population2009: 94127
+          population2019: 128890
+        - name: "Uriri"
+          population2009: 115751
+          population2019: 141448
+    - code: 1
+      name: "Mombasa"
+      population2009: 939370
+      population2019: 1208333
+      sub-counties:
+        - name: "Changamwe"
+          population2009: 132692
+          population2019: 131882
+        - name: "Jomvu"
+          population2009: 117487
+          population2019: 163415
+        - name: "Kisauni"
+          population2009: 273875
+          population2019: 291930
+        - name: "Likoni"
+          population2009: 166008
+          population2019: 250358
+        - name: "Mvita"
+          population2009: 143128
+          population2019: 154171
+        - name: "Nyali"
+          population2009: 106180
+          population2019: 216577
+    - code: 21
+      name: "Murang'a"
+      population2009: 942581
+      population2019: 1056640
+      sub-counties:
+        - name: "Gatanga"
+          population2009: 179352
+          population2019: 187989
+        - name: "Kahuro"
+          population2009: 87033
+          population2019: 88193
+        - name: "Kandara"
+          population2009: 156663
+          population2019: 175098
+        - name: "Kangema"
+          population2009: 76988
+          population2019: 80447
+        - name: "Kigumo"
+          population2009: 123766
+          population2019: 136921
+        - name: "Mathioya"
+          population2009: 88177
+          population2019: 92814
+        - name: "Murang'a East"
+          population2009: 94043
+          population2019: 110311
+        - name: "Murang'a South"
+          population2009: 136486
+          population2019: 184824
+    - code: 47
+      name: "Nairobi"
+      population2009: 3138369
+      population2019: 4397073
+      sub-counties:
+        - name: "Dagoretti"
+          population2009: 294222
+          population2019: 434208
+        - name: "Embakasi"
+          population2009: 663211
+          population2019: 988808
+        - name: "Kamukunji"
+          population2009: 220659
+          population2019: 268276
+        - name: "Kasarani"
+          population2009: 525624
+          population2019: 780656
+        - name: "Kibra"
+          population2009: 212261
+          population2019: 185777
+        - name: "Lang'ata"
+          population2009: 178282
+          population2019: 197489
+        - name: "Makadara"
+          population2009: 160434
+          population2019: 189536
+        - name: "Mathare"
+          population2009: 193416
+          population2019: 206564
+        - name: "Njiru"
+          population2009: 283449
+          population2019: 626482
+        - name: "Starehe"
+          population2009: 159709
+          population2019: 210423
+        - name: "Westlands"
+          population2009: 247102
+          population2019: 308854
+    - code: 32
+      name: "Nakuru"
+      population2009: 1603325
+      population2019: 2162202
+      sub-counties:
+        - name: "Gilgil"
+          population2009: 130187
+          population2019: 185209
+        - name: "Kuresoi North"
+          population2009: 124050
+          population2019: 175074
+        - name: "Kuresoi South"
+          population2009: 115435
+          population2019: 155324
+        - name: "Molo"
+          population2009: 124438
+          population2019: 156732
+        - name: "Naivasha"
+          population2009: 246056
+          population2019: 355383
+        - name: "Nakuru East"
+          population2009: 163599
+          population2019: 193926
+        - name: "Nakuru North"
+          population2009: 126457
+          population2019: 218050
+        - name: "Nakuru West"
+          population2009: 145825
+          population2019: 198661
+        - name: "Njoro"
+          population2009: 178180
+          population2019: 238773
+        - name: "Rongai"
+          population2009: 169225
+          population2019: 199906
+        - name: "Subukia"
+          population2009: 79873
+          population2019: 85164
+    - code: 29
+      name: "Nandi"
+      population2009: 752965
+      population2019: 885711
+      sub-counties:
+        - name: "Chesumei"
+          population2009: 126758
+          population2019: 164133
+        - name: "Nandi Central"
+          population2009: 134078
+          population2019: 147553
+        - name: "Nandi East"
+          population2009: 107534
+          population2019: 119173
+        - name: "Nandi North"
+          population2009: 134648
+          population2019: 166171
+        - name: "Nandi South"
+          population2009: 149256
+          population2019: 172750
+        - name: "Tinderet"
+          population2009: 100691
+          population2019: 115931
+    - code: 33
+      name: "Narok"
+      population2009: 850920
+      population2019: 1157873
+      sub-counties:
+        - name: "Narok East"
+          population2009: 79147
+          population2019: 115323
+        - name: "Narok North (incl. Mau Forest)"
+          population2009: 188142
+          population2019: 251894
+        - name: "Narok South"
+          population2009: 183442
+          population2019: 238472
+        - name: "Narok West"
+          population2009: 125657
+          population2019: 195287
+        - name: "Trans Mara East"
+          population2009: 92183
+          population2019: 111183
+        - name: "Trans Mara West"
+          population2009: 182349
+          population2019: 245714
+    - code: 46
+      name: "Nyamira"
+      population2009: 598252
+      population2019: 605576
+      sub-counties:
+        - name: "Borabu"
+          population2009: 73426
+          population2019: 73167
+        - name: "Manga"
+          population2009: 87859
+          population2019: 94209
+        - name: "Masaba North"
+          population2009: 111277
+          population2019: 111860
+        - name: "Nyamira North"
+          population2009: 166017
+          population2019: 167267
+        - name: "Nyamira South"
+          population2009: 159673
+          population2019: 159073
+    - code: 18
+      name: "Nyandarua"
+      population2009: 596268
+      population2019: 638289
+      sub-counties:
+        - name: "Kinangop"
+          population2009: 104982
+          population2019: 111410
+        - name: "Kipipiri"
+          population2009: 95338
+          population2019: 93855
+        - name: "Mirangine"
+          population2009: 62708
+          population2019: 67214
+        - name: "Nyandarua Central"
+          population2009: 67392
+          population2019: 75262
+        - name: "Nyandarua North"
+          population2009: 92626
+          population2019: 98698
+        - name: "Nyandarua South"
+          population2009: 87397
+          population2019: 93870
+        - name: "Nyandarua West"
+          population2009: 85825
+          population2019: 97965
+    - code: 19
+      name: "Nyeri"
+      population2009: 693558
+      population2019: 759164
+      sub-counties:
+        - name: "Kieni East"
+          population2009: 84398
+          population2019: 110376
+        - name: "Kieni West"
+          population2009: 79312
+          population2019: 88525
+        - name: "Mathira East"
+          population2009: 97003
+          population2019: 99065
+        - name: "Mathira West"
+          population2009: 47831
+          population2019: 59895
+        - name: "Mukurweini"
+          population2009: 83932
+          population2019: 89137
+        - name: "Nyeri Central"
+          population2009: 119273
+          population2019: 140338
+        - name: "Nyeri South"
+          population2009: 87374
+          population2019: 91081
+        - name: "Tetu"
+          population2009: 78320
+          population2019: 80453
+    - code: 25
+      name: "Samburu"
+      population2009: 223947
+      population2019: 310327
+      sub-counties:
+        - name: "Samburu Central"
+          population2009: 105052
+          population2019: 164942
+        - name: "Samburu East"
+          population2009: 59094
+          population2019: 77994
+        - name: "Samburu North"
+          population2009: 59801
+          population2019: 67391
+    - code: 41
+      name: "Siaya"
+      population2009: 842304
+      population2019: 993183
+      sub-counties:
+        - name: "Bondo"
+          population2009: 157522
+          population2019: 197883
+        - name: "Gem"
+          population2009: 160675
+          population2019: 179792
+        - name: "Rarieda"
+          population2009: 134558
+          population2019: 152570
+        - name: "Siaya"
+          population2009: 187243
+          population2019: 224343
+        - name: "Ugenya"
+          population2009: 113848
+          population2019: 134354
+        - name: "Ugunja"
+          population2009: 88458
+          population2019: 104241
+    - code: 6
+      name: "Taita-Taveta"
+      population2009: 284657
+      population2019: 340671
+      sub-counties:
+        - name: "Mwatate"
+          population2009: 69557
+          population2019: 81659
+        - name: "Taita"
+          population2009: 56021
+          population2019: 55959
+        - name: "Taveta"
+          population2009: 67665
+          population2019: 91222
+        - name: "Voi"
+          population2009: 91414
+          population2019: 111831
+    - code: 4
+      name: "Tana River"
+      population2009: 240075
+      population2019: 315943
+      sub-counties:
+        - name: "Tana Delta"
+          population2009: 96664
+          population2019: 110640
+        - name: "Tana North"
+          population2009: 50759
+          population2019: 116757
+        - name: "Tana River"
+          population2009: 92652
+          population2019: 88546
+    - code: 13
+      name: "Tharaka-Nithi"
+      population2009: 365330
+      population2019: 393177
+      sub-counties:
+        - name: "Igambang'ombe"
+          population2009: 44283
+          population2019: 53210
+        - name: "Maara"
+          population2009: 107098
+          population2019: 114894
+        - name: "Meru South"
+          population2009: 83824
+          population2019: 91080
+        - name: "Tharaka North"
+          population2009: 49976
+          population2019: 58345
+        - name: "Tharaka South"
+          population2009: 80122
+          population2019: 75250
+    - code: 26
+      name: "Trans Nzoia"
+      population2009: 818757
+      population2019: 990341
+      sub-counties:
+        - name: "Endebess"
+          population2009: 91192
+          population2019: 111782
+        - name: "Kiminini"
+          population2009: 190912
+          population2019: 242823
+        - name: "Kwanza"
+          population2009: 166524
+          population2019: 203821
+        - name: "Trans Nzoia East"
+          population2009: 195173
+          population2019: 229538
+        - name: "Trans Nzoia West"
+          population2009: 174956
+          population2019: 202377
+    - code: 23
+      name: "Turkana"
+      population2009: 855399
+      population2019: 926976
+      sub-counties:
+        - name: "Kibish"
+          population2009: 42881
+          population2019: 36769
+        - name: "Loima"
+          population2009: 119932
+          population2019: 107795
+        - name: "Turkana Central"
+          population2009: 134674
+          population2019: 185305
+        - name: "Turkana East"
+          population2009: 90466
+          population2019: 138526
+        - name: "Turkana North"
+          population2009: 86206
+          population2019: 65218
+        - name: "Turkana South"
+          population2009: 135913
+          population2019: 153736
+        - name: "Turkana West"
+          population2009: 245327
+          population2019: 239627
+    - code: 27
+      name: "Uasin Gishu"
+      population2009: 894179
+      population2019: 1163186
+      sub-counties:
+        - name: "Ainabkoi"
+          population2009: 103042
+          population2019: 138184
+        - name: "Kapseret"
+          population2009: 141813
+          population2019: 198499
+        - name: "Kesses"
+          population2009: 119260
+          population2019: 148798
+        - name: "Moiben"
+          population2009: 138409
+          population2019: 181338
+        - name: "Soy"
+          population2009: 181251
+          population2019: 229094
+        - name: "Turbo"
+          population2009: 210404
+          population2019: 267273
+    - code: 38
+      name: "Vihiga"
+      population2009: 554622
+      population2019: 590013
+      sub-counties:
+        - name: "Emuhaya"
+          population2009: 91645
+          population2019: 97141
+        - name: "Hamisi (incl. Kakamega Forest)"
+          population2009: 148259
+          population2019: 159258
+        - name: "Luanda"
+          population2009: 93424
+          population2019: 106694
+        - name: "Sabatia"
+          population2009: 129678
+          population2019: 131628
+        - name: "Vihiga"
+          population2009: 91616
+          population2019: 95292
+    - code: 8
+      name: "Wajir"
+      population2009: 661941
+      population2019: 781263
+      sub-counties:
+        - name: "Buna"
+          population2009: 44187
+          population2019: 49886
+        - name: "Eldas"
+          population2009: 51775
+          population2019: 89104
+        - name: "Habaswein"
+          population2009: 72397
+          population2019: 174134
+        - name: "Tarbaj"
+          population2009: 111846
+          population2019: 56637
+        - name: "Wajir East"
+          population2009: 112572
+          population2019: 110654
+        - name: "Wajir North"
+          population2009: 91318
+          population2019: 62206
+        - name: "Wajir South"
+          population2009: 57673
+          population2019: 116814
+        - name: "Wajir West"
+          population2009: 120173
+          population2019: 121828
+    - code: 24
+      name: "West Pokot"
+      population2009: 512690
+      population2019: 621241
+      sub-counties:
+        - name: "Kipkomo"
+          population2009: 66985
+          population2019: 102633
+        - name: "Pokot Central"
+          population2009: 101022
+          population2019: 119016
+        - name: "Pokot North"
+          population2009: 156011
+          population2019: 134485
+        - name: "Pokot South"
+          population2009: 49172
+          population2019: 80661
+        - name: "West Pokot"
+          population2009: 139500
+          population2019: 184446

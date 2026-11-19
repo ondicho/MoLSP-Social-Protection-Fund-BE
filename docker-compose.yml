@@ -1,0 +1,83 @@
+name: ${COMPOSE_PROJECT_NAME:-social-assistance-fund}
+
+x-logging: &logging
+  driver: local
+  options:
+    max-size: ${DOCKER_LOG_MAX_SIZE:-10m}
+    max-file: "${DOCKER_LOG_MAX_FILES:-3}"
+
+services:
+  db:
+    image: ${MYSQL_IMAGE:-mysql:8.4}
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-social_assistance_fund}
+      MYSQL_USER: ${DB_USER:-saf}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .env}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_PASSWORD\" mysql --protocol=TCP -h 127.0.0.1 -u \"$$MYSQL_USER\" \"$$MYSQL_DATABASE\" -e 'SELECT 1' >/dev/null 2>&1"]
+      interval: ${DB_HEALTH_INTERVAL:-10s}
+      timeout: ${DB_HEALTH_TIMEOUT:-5s}
+      retries: ${DB_HEALTH_RETRIES:-15}
+      start_period: ${DB_HEALTH_START_PERIOD:-40s}
+    logging: *logging
+
+  app:
+    image: ${APP_IMAGE:-social-assistance-fund:local}
+    build:
+      context: .
+      args:
+        BUILD_IMAGE: ${BUILD_IMAGE:-maven:3.9-eclipse-temurin-21}
+        RUNTIME_IMAGE: ${RUNTIME_IMAGE:-eclipse-temurin:21-jre-alpine}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${APP_BIND_ADDRESS:-127.0.0.1}:${APP_PORT:-8080}:${SERVER_PORT:-8080}"
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      DB_URL: jdbc:mysql://db:3306/${DB_NAME:-social_assistance_fund}?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true
+      DB_USER: ${DB_USER:-saf}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      DB_POOL_MAX_SIZE: ${DB_POOL_MAX_SIZE:-10}
+      DB_POOL_MIN_IDLE: ${DB_POOL_MIN_IDLE:-2}
+      JWT_SECRET: ${JWT_SECRET:?Set a Base64 signing key in .env}
+      JWT_ACCESS_EXPIRATION_MS: ${JWT_ACCESS_EXPIRATION_MS:-900000}
+      PHONE_DEFAULT_REGION: ${PHONE_DEFAULT_REGION:-KE}
+      PHONE_ALLOWED_COUNTRY_CODES: ${PHONE_ALLOWED_COUNTRY_CODES:-254}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-}
+      CORS_PATHS: ${CORS_PATHS:-/**}
+      CORS_ALLOWED_METHODS: ${CORS_ALLOWED_METHODS:-GET,POST,PUT,PATCH,DELETE,OPTIONS}
+      CORS_ALLOWED_HEADERS: ${CORS_ALLOWED_HEADERS:-Authorization,Content-Type,X-Request-ID}
+      CORS_EXPOSED_HEADERS: ${CORS_EXPOSED_HEADERS:-X-Request-ID}
+      CORS_MAX_AGE: ${CORS_MAX_AGE:-3600}
+      LOG_PATH: /app/logs
+      LOG_MAX_FILE_SIZE: ${LOG_MAX_FILE_SIZE:-10MB}
+      LOG_MAX_HISTORY: ${LOG_MAX_HISTORY:-14}
+      LOG_TOTAL_SIZE_CAP: ${LOG_TOTAL_SIZE_CAP:-200MB}
+      JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:--XX:MaxRAMPercentage=75.0}
+      TZ: UTC
+    volumes:
+      - app-logs:/app/logs
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent --max-time 4 http://127.0.0.1:$$SERVER_PORT/actuator/health/readiness >/dev/null"]
+      interval: ${APP_HEALTH_INTERVAL:-15s}
+      timeout: ${APP_HEALTH_TIMEOUT:-5s}
+      retries: ${APP_HEALTH_RETRIES:-10}
+      start_period: ${APP_HEALTH_START_PERIOD:-60s}
+    logging: *logging
+
+volumes:
+  mysql-data:
+  app-logs:
