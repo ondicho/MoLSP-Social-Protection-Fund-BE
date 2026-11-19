@@ -2,7 +2,8 @@
 
 Java 21 / Spring Boot application with MySQL 8.4 and Flyway migrations.
 This is an evolving implementation, not a complete assessment submission:
-registration/login, applicant workflow and frontend are not yet implemented.
+applicant correction/resubmission, notifications and frontend are not yet
+implemented.
 
 ## Docker deployment
 
@@ -14,8 +15,10 @@ cp .env.example .env
 chmod 600 .env
 ```
 
-Edit `.env`: set different strong `DB_PASSWORD` and `DB_ROOT_PASSWORD` values, and
-set `JWT_SECRET` to the output of `openssl rand -base64 32`. Do not commit `.env`,
+Edit `.env`: set different strong `DB_PASSWORD` and `DB_ROOT_PASSWORD` values,
+set `JWT_SECRET` to the output of `openssl rand -base64 32`, and configure the
+four `PLATFORM_ADMIN_*` values for the first administrator. Use a password of at
+least 12 characters. Do not commit `.env`,
 print resolved Compose configuration into shared logs, or include secrets in image
 build arguments. Quote values containing `$` or `#` in `.env` using single quotes.
 
@@ -35,7 +38,7 @@ The Docker build packages without running tests: run checks separately before
 deployment. Pin image digests and scan/update base images for production releases.
 
 Configuration is documented in `.env.example`: image tags, ports, database/pool,
-JWT, phone policy, CORS, log rotation and health timings. Compose reads `.env`
+JWT, initial platform admin, phone policy, CORS, log rotation and health timings. Compose reads `.env`
 automatically; plain Java/Maven execution does not load it automatically. Export
 the required variables in your shell/IDE for local execution. Compose constructs
 its internal JDBC URL; `DB_URL` is used when running the app outside Compose.
@@ -54,8 +57,14 @@ docker compose down
 ```
 
 `down` retains data/log volumes. Back up the database before upgrades; never remove
-volumes to resolve migration failures. The project still has no seeded login user:
-see [authentication/bootstrap limitations](docs/AUTHENTICATION.md).
+volumes to resolve migration failures. The initial platform admin is seeded once
+from environment values and can sign in at `/api/auth/login`; see
+[authentication and bootstrap](docs/AUTHENTICATION.md).
+
+The [Postman API package](docs/postman/README.md) contains a feature-organized
+collection, a secret-free environment template and a ZIP for import. For the
+configured local deployment, import the ignored `.env.postman.local.json`
+environment instead; never share or commit that credential-bearing file.
 
 ## Access, application and error logs
 
@@ -102,4 +111,10 @@ the access-log entry carried the supplied request ID. MySQL migration/auditing
 checks and log-stream separation/rotation checks pass.
 
 The application seeds a provisional 47-county/333-sub-county YAML reference
-catalogue on startup. See [geography sources, API and limitations](docs/GEOGRAPHY.md).
+catalogue and exact-name-matched wards on startup. See
+[geography sources, API and limitations](docs/GEOGRAPHY.md) and the
+[repository coding standards and structure](agent.md).
+
+Phase 2 provides platform-admin staff/fund management and assisted/public
+application intake with approver transitions. See [Phase 2 API and workflow
+notes](docs/PHASE_TWO.md).

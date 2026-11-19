@@ -1,1237 +1,3561 @@
-# Provisional 2009/2019 census geography; see docs/GEOGRAPHY.md.
 geography:
   counties:
     - code: 30
-      name: "Baringo"
+      name: Baringo
       population2009: 555561
       population2019: 666763
       sub-counties:
-        - name: "Baringo Central"
+        - name: Baringo Central
           population2009: 89174
           population2019: 96951
-        - name: "Baringo North"
+        - name: Baringo North
           population2009: 93789
           population2019: 104871
-        - name: "East Pokot"
+        - name: East Pokot
           population2009: 57740
           population2019: 79923
-        - name: "Koibatek"
+        - name: Koibatek
           population2009: 105273
           population2019: 129535
-        - name: "Marigat (incl. Lake Baringo)"
+        - name: Marigat (incl. Lake Baringo)
           population2009: 74413
           population2019: 90958
-        - name: "Mogotio"
+        - name: Mogotio
           population2009: 60959
           population2019: 91104
-        - name: "Tiaty East"
+        - name: Tiaty
           population2009: 74213
           population2019: 73421
+      constituencies:
+        - subcounty_id: 156
+          name: Tiaty
+          wards:
+            - Churo/Amaya
+            - Kolowa
+            - Loiyamorock
+            - Ribkwo
+            - Silale
+            - Tangulbei/Korossi
+            - Tirioko
+        - subcounty_id: 157
+          name: Baringo  North
+          wards: []
+        - subcounty_id: 158
+          name: Baringo Central
+          wards:
+            - Ewalel Chapchap
+            - Kabarnet
+            - Kapropita
+            - Sacho
+            - Tenges
+        - subcounty_id: 159
+          name: Baringo South
+          wards:
+            - Ilchamus
+            - Marigat
+            - Mochongoi
+            - Mukutani
+        - subcounty_id: 160
+          name: Mogotio
+          wards:
+            - Emining
+            - Kisanana
+            - Mogotio
+        - subcounty_id: 161
+          name: Eldama Ravine
+          wards:
+            - Koibatek
+            - Lembus
+            - Lembus Kwen
+            - Lembus/Perkerra
+            - Mumberes/Maji Mazuri
+            - Ravine
     - code: 36
-      name: "Bomet"
+      name: Bomet
       population2009: 730129
       population2019: 875689
       sub-counties:
-        - name: "Bomet Central"
+        - name: Bomet Central
           population2009: 136537
           population2019: 175215
-        - name: "Bomet East"
+        - name: Bomet East
           population2009: 119641
           population2019: 144275
-        - name: "Chepalungu"
+        - name: Chepalungu
           population2009: 140926
           population2019: 164837
-        - name: "Konoin (incl. Mau Forest)"
+        - name: Konoin (incl. Mau Forest)
           population2009: 145057
           population2019: 163507
-        - name: "Sotik"
+        - name: Sotik
           population2009: 187968
           population2019: 227855
+      constituencies:
+        - subcounty_id: 193
+          name: Sotik
+          wards:
+            - Chemagel
+            - Kapletundo
+            - Kipsonoi
+            - Ndanai/Abosi
+            - Rongena/Manaret
+        - subcounty_id: 194
+          name: Chepalungu
+          wards:
+            - Chebunyo
+            - Kong'Asis
+            - Nyangores
+            - Sigor
+            - Siongiroi
+        - subcounty_id: 195
+          name: Bomet East
+          wards:
+            - Chemaner
+            - Kembu
+            - Kipreres
+            - Longisa
+            - Merigi
+        - subcounty_id: 196
+          name: Bomet Central
+          wards:
+            - Chesoen
+            - Mutarakwa
+            - Ndaraweta
+            - Silibwet Township
+            - Singorwet
+        - subcounty_id: 197
+          name: Konoin
+          wards:
+            - Boito
+            - Chepchabas
+            - Embomos
+            - Kimulot
+            - Mogogosiek
     - code: 39
-      name: "Bungoma"
+      name: Bungoma
       population2009: 1375063
       population2019: 1670570
       sub-counties:
-        - name: "Bumula"
+        - name: Bumula
           population2009: 178897
           population2019: 215892
-        - name: "Bungoma Central"
+        - name: Bungoma Central
           population2009: 141113
           population2019: 177748
-        - name: "Bungoma East"
+        - name: Bungoma East
           population2009: 113073
           population2019: 114548
-        - name: "Bungoma North"
+        - name: Bungoma North
           population2009: 103604
           population2019: 121317
-        - name: "Bungoma South"
+        - name: Bungoma South
           population2009: 229701
           population2019: 287765
-        - name: "Bungoma West"
+        - name: Bungoma West
           population2009: 102422
           population2019: 119875
-        - name: "Cheptais"
+        - name: Cheptais
           population2009: 101242
           population2019: 136035
-        - name: "Kimilili-Bungoma"
+        - name: Kimilili-Bungoma
           population2009: 132822
           population2019: 162038
-        - name: "Mount Elgon"
+        - name: Mt.Elgon
           population2009: 68671
           population2019: 78873
-        - name: "Tongaren"
+        - name: Tongaren
           population2009: 83874
           population2019: 100343
-        - name: "Webuye West"
+        - name: Webuye West
           population2009: 117180
           population2019: 152515
+      constituencies:
+        - subcounty_id: 215
+          name: Mt.Elgon
+          wards:
+            - Cheptais
+            - Chepyuk
+            - Chesikaki
+            - Elgon
+            - Kapkateny
+            - Kaptama
+        - subcounty_id: 216
+          name: Sirisia
+          wards:
+            - Lwandanyi
+            - Malakisi/South Kulisiru
+            - Namwela
+        - subcounty_id: 217
+          name: Kabuchai
+          wards:
+            - Bwake/Luuya
+            - Kabuchai/Chwele
+            - Mukuyuni
+            - West Nalondo
+        - subcounty_id: 218
+          name: Bumula
+          wards:
+            - Bumula
+            - Kabula
+            - Khasoko
+            - Kimaeti
+            - Siboti
+            - South Bukusu
+            - West Bukusu
+        - subcounty_id: 219
+          name: Kanduyi
+          wards: []
+        - subcounty_id: 220
+          name: Webuye East
+          wards:
+            - Maraka
+            - Mihuu
+            - Ndivisi
+        - subcounty_id: 221
+          name: Webuye West
+          wards:
+            - Bokoli
+            - Matulo
+            - Misikhu
+            - Sitikho
+        - subcounty_id: 222
+          name: Kimilili
+          wards:
+            - Kamukuywa
+            - Kibingei
+            - Kimilili
+            - Maeni
+        - subcounty_id: 223
+          name: Tongaren
+          wards:
+            - Mbakalo
+            - Milima
+            - Naitiri/Kabuyefwe
+            - Ndalu/ Tabani
+            - Soysambu/ Mitua
+            - Tongaren
     - code: 40
-      name: "Busia"
+      name: Busia
       population2009: 743946
       population2019: 893681
       sub-counties:
-        - name: "Bunyala"
+        - name: Bunyala
           population2009: 66723
           population2019: 85977
-        - name: "Busia"
+        - name: Busia
           population2009: 111345
           population2019: 142408
-        - name: "Butula"
+        - name: Butula
           population2009: 121870
           population2019: 140334
-        - name: "Nambale"
+        - name: Nambale
           population2009: 94637
           population2019: 111636
-        - name: "Samia"
+        - name: Samia
           population2009: 93500
           population2019: 107176
-        - name: "Teso North"
+        - name: Teso North
           population2009: 117947
           population2019: 138034
-        - name: "Teso South"
+        - name: Teso South
           population2009: 137924
           population2019: 168116
+      constituencies:
+        - subcounty_id: 224
+          name: Teso North
+          wards:
+            - Ang'Urai East
+            - Ang'Urai North
+            - Ang'Urai South
+            - Malaba Central
+            - Malaba North
+            - Malaba South
+        - subcounty_id: 225
+          name: Teso South
+          wards:
+            - Amukura Central
+            - Amukura East
+            - Amukura West
+            - Ang'Orom
+            - Chakol North
+            - Chakol South
+        - subcounty_id: 226
+          name: Nambale
+          wards:
+            - Bukhayo Central
+            - Bukhayo East
+            - Bukhayo North/Waltsi
+            - Nambale Township
+        - subcounty_id: 227
+          name: Matayos
+          wards:
+            - Bukhayo West
+            - Burumba
+            - Busibwabo
+            - Matayos South
+            - Mayenje
+        - subcounty_id: 228
+          name: Butula
+          wards:
+            - Elugulu
+            - Kingandole
+            - Marachi Central
+            - Marachi East
+            - Marachi North
+            - Marachi West
+        - subcounty_id: 229
+          name: Funyula
+          wards:
+            - Ageng'A Nanguba
+            - Bwiri
+            - Namboboto Nambuku
+            - Nangina
+        - subcounty_id: 230
+          name: Budalangi
+          wards:
+            - Bunyala Central
+            - Bunyala North
+            - Bunyala South
+            - Bunyala West
     - code: 28
-      name: "Elgeyo-Marakwet"
+      name: Elgeyo-Marakwet
       population2009: 369998
       population2019: 454480
       sub-counties:
-        - name: "Keiyo North"
+        - name: Keiyo North
           population2009: 73715
           population2019: 99176
-        - name: "Keiyo South"
+        - name: Keiyo South
           population2009: 109160
           population2019: 120750
-        - name: "Marakwet East"
+        - name: Marakwet East
           population2009: 78749
           population2019: 97041
-        - name: "Marakwet West"
+        - name: Marakwet West
           population2009: 108374
           population2019: 137513
+      constituencies:
+        - subcounty_id: 146
+          name: Marakwet East
+          wards:
+            - Embobut / Embulot
+            - Endo
+            - Kapyego
+            - Sambirir
+        - subcounty_id: 147
+          name: Marakwet West
+          wards:
+            - Arror
+            - Cherang'Any/Chebororwa
+            - Kapsowar
+            - Lelan
+            - Moiben/Kuserwo
+            - Sengwer
+        - subcounty_id: 148
+          name: Keiyo North
+          wards:
+            - Emsoo
+            - Kamariny
+            - Kapchemutwa
+            - Tambach
+        - subcounty_id: 149
+          name: Keiyo South
+          wards:
+            - Chepkorio
+            - Kabiemit
+            - Kaptarakwa
+            - Metkei
+            - Soy North
+            - Soy South
     - code: 14
-      name: "Embu"
+      name: Embu
       population2009: 516212
       population2019: 608599
       sub-counties:
-        - name: "Embu East"
+        - name: Embu East
           population2009: 117962
           population2019: 129564
-        - name: "Embu North"
+        - name: Embu North
           population2009: 78131
           population2019: 79556
-        - name: "Embu West"
+        - name: Embu West
           population2009: 100899
           population2019: 127100
-        - name: "Mbeere North"
+        - name: Mbeere North
           population2009: 89035
           population2019: 108881
-        - name: "Mbeere South"
+        - name: Mbeere South
           population2009: 130185
           population2019: 163476
+      constituencies:
+        - subcounty_id: 63
+          name: Manyatta
+          wards:
+            - Gaturi South
+            - Kirimari
+            - Kithimu
+            - Mbeti North
+            - Nginda
+            - Ruguru/Ngandori
+        - subcounty_id: 64
+          name: Runyenjes
+          wards:
+            - Central  Ward
+            - Gaturi North
+            - Kagaari North
+            - Kagaari South
+            - Kyeni North
+            - Kyeni South
+        - subcounty_id: 65
+          name: Mbeere South
+          wards:
+            - Kiambere
+            - Makima
+            - Mavuria
+            - Mbeti South
+            - Mwea
+        - subcounty_id: 66
+          name: Mbeere North
+          wards:
+            - Evurore
+            - Muminji
+            - Nthawa
     - code: 7
-      name: "Garissa"
+      name: Garissa
       population2009: 623060
       population2019: 841353
       sub-counties:
-        - name: "Balambala"
+        - name: Balambala
           population2009: 62390
           population2019: 32257
-        - name: "Dadaab"
+        - name: Dadaab
           population2009: 152487
           population2019: 185252
-        - name: "Fafi"
+        - name: Fafi
           population2009: 112531
           population2019: 134040
-        - name: "Garissa"
+        - name: Garissa
           population2009: 127672
           population2019: 163914
-        - name: "Hulugho"
+        - name: Hulugho
           population2009: 28959
           population2019: 133984
-        - name: "Ijara"
+        - name: Ijara
           population2009: 46385
           population2019: 141591
-        - name: "Lagdera"
+        - name: Lagdera
           population2009: 92636
           population2019: 50315
+      constituencies:
+        - subcounty_id: 27
+          name: Garissa Township
+          wards:
+            - Galbet
+            - Iftin
+            - Township
+            - Waberi
+        - subcounty_id: 28
+          name: Balambala
+          wards:
+            - Balambala
+            - Danyere
+            - Jara Jara
+            - Saka
+            - Sankuri
+        - subcounty_id: 29
+          name: Lagdera
+          wards:
+            - Baraki
+            - Benane
+            - Goreale
+            - Maalimin
+            - Modogashe
+            - Sabena
+        - subcounty_id: 30
+          name: Dadaab
+          wards:
+            - Abakaile
+            - Dadaab
+            - Damajale
+            - Dertu
+            - Labasigale
+            - Liboi
+        - subcounty_id: 31
+          name: Fafi
+          wards:
+            - Bura
+            - Dekaharia
+            - Fafi
+            - Jarajila
+            - Nanighi
+        - subcounty_id: 32
+          name: Ijara
+          wards:
+            - Hulugho
+            - Ijara
+            - Masalani
+            - Sangailu
     - code: 43
-      name: "Homa Bay"
+      name: Homa Bay
       population2009: 963794
       population2019: 1131950
       sub-counties:
-        - name: "Homa Bay"
+        - name: Homa Bay
           population2009: 90442
           population2019: 117439
-        - name: "Ndhiwa"
+        - name: Ndhiwa
           population2009: 172212
           population2019: 218136
-        - name: "Rachuonyo East"
+        - name: Rachuonyo East
           population2009: 107549
           population2019: 121822
-        - name: "Rachuonyo North"
+        - name: Rachuonyo North
           population2009: 162045
           population2019: 178686
-        - name: "Rachuonyo South"
+        - name: Rachuonyo South
           population2009: 113117
           population2019: 130814
-        - name: "Rangwe"
+        - name: Rangwe
           population2009: 103966
           population2019: 117732
-        - name: "Suba North"
+        - name: Suba North
           population2009: 111409
           population2019: 124938
-        - name: "Suba South"
+        - name: Suba South
           population2009: 103054
           population2019: 122383
+      constituencies:
+        - subcounty_id: 243
+          name: Kasipul
+          wards:
+            - Central Kasipul
+            - East Kamagak
+            - South Kasipul
+            - West Kamagak
+            - West Kasipul
+        - subcounty_id: 244
+          name: Kabondo Kasipul
+          wards:
+            - Kabondo East
+            - Kabondo West
+            - Kojwach
+            - Kokwanyo/Kakelo
+        - subcounty_id: 245
+          name: Karachuonyo
+          wards:
+            - Central
+            - Kanyaluo
+            - Kendu Bay Town
+            - Kibiri
+            - North Karachuonyo
+            - Wangchieng
+            - West Karachuonyo
+        - subcounty_id: 246
+          name: Rangwe
+          wards:
+            - East Gem
+            - Kagan
+            - Kochia
+            - West Gem
+        - subcounty_id: 247
+          name: Homa Bay Town
+          wards:
+            - Homa Bay Arujo
+            - Homa Bay Central
+            - Homa Bay East
+            - Homa Bay West
+        - subcounty_id: 248
+          name: Ndhiwa
+          wards:
+            - Kabuoch South/Pala
+            - Kanyadoto
+            - Kanyamwa Kologi
+            - Kanyamwa Kosewe
+            - Kanyikela
+            - Kwabwai
+            - North Kabuoch
+        - subcounty_id: 249
+          name: Mbita
+          wards:
+            - Gembe
+            - Kasgunga
+            - Lambwe
+            - Mfangano Island
+            - Rusinga Island
+        - subcounty_id: 250
+          name: Suba
+          wards:
+            - Gwassi North
+            - Gwassi South
+            - Kaksingri West
+            - Ruma Kaksingri East
     - code: 11
-      name: "Isiolo"
+      name: Isiolo
       population2009: 143294
       population2019: 268002
       sub-counties:
-        - name: "Garbatulla"
+        - name: Garbatulla
           population2009: 43118
           population2019: 99730
-        - name: "Isiolo"
+        - name: Isiolo
           population2009: 79835
           population2019: 121066
-        - name: "Merti"
+        - name: Merti
           population2009: 20341
           population2019: 47206
+      constituencies:
+        - subcounty_id: 49
+          name: Isiolo North
+          wards:
+            - Bulla Pesa
+            - Burat
+            - Chari
+            - Cherab
+            - Ngare Mara
+            - Oldonyiro
+            - Wabera
+        - subcounty_id: 50
+          name: Isiolo South
+          wards:
+            - Garbatulla
+            - Kinna
+            - Sericho
     - code: 34
-      name: "Kajiado"
+      name: Kajiado
       population2009: 687312
       population2019: 1117840
       sub-counties:
-        - name: "Isinya"
+        - name: Isinya
           population2009: 87009
           population2019: 210473
-        - name: "Kajiado Central"
+        - name: Kajiado Central
           population2009: 104153
           population2019: 161862
-        - name: "Kajiado North"
+        - name: Kajiado North
           population2009: 193386
           population2019: 306596
-        - name: "Kajiado West"
+        - name: Kajiado West
           population2009: 123613
           population2019: 182849
-        - name: "Loitokitok"
+        - name: Loitokitok
           population2009: 137496
           population2019: 191846
-        - name: "Mashuuru"
+        - name: Mashuuru
           population2009: 41655
           population2019: 64214
+      constituencies:
+        - subcounty_id: 182
+          name: Kajiado North
+          wards:
+            - Ngong
+            - Nkaimurunya
+            - Olkeri
+            - Oloolua
+            - Ongata Rongai
+        - subcounty_id: 183
+          name: Kajiado Central
+          wards:
+            - Dalalekutuk
+            - Ildamat
+            - Matapato North
+            - Matapato South
+            - Purko
+        - subcounty_id: 184
+          name: Kajiado East
+          wards:
+            - Imaroro
+            - Kaputiei North
+            - Kenyawa-Poka
+            - Kitengela
+            - Oloosirkon/Sholinke
+        - subcounty_id: 185
+          name: Kajiado West
+          wards:
+            - Ewuaso Oonkidong'I
+            - Iloodokilani
+            - Keekonyokie
+            - Magadi
+            - Mosiro
+        - subcounty_id: 186
+          name: Kajiado South
+          wards:
+            - Entonet/Lenkisim
+            - Kimana
+            - Kuku
+            - Mbirikani/Eselenkei
+            - Rombo
     - code: 37
-      name: "Kakamega"
+      name: Kakamega
       population2009: 1660651
       population2019: 1867579
       sub-counties:
-        - name: "Butere"
+        - name: Butere
           population2009: 139780
           population2019: 154100
-        - name: "Kakamega Central"
+        - name: Kakamega Central
           population2009: 160229
           population2019: 188212
-        - name: "Kakamega East"
+        - name: Kakamega East
           population2009: 159475
           population2019: 167641
-        - name: "Kakamega North"
+        - name: Kakamega North
           population2009: 205166
           population2019: 238330
-        - name: "Kakamega South"
+        - name: Kakamega South
           population2009: 104669
           population2019: 111743
-        - name: "Khwisero"
+        - name: Khwisero
           population2009: 102635
           population2019: 113476
-        - name: "Likuyani"
+        - name: Likuyani
           population2009: 125137
           population2019: 152055
-        - name: "Lugari"
+        - name: Lugari
           population2009: 106123
           population2019: 122728
-        - name: "Matete"
+        - name: Matete
           population2009: 60891
           population2019: 66172
-        - name: "Matungu"
+        - name: Matungu
           population2009: 146563
           population2019: 166940
-        - name: "Mumias East"
+        - name: Mumias East
           population2009: 100956
           population2019: 116851
-        - name: "Mumias West"
+        - name: Mumias West
           population2009: 111862
           population2019: 115354
-        - name: "Navakholo"
+        - name: Navakholo
           population2009: 137165
           population2019: 153977
+      constituencies:
+        - subcounty_id: 198
+          name: Lugari
+          wards:
+            - Chekalini
+            - Chevaywa
+            - Lugari
+            - Lumakanda
+            - Lwandeti
+            - Mautuma
+        - subcounty_id: 199
+          name: Likuyani
+          wards:
+            - Kongoni
+            - Likuyani
+            - Nzoia
+            - Sango
+            - Sinoko
+        - subcounty_id: 200
+          name: Malava
+          wards:
+            - Butali/Chegulo
+            - Chemuche
+            - East Kabras
+            - Manda-Shivanga
+            - Shirugu-Mugai
+            - South Kabras
+            - West Kabras
+        - subcounty_id: 201
+          name: Lurambi
+          wards:
+            - Butsotso Central
+            - Butsotso East
+            - Butsotso South
+            - Mahiakalo
+            - Sheywe
+            - Shirere
+        - subcounty_id: 202
+          name: Navakholo
+          wards:
+            - Bunyala Central
+            - Bunyala East
+            - Bunyala West
+            - Ingostse-Mathia
+            - Shinoyi-Shikomari-
+        - subcounty_id: 203
+          name: Mumias West
+          wards: []
+        - subcounty_id: 204
+          name: Mumias East
+          wards:
+            - Etenje
+            - Mumias Central
+            - Mumias North
+            - Musanda
+        - subcounty_id: 205
+          name: Matungu
+          wards:
+            - Khalaba
+            - Kholera
+            - Koyonzo
+            - Mayoni
+            - Namamali
+        - subcounty_id: 206
+          name: Butere
+          wards:
+            - Marama Central
+            - Marama North
+            - Marama South
+            - Marama West
+            - Marenyo - Shianda
+        - subcounty_id: 207
+          name: Khwisero
+          wards:
+            - Kisa Central
+            - Kisa East
+            - Kisa North
+            - Kisa West
+        - subcounty_id: 208
+          name: Shinyalu
+          wards:
+            - Isukha Central
+            - Isukha East
+            - Isukha North
+            - Isukha South
+            - Isukha West
+            - Murhanda
+        - subcounty_id: 209
+          name: Ikolomani
+          wards:
+            - Idakho Central
+            - Idakho East
+            - Idakho North
+            - Idakho South
     - code: 35
-      name: "Kericho"
+      name: Kericho
       population2009: 752396
       population2019: 901777
       sub-counties:
-        - name: "Belgut"
+        - name: Belgut
           population2009: 136229
           population2019: 145072
-        - name: "Bureti"
+        - name: Bureti
           population2009: 167649
           population2019: 199470
-        - name: "Kericho East"
+        - name: Kericho East
           population2009: 136804
           population2019: 170625
-        - name: "Kipkelion"
+        - name: Kipkelion
           population2009: 89442
           population2019: 122530
-        - name: "Londiani (incl. Mau Forest, Tinderet Forest)"
+        - name: Londiani (incl. Mau Forest, Tinderet Forest)
           population2009: 117148
           population2019: 137580
-        - name: "Soin Sigowet"
+        - name: Soin Sigowet
           population2009: 105124
           population2019: 126500
+      constituencies:
+        - subcounty_id: 187
+          name: Kipkelion East
+          wards:
+            - Chepseon
+            - Kedowa/Kimugul
+            - Londiani
+            - Tendeno/Sorget
+        - subcounty_id: 188
+          name: Kipkelion West
+          wards:
+            - Chilchila
+            - Kamasian
+            - Kipkelion
+            - Kunyak
+        - subcounty_id: 189
+          name: Ainamoi
+          wards:
+            - Ainamoi
+            - Kapkugerwet
+            - Kapsaos
+            - Kapsoit
+            - Kipchebor
+            - Kipchimchim
+        - subcounty_id: 190
+          name: Bureti
+          wards:
+            - Cheboin
+            - Chemosot
+            - Cheplanget
+            - Kapkatet
+            - Kisiara
+            - Litein
+            - Tebesonik
+        - subcounty_id: 191
+          name: Belgut
+          wards:
+            - Chaik
+            - Cheptororiet/Seretut
+            - Kabianga
+            - Kapsuser
+            - Waldai
+        - subcounty_id: 192
+          name: Sigowet/Soin
+          wards:
+            - Kaplelartet
+            - Sigowet
+            - Soin
+            - Soliat
     - code: 22
-      name: "Kiambu"
+      name: Kiambu
       population2009: 1623282
       population2019: 2417735
       sub-counties:
-        - name: "Gatundu North"
+        - name: Gatundu North
           population2009: 106376
           population2019: 109870
-        - name: "Gatundu South"
+        - name: Gatundu South
           population2009: 108415
           population2019: 122103
-        - name: "Githunguri"
+        - name: Githunguri
           population2009: 147763
           population2019: 165232
-        - name: "Juja"
+        - name: Juja
           population2009: 118793
           population2019: 300948
-        - name: "Kabete"
+        - name: Kabete
           population2009: 140427
           population2019: 199653
-        - name: "Kiambaa"
+        - name: Kiambaa
           population2009: 145053
           population2019: 236400
-        - name: "Kiambu"
+        - name: Kiambu
           population2009: 108698
           population2019: 145903
-        - name: "Kikuyu"
+        - name: Kikuyu
           population2009: 125402
           population2019: 187122
-        - name: "Lari"
+        - name: Lari
           population2009: 123895
           population2019: 135303
-        - name: "Limuru"
+        - name: Limuru
           population2009: 131132
           population2019: 159314
-        - name: "Ruiru"
+        - name: Ruiru
           population2009: 201986
           population2019: 371111
-        - name: "Thika East"
+        - name: Thika East
           population2009: 26570
           population2019: 38956
-        - name: "Thika West"
+        - name: Thika West
           population2009: 138772
           population2019: 245820
+      constituencies:
+        - subcounty_id: 110
+          name: Gatundu South
+          wards:
+            - Kiamwangi
+            - Kiganjo
+            - Ndarugu
+            - Ngenda
+        - subcounty_id: 111
+          name: Gatundu North
+          wards:
+            - Chania
+            - Githobokoni
+            - Gituamba
+            - Mang'U
+        - subcounty_id: 112
+          name: Juja
+          wards:
+            - Juja
+            - Kalimoni
+            - Murera
+            - Theta
+            - Witeithie
+        - subcounty_id: 113
+          name: Thika Town
+          wards:
+            - Gatuanyaga
+            - Hospital
+            - Kamenu
+            - Ngoliba
+            - Township
+        - subcounty_id: 114
+          name: Ruiru
+          wards:
+            - Biashara
+            - Gatongora
+            - Gitothua
+            - Kahawa Sukari
+            - Kahawa Wendani
+            - Kiuu
+            - Mwihoko
+            - Mwiki
+        - subcounty_id: 115
+          name: Githunguri
+          wards:
+            - Githiga
+            - Githunguri
+            - Ikinu
+            - Komothai
+            - Ngewa
+        - subcounty_id: 116
+          name: Kiambu
+          wards:
+            - Ndumberi
+            - Riabai
+            - Ting'Ang'A
+            - Township
+        - subcounty_id: 117
+          name: Kiambaa
+          wards:
+            - Cianda
+            - Karuri
+            - Kihara
+            - Muchatha
+            - Ndenderu
+        - subcounty_id: 118
+          name: Kabete
+          wards:
+            - Gitaru
+            - Kabete
+            - Muguga
+            - Nyadhuna
+            - Uthiru
+        - subcounty_id: 119
+          name: Kikuyu
+          wards:
+            - Karai
+            - Kikuyu
+            - Kinoo
+            - Nachu
+            - Sigona
+        - subcounty_id: 120
+          name: Limuru
+          wards:
+            - Bibirioni
+            - Limuru Central
+            - Limuru East
+            - Ndeiya
+            - Ngecha Tigoni
+        - subcounty_id: 121
+          name: Lari
+          wards:
+            - Kamburu
+            - Kijabe
+            - Kinale
+            - Lari/Kirenga
+            - Nyanduma
     - code: 3
-      name: "Kilifi"
+      name: Kilifi
       population2009: 1109735
       population2019: 1453787
       sub-counties:
-        - name: "Chonyi"
+        - name: Chonyi
           population2009: 56304
           population2019: 62335
-        - name: "Ganze"
+        - name: Ganze
           population2009: 117074
           population2019: 143906
-        - name: "Kaloleni"
+        - name: Kaloleni
           population2009: 155739
           population2019: 193682
-        - name: "Kauma"
+        - name: Kauma
           population2009: 13676
           population2019: 22638
-        - name: "Kilifi North"
+        - name: Kilifi North
           population2009: 126019
           population2019: 178824
-        - name: "Kilifi South"
+        - name: Kilifi South
           population2009: 143224
           population2019: 206753
-        - name: "Magarini"
+        - name: Magarini
           population2009: 151159
           population2019: 191610
-        - name: "Malindi"
+        - name: Malindi
           population2009: 249355
           population2019: 333226
-        - name: "Rabai"
+        - name: Rabai
           population2009: 97185
           population2019: 120813
+      constituencies:
+        - subcounty_id: 11
+          name: Kilifi North
+          wards:
+            - Dabaso
+            - Kibarani
+            - Matsangoni
+            - Mnarani
+            - Sokoni
+            - Tezo
+            - Watamu
+        - subcounty_id: 12
+          name: Kilifi South
+          wards:
+            - Chasimba
+            - Junju
+            - Mtepeni
+            - Mwarakaya
+            - Shimo La Tewa
+        - subcounty_id: 13
+          name: Kaloleni
+          wards:
+            - Kaloleni
+            - Kayafungo
+            - Mariakani
+            - Mwanamwinga
+        - subcounty_id: 14
+          name: Rabai
+          wards:
+            - Kambe/Ribe
+            - Mwawesa
+            - Rabai/Kisurutini
+            - Ruruma
+        - subcounty_id: 15
+          name: Ganze
+          wards:
+            - Bamba
+            - Ganze
+            - Jaribuni
+            - Sokoke
+        - subcounty_id: 16
+          name: Malindi
+          wards:
+            - Ganda
+            - Jilore
+            - Kakuyuni
+            - Malindi Town
+            - Shella
+        - subcounty_id: 17
+          name: Magarini
+          wards:
+            - Adu
+            - Garashi
+            - Gongoni
+            - Magarini
+            - Marafa
+            - Sabaki
     - code: 20
-      name: "Kirinyaga"
+      name: Kirinyaga
       population2009: 528054
       population2019: 610411
       sub-counties:
-        - name: "Kirinyaga Central"
+        - name: Kirinyaga Central
           population2009: 113355
           population2019: 122740
-        - name: "Kirinyaga East"
+        - name: Kirinyaga East
           population2009: 124672
           population2019: 135559
-        - name: "Kirinyaga West"
+        - name: Kirinyaga West
           population2009: 99515
           population2019: 114660
-        - name: "Mwea East"
+        - name: Mwea East
           population2009: 103248
           population2019: 132554
-        - name: "Mwea West"
+        - name: Mwea West
           population2009: 87264
           population2019: 104828
+      constituencies:
+        - subcounty_id: 99
+          name: Mwea
+          wards:
+            - Gathigiriri
+            - Kangai
+            - Murinduko
+            - Mutithi
+            - Nyangati
+            - Tebere
+            - Thiba
+            - Wamumu
+        - subcounty_id: 100
+          name: Gichugu
+          wards:
+            - Baragwi
+            - Kabare
+            - Karumandi
+            - Ngariama
+            - Njukiini
+        - subcounty_id: 101
+          name: Ndia
+          wards:
+            - Kariti
+            - Kiine
+            - Mukure
+        - subcounty_id: 102
+          name: Kirinyaga Central
+          wards:
+            - Inoi
+            - Kanyeki-Ini
+            - Kerugoya
+            - Mutira
     - code: 45
-      name: "Kisii"
+      name: Kisii
       population2009: 1152282
       population2019: 1266860
       sub-counties:
-        - name: "Etago"
+        - name: Etago
           population2009: 80929
           population2019: 83787
-        - name: "Gucha"
+        - name: Gucha
           population2009: 75156
           population2019: 83740
-        - name: "Gucha South"
+        - name: Gucha South
           population2009: 78120
           population2019: 83623
-        - name: "Kenyenya"
+        - name: Kenyenya
           population2009: 125573
           population2019: 131740
-        - name: "Kisii Central"
+        - name: Kisii Central
           population2009: 129745
           population2019: 166906
-        - name: "Kisii South"
+        - name: Kisii South
           population2009: 114615
           population2019: 135134
-        - name: "Kitutu Central"
+        - name: Kitutu Central
           population2009: 132131
           population2019: 154175
-        - name: "Marani"
+        - name: Marani
           population2009: 103869
           population2019: 107464
-        - name: "Masaba South"
+        - name: Masaba South
           population2009: 122070
           population2019: 122396
-        - name: "Nyamache"
+        - name: Nyamache
           population2009: 126262
           population2019: 130898
-        - name: "Sameta"
+        - name: Sameta
           population2009: 63812
           population2019: 66997
+      constituencies:
+        - subcounty_id: 259
+          name: Bonchari
+          wards:
+            - Bogiakumu
+            - Bomariba
+            - Bomorenda
+            - Riana
+        - subcounty_id: 260
+          name: South Mugirango
+          wards:
+            - Bogetenga
+            - Boikang'A
+            - Borabu / Chitago
+            - Getenga
+            - Moticho
+            - Tabaka
+        - subcounty_id: 261
+          name: Bomachoge Borabu
+          wards: []
+        - subcounty_id: 262
+          name: Bobasi
+          wards:
+            - Bobasi Bogetaorio
+            - Bobasi Boitangare
+            - Bobasi Central
+            - Bobasi Chache
+            - Masige East
+            - Masige West
+            - Nyacheki
+            - Sameta/Mokwerero
+        - subcounty_id: 263
+          name: Bomachoge Chache
+          wards: []
+        - subcounty_id: 264
+          name: Nyaribari Masaba
+          wards:
+            - Gesusu
+            - Ichuni
+            - Kiamokama
+            - Masimba
+            - Nyamasibi
+        - subcounty_id: 265
+          name: Nyaribari Chache
+          wards:
+            - Birongo
+            - Bobaracho
+            - Ibeno
+            - Keumbu
+            - Kiogoro
+            - Kisii Central
+        - subcounty_id: 266
+          name: Kitutu Chache North
+          wards:
+            - Kegogi
+            - Marani
+            - Monyerero
+            - Sensi
+        - subcounty_id: 267
+          name: Kitutu Chache South
+          wards:
+            - Bogeka
+            - Bogusero
+            - Kitutu   Central
+            - Nyakoe
+            - Nyatieko
     - code: 42
-      name: "Kisumu"
+      name: Kisumu
       population2009: 968909
       population2019: 1155574
       sub-counties:
-        - name: "Kisumu Central"
+        - name: Kisumu Central
           population2009: 168892
           population2019: 174145
-        - name: "Kisumu East"
+        - name: Kisumu East
           population2009: 150124
           population2019: 220997
-        - name: "Kisumu West"
+        - name: Kisumu West
           population2009: 131246
           population2019: 172821
-        - name: "Muhoroni"
+        - name: Muhoroni
           population2009: 145764
           population2019: 154116
-        - name: "Nyakach"
+        - name: Nyakach
           population2009: 133041
           population2019: 150320
-        - name: "Nyando"
+        - name: Nyando
           population2009: 141037
           population2019: 161508
-        - name: "Seme"
+        - name: Seme
           population2009: 98805
           population2019: 121667
+      constituencies:
+        - subcounty_id: 236
+          name: Kisumu East
+          wards:
+            - Kajulu
+            - Kolwa Central
+            - Kolwa East
+            - Manyatta 'B'
+            - Nyalenda 'A'
+        - subcounty_id: 237
+          name: Kisumu West
+          wards:
+            - Central Kisumu
+            - Kisumu North
+            - North West Kisumu
+            - South West Kisumu
+            - West Kisumu
+        - subcounty_id: 238
+          name: Kisumu Central
+          wards:
+            - Kondele
+            - Market Milimani
+            - Migosi
+            - Nyalenda B
+            - Railways
+            - Shaurimoyo Kaloleni
+        - subcounty_id: 239
+          name: Seme
+          wards:
+            - Central Seme
+            - East Seme
+            - North Seme
+            - West Seme
+        - subcounty_id: 240
+          name: Nyando
+          wards:
+            - Ahero
+            - Awasi/Onjiko
+            - East Kano/Wawidhi
+            - Kabonyo/Kanyagwal
+            - Kobura
+        - subcounty_id: 241
+          name: Muhoroni
+          wards:
+            - Chemelil
+            - Masogo/Nyang'Oma
+            - Miwani
+            - Muhoroni/Koru
+            - Ombeyi
+        - subcounty_id: 242
+          name: Nyakach
+          wards:
+            - Central Nyakach
+            - North Nyakach
+            - South East Nyakach
+            - South West Nyakach
+            - West Nyakach
     - code: 15
-      name: "Kitui"
+      name: Kitui
       population2009: 1012709
       population2019: 1136187
       sub-counties:
-        - name: "Ikutha"
+        - name: Ikutha
           population2009: 77510
           population2019: 82964
-        - name: "Katulani"
+        - name: Katulani
           population2009: 45141
           population2019: 47108
-        - name: "Kisasi"
+        - name: Kisasi
           population2009: 43588
           population2019: 46142
-        - name: "Kitui Central"
+        - name: Kitui Central
           population2009: 94337
           population2019: 105991
-        - name: "Kitui West"
+        - name: Kitui West
           population2009: 61510
           population2019: 70871
-        - name: "Kyuso"
+        - name: Kyuso
           population2009: 58822
           population2019: 76867
-        - name: "Lower Yatta"
+        - name: Lower Yatta
           population2009: 55068
           population2019: 63329
-        - name: "Matinyani"
+        - name: Matinyani
           population2009: 42789
           population2019: 47811
-        - name: "Migwani"
+        - name: Migwani
           population2009: 63570
           population2019: 79255
-        - name: "Mumoni"
+        - name: Mumoni
           population2009: 34225
           population2019: 29344
-        - name: "Mutitu"
+        - name: Mutitu
           population2009: 49871
           population2019: 55287
-        - name: "Mutitu North"
+        - name: Mutitu North
           population2009: 19098
           population2019: 21215
-        - name: "Mutomo"
+        - name: Mutomo
           population2009: 102638
           population2019: 113356
-        - name: "Mwingi Central"
+        - name: Mwingi Central
           population2009: 104826
           population2019: 108713
-        - name: "Mwingi East"
+        - name: Mwingi East
           population2009: 76585
           population2019: 85139
-        - name: "Nzambani"
+        - name: Nzambani
           population2009: 36211
           population2019: 46788
-        - name: "Thagicu"
+        - name: Thagicu
           population2009: 13084
           population2019: 15136
-        - name: "Tseikuru"
+        - name: Tseikuru
           population2009: 33836
           population2019: 40871
+      constituencies:
+        - subcounty_id: 67
+          name: Mwingi North
+          wards:
+            - Kyuso
+            - Mumoni
+            - Ngomeni
+            - Tharaka
+            - Tseikuru
+        - subcounty_id: 68
+          name: Mwingi West
+          wards:
+            - Kiomo/Kyethani
+            - Kyome/Thaana
+            - Migwani
+            - Nguutani
+        - subcounty_id: 69
+          name: Mwingi Central
+          wards:
+            - Central
+            - Kivou
+            - Mui
+            - Nguni
+            - Nuu
+            - Waita
+        - subcounty_id: 70
+          name: Kitui Rural
+          wards:
+            - Kanyangi
+            - Kisasi
+            - Kwavonza/Yatta
+            - Mbitini
+        - subcounty_id: 71
+          name: Kitui Central
+          wards:
+            - Kyangwithya East
+            - Kyangwithya West
+            - Miambani
+            - Mulango
+            - Township
+        - subcounty_id: 72
+          name: Kitui East
+          wards:
+            - Chuluni
+            - Endau/Malalani
+            - Mutito/Kaliku
+            - Nzambani
+            - Voo/Kyamatu
+            - Zombe/Mwitika
+        - subcounty_id: 73
+          name: Kitui South
+          wards:
+            - Athi
+            - Ikanga/Kyatune
+            - Ikutha
+            - Kanziko
+            - Mutha
+            - Mutomo
     - code: 2
-      name: "Kwale"
+      name: Kwale
       population2009: 649931
       population2019: 866820
       sub-counties:
-        - name: "Kinango"
+        - name: Kinango
           population2009: 61195
           population2019: 94220
-        - name: "Lunga Lunga"
+        - name: Lunga Lunga
           population2009: 153354
           population2019: 198423
-        - name: "Matuga"
+        - name: Matuga
           population2009: 150634
           population2019: 194252
-        - name: "Msambweni"
+        - name: Msambweni
           population2009: 136383
           population2019: 177690
-        - name: "Samburu-Kwale"
+        - name: Samburu-Kwale
           population2009: 148365
           population2019: 202235
+      constituencies:
+        - subcounty_id: 7
+          name: Msambweni
+          wards:
+            - Gombatobongwe
+            - Kinondo
+            - Ramisi
+            - Ukunda
+        - subcounty_id: 8
+          name: Lungalunga
+          wards:
+            - Dzombo
+            - Mwereni
+            - Pongwekikoneni
+            - Vanga
+        - subcounty_id: 9
+          name: Matuga
+          wards:
+            - Kubo South
+            - Mkongani
+            - Tiwi
+            - Tsimba Golini
+            - Waa
+        - subcounty_id: 10
+          name: Kinango
+          wards: []
     - code: 31
-      name: "Laikipia"
+      name: Laikipia
       population2009: 399227
       population2019: 518560
       sub-counties:
-        - name: "Laikipia Central"
+        - name: Laikipia Central
           population2009: 73910
           population2019: 95594
-        - name: "Laikipia East"
+        - name: Laikipia East
           population2009: 73085
           population2019: 102815
-        - name: "Laikipia North"
+        - name: Laikipia North
           population2009: 22696
           population2019: 36184
-        - name: "Laikipia West"
+        - name: Laikipia West
           population2009: 82376
           population2019: 129263
-        - name: "Nyahururu"
+        - name: Nyahururu
           population2009: 147160
           population2019: 154704
+      constituencies:
+        - subcounty_id: 162
+          name: Laikipia West
+          wards:
+            - Igwamiti
+            - Kinamba
+            - Marmanet
+            - Olmoran
+            - Rumuruti Township
+            - Salama
+        - subcounty_id: 163
+          name: Laikipia East
+          wards:
+            - Nanyuki
+            - Ngobit
+            - Thingithu
+            - Tigithi
+            - Umande
+        - subcounty_id: 164
+          name: Laikipia North
+          wards:
+            - Mukogondo East
+            - Mukogondo West
+            - Segera
+            - Sosian
     - code: 5
-      name: "Lamu"
+      name: Lamu
       population2009: 101539
       population2019: 143920
       sub-counties:
-        - name: "Lamu East"
+        - name: Lamu East
           population2009: 18239
           population2019: 22258
-        - name: "Lamu West"
+        - name: Lamu West
           population2009: 83300
           population2019: 121662
+      constituencies:
+        - subcounty_id: 21
+          name: Lamu East
+          wards:
+            - Basuba
+            - Faza
+            - Kiunga
+        - subcounty_id: 22
+          name: Lamu West
+          wards:
+            - Bahari
+            - Hindi
+            - Hongwe
+            - Mkomani
+            - Mkunumbi
+            - Shella
+            - Witu
     - code: 16
-      name: "Machakos"
+      name: Machakos
       population2009: 1098584
       population2019: 1421932
       sub-counties:
-        - name: "Athi River"
+        - name: Athi River
           population2009: 139502
           population2019: 322499
-        - name: "Kalama"
+        - name: Kalama
           population2009: 56640
           population2019: 54462
-        - name: "Kangundo"
+        - name: Kangundo
           population2009: 94367
           population2019: 97917
-        - name: "Kathiani"
+        - name: Kathiani
           population2009: 104217
           population2019: 111890
-        - name: "Machakos"
+        - name: Machakos
           population2009: 142571
           population2019: 170606
-        - name: "Masinga"
+        - name: Masinga
           population2009: 125940
           population2019: 148522
-        - name: "Matungulu"
+        - name: Matungulu
           population2009: 124736
           population2019: 161557
-        - name: "Mwala"
+        - name: Mwala
           population2009: 163032
           population2019: 181896
-        - name: "Yatta"
+        - name: Yatta
           population2009: 147579
           population2019: 172583
+      constituencies:
+        - subcounty_id: 74
+          name: Masinga
+          wards:
+            - Ekalakala
+            - Kivaa
+            - Masinga Central
+            - Muthesya
+            - Ndithini
+        - subcounty_id: 75
+          name: Yatta
+          wards:
+            - Ikombe
+            - Katangi
+            - Kithimani
+            - Matuu
+            - Ndalani
+        - subcounty_id: 76
+          name: Kangundo
+          wards:
+            - Kangundo Central
+            - Kangundo East
+            - Kangundo North
+            - Kangundo West
+        - subcounty_id: 77
+          name: Matungulu
+          wards:
+            - Kyeleni
+            - Matungulu East
+            - Matungulu North
+            - Matungulu West
+            - Tala
+        - subcounty_id: 78
+          name: Kathiani
+          wards:
+            - Kathiani Central
+            - Lower Kaewa/Kaani
+            - Mitaboni
+            - Upper Kaewa/Iveti
+        - subcounty_id: 79
+          name: Mavoko
+          wards:
+            - Athi River
+            - Kinanie
+            - Muthwani
+            - Syokimau/Mulolongo
+        - subcounty_id: 80
+          name: Machakos Town
+          wards:
+            - Kalama
+            - Kola
+            - Machakos Central
+            - Mua
+            - Mumbuni North
+            - Mutituni
+            - Muvuti/Kiima-Kimwe
+        - subcounty_id: 81
+          name: Mwala
+          wards:
+            - Kibauni
+            - Makutano/ Mwala
+            - Masii
+            - Mbiuni
+            - Muthetheni
+            - Wamunyu
     - code: 17
-      name: "Makueni"
+      name: Makueni
       population2009: 884527
       population2019: 987653
       sub-counties:
-        - name: "Kathonzweni"
+        - name: Kathonzweni
           population2009: 76605
           population2019: 79780
-        - name: "Kibwezi"
+        - name: Kibwezi
           population2009: 178402
           population2019: 197000
-        - name: "Kilungu"
+        - name: Kilungu
           population2009: 60601
           population2019: 60952
-        - name: "Makindu"
+        - name: Makindu
           population2009: 70302
           population2019: 84946
-        - name: "Makueni"
+        - name: Makueni
           population2009: 102780
           population2019: 130375
-        - name: "Mbooni East"
+        - name: Mbooni East
           population2009: 87315
           population2019: 97756
-        - name: "Mbooni West"
+        - name: Mbooni West
           population2009: 97309
           population2019: 102594
-        - name: "Mukaa"
+        - name: Mukaa
           population2009: 87864
           population2019: 107549
-        - name: "Nzaui"
+        - name: Nzaui
           population2009: 123349
           population2019: 126701
+      constituencies:
+        - subcounty_id: 82
+          name: Mbooni
+          wards:
+            - Kalawa
+            - Kisau/Kiteta
+            - Kithungo/Kitundu
+            - Mbooni
+            - Tulimani
+            - Waia/Kako
+        - subcounty_id: 83
+          name: Kilome
+          wards:
+            - Kasikeu
+            - Kiima Kiu/Kalanzoni
+            - Mukaa
+        - subcounty_id: 84
+          name: Kaiti
+          wards:
+            - Ilima
+            - Kee
+            - Kilungu
+            - Ukia
+        - subcounty_id: 85
+          name: Makueni
+          wards:
+            - Kathonzweni
+            - Kitise/Kithuki
+            - Mavindini
+            - Mbitini
+            - Muvau/Kikuumini
+            - Nzaui/Kilili/Kalamba
+            - Wote
+        - subcounty_id: 86
+          name: Kibwezi West
+          wards:
+            - Emali/Mulala
+            - Kikumbulyu North
+            - Kikumbulyu South
+            - Makindu
+            - Nguu/Masumba
+            - Nguumo
+        - subcounty_id: 87
+          name: Kibwezi East
+          wards:
+            - Ivingoni/Nzambani
+            - Masongaleni
+            - Mtito Andei
+            - Thange
     - code: 9
-      name: "Mandera"
+      name: Mandera
       population2009: 1025756
       population2019: 867457
       sub-counties:
-        - name: "Banisa"
+        - name: Banisa
           population2009: 158074
           population2019: 152598
-        - name: "Kotulo"
+        - name: Kotulo
           population2009: 70329
           population2019: 72394
-        - name: "Lafey"
+        - name: Lafey
           population2009: 109856
           population2019: 83457
-        - name: "Mandera Central"
+        - name: Mandera Central
           population2009: 203937
           population2019: 157220
-        - name: "Mandera East"
+        - name: Mandera East
           population2009: 178831
           population2019: 159638
-        - name: "Mandera North"
+        - name: Mandera North
           population2009: 143028
           population2019: 143850
-        - name: "Mandera West"
+        - name: Mandera West
           population2009: 161701
           population2019: 98300
+      constituencies:
+        - subcounty_id: 39
+          name: Mandera West
+          wards:
+            - Dandu
+            - Gither
+            - Lag Sure
+            - Takaba
+            - Takaba South
+        - subcounty_id: 40
+          name: Banissa
+          wards:
+            - Banissa
+            - Derkhale
+            - Guba
+            - Kiliwehiri
+            - Malkamari
+        - subcounty_id: 41
+          name: Mandera North
+          wards:
+            - Ashabito
+            - Guticha
+            - Morothile
+            - Rhamu
+            - Rhamu-Dimtu
+        - subcounty_id: 42
+          name: Mandera South
+          wards:
+            - Elwak North
+            - Elwak South
+            - Kutulo
+            - Shimbir Fatuma
+            - Wargudud
+        - subcounty_id: 43
+          name: Mandera East
+          wards:
+            - Arabia
+            - Bulla Mpya
+            - Khalalio
+            - Neboi
+            - Township
+        - subcounty_id: 44
+          name: Lafey
+          wards:
+            - Alungo Gof
+            - Fino
+            - Lafey
+            - Libehia
+            - Warankara
     - code: 10
-      name: "Marsabit"
+      name: Marsabit
       population2009: 291166
       population2019: 459785
       sub-counties:
-        - name: "Loiyangalani"
+        - name: Loiyangalani
           population2009: 26111
           population2019: 35713
-        - name: "Marsabit Central"
+        - name: Marsabit Central
           population2009: 46502
           population2019: 79181
-        - name: "Marsabit North"
+        - name: Marsabit North
           population2009: 29561
           population2019: 54297
-        - name: "Marsabit South"
+        - name: Marsabit South
           population2009: 39558
           population2019: 65376
-        - name: "Moyale"
+        - name: Moyale
           population2009: 81373
           population2019: 108949
-        - name: "North Horr"
+        - name: North Horr
           population2009: 45635
           population2019: 71447
-        - name: "Sololo"
+        - name: Sololo
           population2009: 22426
           population2019: 44822
+      constituencies:
+        - subcounty_id: 45
+          name: Moyale
+          wards:
+            - Butiye
+            - Golbo
+            - Heilu-Manyatta
+            - Moyale Township
+            - Obbu
+            - Sololo
+            - Uran
+        - subcounty_id: 46
+          name: North Horr
+          wards:
+            - Dukana
+            - Illeret
+            - Maikona
+            - North Horr
+            - Turbi
+        - subcounty_id: 47
+          name: Saku
+          wards:
+            - Karare
+            - Marsabit Central
+            - Sagante/Jaldesa
+        - subcounty_id: 48
+          name: Laisamis
+          wards:
+            - Kargi/South Horr
+            - Korr/Ngurunit
+            - Laisamis
+            - Log Logo
+            - Loiyangalani
     - code: 12
-      name: "Meru"
+      name: Meru
       population2009: 1356301
       population2019: 1545714
       sub-counties:
-        - name: "Buuri East"
+        - name: Buuri East
           population2009: 69929
           population2019: 76598
-        - name: "Buuri West"
+        - name: Buuri West
           population2009: 59201
           population2019: 80762
-        - name: "Igembe Central"
+        - name: Igembe Central
           population2009: 192948
           population2019: 221412
-        - name: "Igembe North"
+        - name: Igembe North
           population2009: 154814
           population2019: 169317
-        - name: "Igembe South"
+        - name: Igembe South
           population2009: 134550
           population2019: 161646
-        - name: "Imenti North"
+        - name: Imenti North
           population2009: 149144
           population2019: 177567
-        - name: "Imenti South"
+        - name: Imenti South
           population2009: 179604
           population2019: 206506
-        - name: "Meru Central"
+        - name: Meru Central
           population2009: 116847
           population2019: 133818
-        - name: "Tigania Central"
+        - name: Tigania Central
           population2009: 93970
           population2019: 104730
-        - name: "Tigania East"
+        - name: Tigania East
           population2009: 70319
           population2019: 72549
-        - name: "Tigania West"
+        - name: Tigania West
           population2009: 128937
           population2019: 139961
+      constituencies:
+        - subcounty_id: 51
+          name: Igembe South
+          wards:
+            - Akachiu
+            - Athiru Gaiti
+            - Kanuni
+            - Kiegoi/Antubochiu
+            - Maua
+        - subcounty_id: 52
+          name: Igembe Central
+          wards:
+            - Akirang'Ondu
+            - Athiru Ruujine
+            - Igembe East
+            - Kangeta
+            - Njia
+        - subcounty_id: 53
+          name: Igembe North
+          wards:
+            - Amwathi
+            - Antuambui
+            - Antubetwe Kiongo
+            - Naathu
+            - Ntunene
+        - subcounty_id: 54
+          name: Tigania West
+          wards:
+            - Akithii
+            - Athwana
+            - Kianjai
+            - Mbeu
+            - Nkomo
+        - subcounty_id: 55
+          name: Tigania East
+          wards:
+            - Karama
+            - Kiguchwa
+            - Mikinduri
+            - Muthara
+            - Thangatha
+        - subcounty_id: 56
+          name: North Imenti
+          wards:
+            - Municipality
+            - Ntima East
+            - Ntima West
+            - Nyaki East
+            - Nyaki West
+        - subcounty_id: 57
+          name: Buuri
+          wards:
+            - Kibirichia
+            - Kiirua/Naari
+            - Kisima
+            - Ruiri/Rwarera
+            - Timau
+        - subcounty_id: 58
+          name: Central Imenti
+          wards:
+            - Abothuguchi Central
+            - Abothuguchi West
+            - Kiagu
+            - Mwanganthia
+        - subcounty_id: 59
+          name: South Imenti
+          wards:
+            - Abogeta East
+            - Abogeta West
+            - Igoji East
+            - Igoji West
+            - Mitunguu
+            - Nkuene
     - code: 44
-      name: "Migori"
+      name: Migori
       population2009: 917170
       population2019: 1116436
       sub-counties:
-        - name: "Awendo"
+        - name: Awendo
           population2009: 108913
           population2019: 117290
-        - name: "Kuria East"
+        - name: Kuria East
           population2009: 81833
           population2019: 96872
-        - name: "Kuria West"
+        - name: Kuria West
           population2009: 174253
           population2019: 208513
-        - name: "Nyatike"
+        - name: Nyatike
           population2009: 144625
           population2019: 176162
-        - name: "Rongo"
+        - name: Rongo
           population2009: 100547
           population2019: 124587
-        - name: "Suna East"
+        - name: Suna East
           population2009: 97121
           population2019: 122674
-        - name: "Suna West"
+        - name: Suna West
           population2009: 94127
           population2019: 128890
-        - name: "Uriri"
+        - name: Uriri
           population2009: 115751
           population2019: 141448
+      constituencies:
+        - subcounty_id: 251
+          name: Rongo
+          wards:
+            - Central Kamagambo
+            - East Kamagambo
+            - North Kamagambo
+            - South Kamagambo
+        - subcounty_id: 252
+          name: Awendo
+          wards:
+            - Central Sakwa
+            - North Sakwa
+            - South Sakwa
+            - West Sakwa
+        - subcounty_id: 253
+          name: Suna East
+          wards:
+            - God Jope
+            - Kakrao
+            - Kwa
+            - Suna Central
+        - subcounty_id: 254
+          name: Suna West
+          wards:
+            - Ragana-Oruba
+            - Wasimbete
+            - Wasweta Ii
+            - Wiga
+        - subcounty_id: 255
+          name: Uriri
+          wards:
+            - Central Kanyamkago
+            - East Kanyamkago
+            - North Kanyamkago
+            - South Kanyamkago
+            - West Kanyamkago
+        - subcounty_id: 256
+          name: Nyatike
+          wards:
+            - Got Kachola
+            - Kachien'G
+            - Kaler
+            - Kanyasa
+            - Macalder/Kanyarwanda
+            - Muhuru
+            - North Kadem
+        - subcounty_id: 257
+          name: Kuria West
+          wards:
+            - Bukira Centrl/Ikerege
+            - Bukira East
+            - Isibania
+            - Makerero
+            - Masaba
+            - Nyamosense/Komosoko
+            - Tagare
+        - subcounty_id: 258
+          name: Kuria East
+          wards:
+            - Gokeharaka/Getambwega
+            - Ntimaru East
+            - Ntimaru West
+            - Nyabasi East
+            - Nyabasi West
     - code: 1
-      name: "Mombasa"
+      name: Mombasa
       population2009: 939370
       population2019: 1208333
       sub-counties:
-        - name: "Changamwe"
+        - name: Changamwe
           population2009: 132692
           population2019: 131882
-        - name: "Jomvu"
+        - name: Jomvu
           population2009: 117487
           population2019: 163415
-        - name: "Kisauni"
+        - name: Kisauni
           population2009: 273875
           population2019: 291930
-        - name: "Likoni"
+        - name: Likoni
           population2009: 166008
           population2019: 250358
-        - name: "Mvita"
+        - name: Mvita
           population2009: 143128
           population2019: 154171
-        - name: "Nyali"
+        - name: Nyali
           population2009: 106180
           population2019: 216577
+      constituencies:
+        - subcounty_id: 1
+          name: Changamwe
+          wards:
+            - Airport
+            - Chaani
+            - Changamwe
+            - Kipevu
+            - Port Reitz
+        - subcounty_id: 2
+          name: Jomvu
+          wards:
+            - Jomvu Kuu
+            - Mikindani
+            - Miritini
+        - subcounty_id: 3
+          name: Kisauni
+          wards:
+            - Bamburi
+            - Junda
+            - Magogoni
+            - Mjambere
+            - Mtopanga
+            - Mwakirunge
+            - Shanzu
+        - subcounty_id: 4
+          name: Nyali
+          wards:
+            - Frere Town
+            - Kadzandani
+            - Kongowea
+            - Mkomani
+            - Ziwa La Ng'Ombe
+        - subcounty_id: 5
+          name: Likoni
+          wards:
+            - Bofu
+            - Likoni
+            - Mtongwe
+            - Shika Adabu
+            - Timbwani
+        - subcounty_id: 6
+          name: Mvita
+          wards:
+            - Majengo
+            - Mji Wa Kale/Makadara
+            - Tononoka
+            - Tudor
     - code: 21
-      name: "Murang'a"
+      name: Murang'a
       population2009: 942581
       population2019: 1056640
       sub-counties:
-        - name: "Gatanga"
+        - name: Gatanga
           population2009: 179352
           population2019: 187989
-        - name: "Kahuro"
+        - name: Kahuro
           population2009: 87033
           population2019: 88193
-        - name: "Kandara"
+        - name: Kandara
           population2009: 156663
           population2019: 175098
-        - name: "Kangema"
+        - name: Kangema
           population2009: 76988
           population2019: 80447
-        - name: "Kigumo"
+        - name: Kigumo
           population2009: 123766
           population2019: 136921
-        - name: "Mathioya"
+        - name: Mathioya
           population2009: 88177
           population2019: 92814
-        - name: "Murang'a East"
+        - name: Murang'a East
           population2009: 94043
           population2019: 110311
-        - name: "Murang'a South"
+        - name: Murang'a South
           population2009: 136486
           population2019: 184824
+      constituencies:
+        - subcounty_id: 103
+          name: Kangema
+          wards:
+            - Kanyenyaini
+            - Muguru
+            - Rwathia
+        - subcounty_id: 104
+          name: Mathioya
+          wards:
+            - Gitugi
+            - Kamacharia
+            - Kiru
+        - subcounty_id: 105
+          name: Kiharu
+          wards:
+            - Gaturi
+            - Mbiri
+            - Mugoiri
+            - Murarandia
+            - Township
+            - Wangu
+        - subcounty_id: 106
+          name: Kigumo
+          wards:
+            - Kahumbu
+            - Kangari
+            - Kigumo
+            - Kinyona
+            - Muthithi
+        - subcounty_id: 107
+          name: Maragwa
+          wards:
+            - Ichagaki
+            - Kamahuha
+            - Kambiti
+            - Kimorori/Wempa
+            - Makuyu
+            - Nginda
+        - subcounty_id: 108
+          name: Kandara
+          wards:
+            - Gaichanjiru
+            - Ithiru
+            - Kagundu-Ini
+            - Muruka
+            - Ng'Araria
+            - Ruchu
+        - subcounty_id: 109
+          name: Gatanga
+          wards:
+            - Gatanga
+            - Ithanga
+            - Kakuzi/Mitubiri
+            - Kariara
+            - Kihumbu-Ini
+            - Mugumo-Ini
     - code: 47
-      name: "Nairobi"
+      name: Nairobi
       population2009: 3138369
       population2019: 4397073
       sub-counties:
-        - name: "Dagoretti"
+        - name: Dagoretti
           population2009: 294222
           population2019: 434208
-        - name: "Embakasi"
+        - name: Embakasi
           population2009: 663211
           population2019: 988808
-        - name: "Kamukunji"
+        - name: Kamukunji
           population2009: 220659
           population2019: 268276
-        - name: "Kasarani"
+        - name: Kasarani
           population2009: 525624
           population2019: 780656
-        - name: "Kibra"
+        - name: Kibra
           population2009: 212261
           population2019: 185777
-        - name: "Lang'ata"
+        - name: Lang'ata
           population2009: 178282
           population2019: 197489
-        - name: "Makadara"
+        - name: Makadara
           population2009: 160434
           population2019: 189536
-        - name: "Mathare"
+        - name: Mathare
           population2009: 193416
           population2019: 206564
-        - name: "Njiru"
+        - name: Njiru
           population2009: 283449
           population2019: 626482
-        - name: "Starehe"
+        - name: Starehe
           population2009: 159709
           population2019: 210423
-        - name: "Westlands"
+        - name: Westlands
           population2009: 247102
           population2019: 308854
+      constituencies:
+        - subcounty_id: 272
+          name: Westlands
+          wards:
+            - Kangemi
+            - Karura
+            - Kitisuru
+            - Mountain View
+            - Parklands/Highridge
+        - subcounty_id: 273
+          name: Dagoretti North
+          wards:
+            - Gatina
+            - Kabiro
+            - Kawangware
+            - Kileleshwa
+            - Kilimani
+        - subcounty_id: 274
+          name: Dagoretti South
+          wards:
+            - Mutuini
+            - Ngando
+            - Riruta
+            - Uthiru/Ruthimitu
+            - Waithaka
+        - subcounty_id: 275
+          name: Langata
+          wards:
+            - Karen
+            - Mugumo-Ini
+            - Nairobi West
+            - Nyayo Highrise
+            - South-C
+        - subcounty_id: 276
+          name: Kibra
+          wards:
+            - Laini Saba
+            - Lindi
+            - Makina
+            - Sarangombe
+            - Woodley/Kenyatta Golf
+        - subcounty_id: 277
+          name: Roysambu
+          wards:
+            - Githurai
+            - Kahawa
+            - Kahawa West
+            - Roysambu
+            - Zimmerman
+        - subcounty_id: 278
+          name: Kasarani
+          wards:
+            - Claycity
+            - Kasarani
+            - Mwiki
+            - Njiru
+            - Ruai
+        - subcounty_id: 279
+          name: Ruaraka
+          wards:
+            - Baba Dogo
+            - Korogocho
+            - Lucky Summer
+            - Mathare North
+            - Utalii
+        - subcounty_id: 280
+          name: Embakasi South
+          wards:
+            - Imara Daima
+            - Kwa Njenga
+            - Kwa Reuben
+            - Kware
+            - Pipeline
+        - subcounty_id: 281
+          name: Embakasi North
+          wards:
+            - Dandora Area I
+            - Dandora Area Ii
+            - Dandora Area Iii
+            - Dandora Area Iv
+            - Kariobangi North
+        - subcounty_id: 282
+          name: Embakasi Central
+          wards:
+            - Kayole Central
+            - Kayole North
+            - Kayole South
+            - Komarock
+            - Matopeni
+        - subcounty_id: 283
+          name: Embakasi East
+          wards:
+            - Embakasi
+            - Lower Savannah
+            - Mihango
+            - Upper Savannah
+            - Utawala
+        - subcounty_id: 284
+          name: Embakasi West
+          wards:
+            - Kariobangi South
+            - Mowlem
+            - Umoja I
+            - Umoja Ii
+        - subcounty_id: 285
+          name: Makadara
+          wards:
+            - Harambee
+            - Makongeni
+            - Maringo/Hamza
+            - Viwandani
+        - subcounty_id: 286
+          name: Kamukunji
+          wards:
+            - Airbase
+            - California
+            - Eastleigh North
+            - Eastleigh South
+            - Pumwani
+        - subcounty_id: 287
+          name: Starehe
+          wards:
+            - Landimawe
+            - Nairobi Central
+            - Nairobi South
+            - Ngara
+            - Pangani
+            - Ziwani/Kariokor
+        - subcounty_id: 288
+          name: Mathare
+          wards:
+            - Hospital
+            - Huruma
+            - Kiamaiko
+            - Mabatini
+            - Mlango Kubwa
+            - Ngei
     - code: 32
-      name: "Nakuru"
+      name: Nakuru
       population2009: 1603325
       population2019: 2162202
       sub-counties:
-        - name: "Gilgil"
+        - name: Gilgil
           population2009: 130187
           population2019: 185209
-        - name: "Kuresoi North"
+        - name: Kuresoi North
           population2009: 124050
           population2019: 175074
-        - name: "Kuresoi South"
+        - name: Kuresoi South
           population2009: 115435
           population2019: 155324
-        - name: "Molo"
+        - name: Molo
           population2009: 124438
           population2019: 156732
-        - name: "Naivasha"
+        - name: Naivasha
           population2009: 246056
           population2019: 355383
-        - name: "Nakuru East"
+        - name: Nakuru East
           population2009: 163599
           population2019: 193926
-        - name: "Nakuru North"
+        - name: Nakuru North
           population2009: 126457
           population2019: 218050
-        - name: "Nakuru West"
+        - name: Nakuru West
           population2009: 145825
           population2019: 198661
-        - name: "Njoro"
+        - name: Njoro
           population2009: 178180
           population2019: 238773
-        - name: "Rongai"
+        - name: Rongai
           population2009: 169225
           population2019: 199906
-        - name: "Subukia"
+        - name: Subukia
           population2009: 79873
           population2019: 85164
+      constituencies:
+        - subcounty_id: 165
+          name: Molo
+          wards:
+            - Elburgon
+            - Mariashoni
+            - Molo
+            - Turi
+        - subcounty_id: 166
+          name: Njoro
+          wards:
+            - Kihingo
+            - Lare
+            - Mauche
+            - Maunarok
+            - Nessuit
+            - Njoro
+        - subcounty_id: 167
+          name: Naivasha
+          wards:
+            - Biashara
+            - Hells Gate
+            - Lakeview
+            - Maai-Mahiu
+            - Maiella
+            - Naivasha East
+            - Olkaria
+            - Viwandani
+        - subcounty_id: 168
+          name: Gilgil
+          wards:
+            - Elementaita
+            - Gilgil
+            - Malewa West
+            - Mbaruk/Eburu
+            - Murindati
+        - subcounty_id: 169
+          name: Kuresoi South
+          wards:
+            - Amalo
+            - Keringet
+            - Kiptagich
+            - Tinet
+        - subcounty_id: 170
+          name: Kuresoi North
+          wards: []
+        - subcounty_id: 171
+          name: Subukia
+          wards:
+            - Kabazi
+            - Subukia
+            - Waseges
+        - subcounty_id: 172
+          name: Rongai
+          wards:
+            - Menengai West
+            - Mosop
+            - Soin
+            - Solai
+            - Visoi
+        - subcounty_id: 173
+          name: Bahati
+          wards:
+            - Bahati
+            - Dundori
+            - Kabatini
+            - Kiamaina
+            - Lanet/Umoja
+        - subcounty_id: 174
+          name: Nakuru Town West
+          wards:
+            - Barut
+            - Kapkures
+            - Kaptembwo
+            - London
+            - Rhoda
+            - Shaabab
+        - subcounty_id: 175
+          name: Nakuru Town East
+          wards:
+            - Biashara
+            - Flamingo
+            - Kivumbini
+            - Menengai
+            - Nakuru East
     - code: 29
-      name: "Nandi"
+      name: Nandi
       population2009: 752965
       population2019: 885711
       sub-counties:
-        - name: "Chesumei"
+        - name: Chesumei
           population2009: 126758
           population2019: 164133
-        - name: "Nandi Central"
+        - name: Nandi Central
           population2009: 134078
           population2019: 147553
-        - name: "Nandi East"
+        - name: Nandi East
           population2009: 107534
           population2019: 119173
-        - name: "Nandi North"
+        - name: Nandi North
           population2009: 134648
           population2019: 166171
-        - name: "Nandi South"
+        - name: Nandi South
           population2009: 149256
           population2019: 172750
-        - name: "Tinderet"
+        - name: Tinderet
           population2009: 100691
           population2019: 115931
+      constituencies:
+        - subcounty_id: 150
+          name: Tinderet
+          wards:
+            - Chemelil/Chemase
+            - Kapsimotwo
+            - Songhor/Soba
+            - Tindiret
+        - subcounty_id: 151
+          name: Aldai
+          wards:
+            - Kabwareng
+            - Kaptumo-Kaboi
+            - Kemeloi-Maraba
+            - Kobujoi
+            - Koyo-Ndurio
+            - Terik
+        - subcounty_id: 152
+          name: Nandi Hills
+          wards:
+            - Chepkunyuk
+            - Kapchorua
+            - Nandi Hills
+            - Ol'Lessos
+        - subcounty_id: 153
+          name: Chesumei
+          wards:
+            - Chemundu/Kapng'Etuny
+            - Kaptel/Kamoiywo
+            - Kiptuya
+            - Kosirai
+            - Lelmokwo/Ngechek
+        - subcounty_id: 154
+          name: Emgwen
+          wards:
+            - Chepkumia
+            - Kapkangani
+            - Kapsabet
+            - Kilibwoni
+        - subcounty_id: 155
+          name: Mosop
+          wards:
+            - Chepterwai
+            - Kabisaga
+            - Kabiyet
+            - Kipkaren
+            - Kurgung/Surungai
+            - Ndalat
+            - Sangalo/Kebulonik
     - code: 33
-      name: "Narok"
+      name: Narok
       population2009: 850920
       population2019: 1157873
       sub-counties:
-        - name: "Narok East"
+        - name: Narok East
           population2009: 79147
           population2019: 115323
-        - name: "Narok North (incl. Mau Forest)"
+        - name: Narok North (incl. Mau Forest)
           population2009: 188142
           population2019: 251894
-        - name: "Narok South"
+        - name: Narok South
           population2009: 183442
           population2019: 238472
-        - name: "Narok West"
+        - name: Narok West
           population2009: 125657
           population2019: 195287
-        - name: "Trans Mara East"
+        - name: Trans Mara East
           population2009: 92183
           population2019: 111183
-        - name: "Trans Mara West"
+        - name: Trans Mara West
           population2009: 182349
           population2019: 245714
+      constituencies:
+        - subcounty_id: 176
+          name: Kilgoris
+          wards:
+            - Angata Barikoi
+            - Keyian
+            - Kilgoris Central
+            - Kimintet
+            - Lolgorian
+            - Shankoe
+        - subcounty_id: 177
+          name: Emurua Dikirr
+          wards:
+            - Ilkerin
+            - Kapsasian
+            - Mogondo
+            - Ololmasani
+        - subcounty_id: 178
+          name: Narok North
+          wards:
+            - Melili
+            - Narok Town
+            - Nkareta
+            - Olokurto
+            - Olorropil
+            - Olpusimoru
+        - subcounty_id: 179
+          name: Narok East
+          wards:
+            - Ildamat
+            - Keekonyokie
+            - Mosiro
+            - Suswa
+        - subcounty_id: 180
+          name: Narok South
+          wards:
+            - Loita
+            - Majimoto/Naroosura
+            - Melelo
+            - Ololulung'A
+            - Sagamian
+            - Sogoo
+        - subcounty_id: 181
+          name: Narok West
+          wards:
+            - Ilmotiok
+            - Mara
+            - Naikarra
+            - Siana
     - code: 46
-      name: "Nyamira"
+      name: Nyamira
       population2009: 598252
       population2019: 605576
       sub-counties:
-        - name: "Borabu"
+        - name: Borabu
           population2009: 73426
           population2019: 73167
-        - name: "Manga"
+        - name: Manga
           population2009: 87859
           population2019: 94209
-        - name: "Masaba North"
+        - name: Masaba North
           population2009: 111277
           population2019: 111860
-        - name: "Nyamira North"
+        - name: Nyamira North
           population2009: 166017
           population2019: 167267
-        - name: "Nyamira South"
+        - name: Nyamira South
           population2009: 159673
           population2019: 159073
+      constituencies:
+        - subcounty_id: 268
+          name: Kitutu Masaba
+          wards:
+            - Gachuba
+            - Gesima
+            - Kemera
+            - Magombo
+            - Manga
+            - Rigoma
+        - subcounty_id: 269
+          name: West Mugirango
+          wards:
+            - Bogichora
+            - Bonyamatuta
+            - Bosamaro
+            - Nyamaiya
+            - Township
+        - subcounty_id: 270
+          name: North Mugirango
+          wards:
+            - Bokeira
+            - Bomwagamo
+            - Ekerenyo
+            - Itibo
+            - Magwagwa
+        - subcounty_id: 271
+          name: Borabu
+          wards:
+            - Esise
+            - Kiabonyoru
+            - Mekenene
+            - Nyansiongo
     - code: 18
-      name: "Nyandarua"
+      name: Nyandarua
       population2009: 596268
       population2019: 638289
       sub-counties:
-        - name: "Kinangop"
+        - name: Kinangop
           population2009: 104982
           population2019: 111410
-        - name: "Kipipiri"
+        - name: Kipipiri
           population2009: 95338
           population2019: 93855
-        - name: "Mirangine"
+        - name: Mirangine
           population2009: 62708
           population2019: 67214
-        - name: "Nyandarua Central"
+        - name: Nyandarua Central
           population2009: 67392
           population2019: 75262
-        - name: "Nyandarua North"
+        - name: Nyandarua North
           population2009: 92626
           population2019: 98698
-        - name: "Nyandarua South"
+        - name: Nyandarua South
           population2009: 87397
           population2019: 93870
-        - name: "Nyandarua West"
+        - name: Nyandarua West
           population2009: 85825
           population2019: 97965
+      constituencies:
+        - subcounty_id: 88
+          name: Kinangop
+          wards:
+            - Engineer
+            - Gathara
+            - Githabai
+            - Magumu
+            - Murungaru
+            - Njabini\Kiburu
+            - North Kinangop
+            - Nyakio
+        - subcounty_id: 89
+          name: Kipipiri
+          wards:
+            - Geta
+            - Githioro
+            - Kipipiri
+            - Wanjohi
+        - subcounty_id: 90
+          name: Ol Kalou
+          wards:
+            - Kaimbaga
+            - Kanjuiri Ridge
+            - Karau
+            - Mirangine
+            - Rurii
+        - subcounty_id: 91
+          name: Ol Jorok
+          wards:
+            - Charagita
+            - Gathanji
+            - Gatimu
+            - Weru
+        - subcounty_id: 92
+          name: Ndaragwa
+          wards:
+            - Central
+            - Kiriita
+            - Leshau Pondo
+            - Shamata
     - code: 19
-      name: "Nyeri"
+      name: Nyeri
       population2009: 693558
       population2019: 759164
       sub-counties:
-        - name: "Kieni East"
+        - name: Kieni East
           population2009: 84398
           population2019: 110376
-        - name: "Kieni West"
+        - name: Kieni West
           population2009: 79312
           population2019: 88525
-        - name: "Mathira East"
+        - name: Mathira East
           population2009: 97003
           population2019: 99065
-        - name: "Mathira West"
+        - name: Mathira West
           population2009: 47831
           population2019: 59895
-        - name: "Mukurweini"
+        - name: Mukurweini
           population2009: 83932
           population2019: 89137
-        - name: "Nyeri Central"
+        - name: Nyeri Central
           population2009: 119273
           population2019: 140338
-        - name: "Nyeri South"
+        - name: Nyeri South
           population2009: 87374
           population2019: 91081
-        - name: "Tetu"
+        - name: Tetu
           population2009: 78320
           population2019: 80453
+      constituencies:
+        - subcounty_id: 93
+          name: Tetu
+          wards:
+            - Aguthi/Gaaki
+            - Dedan Kimanthi
+            - Wamagana
+        - subcounty_id: 94
+          name: Kieni
+          wards:
+            - Gakawa
+            - Gatarakwa
+            - Kabaru
+            - Mugunda
+            - Mweiga
+            - Mwiyogo/Endarasha
+            - Naromoru Kiamathaga
+            - Thegu River
+        - subcounty_id: 95
+          name: Mathira
+          wards:
+            - Iriaini
+            - Karatina Town
+            - Kirimukuyu
+            - Konyu
+            - Magutu
+            - Ruguru
+        - subcounty_id: 96
+          name: Othaya
+          wards:
+            - Chinga
+            - Iria-Ini
+            - Karima
+            - Mahiga
+        - subcounty_id: 97
+          name: Mukurweini
+          wards:
+            - Gikondi
+            - Mukurwe-Ini Central
+            - Mukurwe-Ini West
+            - Rugi
+        - subcounty_id: 98
+          name: Nyeri Town
+          wards:
+            - Gatitu/Muruguru
+            - Kamakwa/Mukaro
+            - Kiganjo/Mathari
+            - Ruring'U
+            - Rware
     - code: 25
-      name: "Samburu"
+      name: Samburu
       population2009: 223947
       population2019: 310327
       sub-counties:
-        - name: "Samburu Central"
+        - name: Samburu Central
           population2009: 105052
           population2019: 164942
-        - name: "Samburu East"
+        - name: Samburu East
           population2009: 59094
           population2019: 77994
-        - name: "Samburu North"
+        - name: Samburu North
           population2009: 59801
           population2019: 67391
+      constituencies:
+        - subcounty_id: 132
+          name: Samburu West
+          wards:
+            - Lodokejek
+            - Loosuk
+            - Maralal
+            - Poro
+            - Suguta Marmar
+        - subcounty_id: 133
+          name: Samburu North
+          wards:
+            - Angata Nanyokie
+            - Baawa
+            - El-Barta
+            - Nachola
+            - Ndoto
+            - Nyiro
+        - subcounty_id: 134
+          name: Samburu East
+          wards:
+            - Wamba East
+            - Wamba North
+            - Wamba West
+            - Waso
     - code: 41
-      name: "Siaya"
+      name: Siaya
       population2009: 842304
       population2019: 993183
       sub-counties:
-        - name: "Bondo"
+        - name: Bondo
           population2009: 157522
           population2019: 197883
-        - name: "Gem"
+        - name: Gem
           population2009: 160675
           population2019: 179792
-        - name: "Rarieda"
+        - name: Rarieda
           population2009: 134558
           population2019: 152570
-        - name: "Siaya"
+        - name: Siaya
           population2009: 187243
           population2019: 224343
-        - name: "Ugenya"
+        - name: Ugenya
           population2009: 113848
           population2019: 134354
-        - name: "Ugunja"
+        - name: Ugunja
           population2009: 88458
           population2019: 104241
+      constituencies:
+        - subcounty_id: 231
+          name: Ugenya
+          wards:
+            - East Ugenya
+            - North Ugenya
+            - Ukwala
+            - West Ugenya
+        - subcounty_id: 232
+          name: Alego Usonga
+          wards:
+            - Central Alego
+            - North Alego
+            - Siaya Township
+            - South East Alego
+            - Usonga
+            - West Alego
+        - subcounty_id: 233
+          name: Gem
+          wards:
+            - Central Gem
+            - East Gem
+            - North Gem
+            - South Gem
+            - West Gem
+            - Yala Township
+        - subcounty_id: 234
+          name: Bondo
+          wards:
+            - Central Sakwa
+            - North Sakwa
+            - South Sakwa
+            - West Sakwa
+            - West Yimbo
+            - Yimbo East
+        - subcounty_id: 235
+          name: Rarieda
+          wards: []
     - code: 6
-      name: "Taita-Taveta"
+      name: Taita-Taveta
       population2009: 284657
       population2019: 340671
       sub-counties:
-        - name: "Mwatate"
+        - name: Mwatate
           population2009: 69557
           population2019: 81659
-        - name: "Taita"
+        - name: Taita
           population2009: 56021
           population2019: 55959
-        - name: "Taveta"
+        - name: Taveta
           population2009: 67665
           population2019: 91222
-        - name: "Voi"
+        - name: Voi
           population2009: 91414
           population2019: 111831
+      constituencies:
+        - subcounty_id: 23
+          name: Taveta
+          wards:
+            - Bomeni
+            - Chala
+            - Mahoo
+            - Mata
+            - Mboghoni
+        - subcounty_id: 24
+          name: Wundanyi
+          wards:
+            - Mwanda/Mgange
+            - Werugha
+            - Wumingu/Kishushe
+            - Wundanyi/Mbale
+        - subcounty_id: 25
+          name: Mwatate
+          wards:
+            - Bura
+            - Chawia
+            - Mwatate
+            - Rong'E
+            - Wusi/Kishamba
+        - subcounty_id: 26
+          name: Voi
+          wards:
+            - Kaloleni
+            - Kasigau
+            - Marungu
+            - Mbololo
+            - Ngolia
+            - Sagalla
     - code: 4
-      name: "Tana River"
+      name: Tana River
       population2009: 240075
       population2019: 315943
       sub-counties:
-        - name: "Tana Delta"
+        - name: Tana Delta
           population2009: 96664
           population2019: 110640
-        - name: "Tana North"
+        - name: Tana North
           population2009: 50759
           population2019: 116757
-        - name: "Tana River"
+        - name: Tana River
           population2009: 92652
           population2019: 88546
+      constituencies:
+        - subcounty_id: 18
+          name: Garsen
+          wards:
+            - Garsen Central
+            - Garsen North
+            - Garsen South
+            - Garsen West
+            - Kipini East
+            - Kipini West
+        - subcounty_id: 19
+          name: Galole
+          wards:
+            - Chewani
+            - Kinakomba
+            - Mikinduni
+            - Wayu
+        - subcounty_id: 20
+          name: Bura
+          wards:
+            - Bangale
+            - Bura
+            - Chewele
+            - Madogo
+            - Sala
     - code: 13
-      name: "Tharaka-Nithi"
+      name: Tharaka-Nithi
       population2009: 365330
       population2019: 393177
       sub-counties:
-        - name: "Igambang'ombe"
+        - name: Igambang'ombe
           population2009: 44283
           population2019: 53210
-        - name: "Maara"
+        - name: Maara
           population2009: 107098
           population2019: 114894
-        - name: "Meru South"
+        - name: Meru South
           population2009: 83824
           population2019: 91080
-        - name: "Tharaka North"
+        - name: Tharaka North
           population2009: 49976
           population2019: 58345
-        - name: "Tharaka South"
+        - name: Tharaka South
           population2009: 80122
           population2019: 75250
+      constituencies:
+        - subcounty_id: 60
+          name: Maara
+          wards:
+            - Chogoria
+            - Ganga
+            - Mitheru
+            - Muthambi
+            - Mwimbi
+        - subcounty_id: 61
+          name: Chuka/Igambang'Om
+          wards:
+            - Igambang'Ombe
+            - Karingani
+            - Magumoni
+            - Mariani
+            - Mugwe
+        - subcounty_id: 62
+          name: Tharaka
+          wards:
+            - Chiakariga
+            - Gatunga
+            - Marimanti
+            - Mukothima
+            - Nkondi
     - code: 26
-      name: "Trans Nzoia"
+      name: Trans Nzoia
       population2009: 818757
       population2019: 990341
       sub-counties:
-        - name: "Endebess"
+        - name: Endebess
           population2009: 91192
           population2019: 111782
-        - name: "Kiminini"
+        - name: Kiminini
           population2009: 190912
           population2019: 242823
-        - name: "Kwanza"
+        - name: Kwanza
           population2009: 166524
           population2019: 203821
-        - name: "Trans Nzoia East"
+        - name: Trans Nzoia East
           population2009: 195173
           population2019: 229538
-        - name: "Trans Nzoia West"
+        - name: Trans Nzoia West
           population2009: 174956
           population2019: 202377
+      constituencies:
+        - subcounty_id: 135
+          name: Kwanza
+          wards:
+            - Bidii
+            - Kapomboi
+            - Keiyo
+            - Kwanza
+        - subcounty_id: 136
+          name: Endebess
+          wards:
+            - Chepchoina
+            - Endebess
+            - Matumbei
+        - subcounty_id: 137
+          name: Saboti
+          wards:
+            - Kinyoro
+            - Machewa
+            - Matisi
+            - Saboti
+            - Tuwani
+        - subcounty_id: 138
+          name: Kiminini
+          wards:
+            - Hospital
+            - Kiminini
+            - Nabiswa
+            - Sikhendu
+            - Sirende
+            - Waitaluk
+        - subcounty_id: 139
+          name: Cherangany
+          wards:
+            - Chepsiro/Kiptoror
+            - Cherangany/Suwerwa
+            - Kaplamai
+            - Makutano
+            - Motosiet
+            - Sinyerere
+            - Sitatunga
     - code: 23
-      name: "Turkana"
+      name: Turkana
       population2009: 855399
       population2019: 926976
       sub-counties:
-        - name: "Kibish"
+        - name: Kibish
           population2009: 42881
           population2019: 36769
-        - name: "Loima"
+        - name: Loima
           population2009: 119932
           population2019: 107795
-        - name: "Turkana Central"
+        - name: Turkana Central
           population2009: 134674
           population2019: 185305
-        - name: "Turkana East"
+        - name: Turkana East
           population2009: 90466
           population2019: 138526
-        - name: "Turkana North"
+        - name: Turkana North
           population2009: 86206
           population2019: 65218
-        - name: "Turkana South"
+        - name: Turkana South
           population2009: 135913
           population2019: 153736
-        - name: "Turkana West"
+        - name: Turkana West
           population2009: 245327
           population2019: 239627
+      constituencies:
+        - subcounty_id: 122
+          name: Turkana North
+          wards:
+            - Kaaleng/Kaikor
+            - Kaeris
+            - Kibish
+            - Lake Zone
+            - Lapur
+            - Nakalale
+        - subcounty_id: 123
+          name: Turkana West
+          wards:
+            - Kakuma
+            - Kalobeyei
+            - Letea
+            - Lokichoggio
+            - Lopur
+            - Nanaam
+            - Songot
+        - subcounty_id: 124
+          name: Turkana Central
+          wards:
+            - Kalokol
+            - Kanamkemer
+            - Kang'Atotha
+            - Kerio Delta
+            - Lodwar Township
+        - subcounty_id: 125
+          name: Loima
+          wards:
+            - Kotaruk/Lobei
+            - Loima
+            - Lokiriama/Lorengippi
+            - Turkwel
+        - subcounty_id: 126
+          name: Turkana South
+          wards:
+            - Kalapata
+            - Kaputir
+            - Katilu
+            - Lobokat
+            - Lokichar
+        - subcounty_id: 127
+          name: Turkana East
+          wards:
+            - Kapedo/Napeitom
+            - Katilia
+            - Lokori/Kochodin
     - code: 27
-      name: "Uasin Gishu"
+      name: Uasin Gishu
       population2009: 894179
       population2019: 1163186
       sub-counties:
-        - name: "Ainabkoi"
+        - name: Ainabkoi
           population2009: 103042
           population2019: 138184
-        - name: "Kapseret"
+        - name: Kapseret
           population2009: 141813
           population2019: 198499
-        - name: "Kesses"
+        - name: Kesses
           population2009: 119260
           population2019: 148798
-        - name: "Moiben"
+        - name: Moiben
           population2009: 138409
           population2019: 181338
-        - name: "Soy"
+        - name: Soy
           population2009: 181251
           population2019: 229094
-        - name: "Turbo"
+        - name: Turbo
           population2009: 210404
           population2019: 267273
+      constituencies:
+        - subcounty_id: 140
+          name: Soy
+          wards:
+            - Kapkures
+            - Kipsomba
+            - Kuinet/Kapsuswa
+            - Moi'S Bridge
+            - Segero/Barsombe
+            - Soy
+            - Ziwa
+        - subcounty_id: 141
+          name: Turbo
+          wards:
+            - Huruma
+            - Kamagut
+            - Kapsaos
+            - Kiplombe
+            - Ngenyilel
+            - Tapsagoi
+        - subcounty_id: 142
+          name: Moiben
+          wards:
+            - Karuna/Meibeki
+            - Kimumu
+            - Moiben
+            - Sergoit
+            - Tembelio
+        - subcounty_id: 143
+          name: Ainabkoi
+          wards:
+            - Ainabkoi/Olare
+            - Kapsoya
+            - Kaptagat
+        - subcounty_id: 144
+          name: Kapseret
+          wards:
+            - Kipkenyo
+            - Langas
+            - Megun
+            - Ngeria
+            - Simat/Kapseret
+        - subcounty_id: 145
+          name: Kesses
+          wards:
+            - Cheptiret/Kipchamo
+            - Racecourse
+            - Tarakwa
+            - Tulwet/Chuiyat
     - code: 38
-      name: "Vihiga"
+      name: Vihiga
       population2009: 554622
       population2019: 590013
       sub-counties:
-        - name: "Emuhaya"
+        - name: Emuhaya
           population2009: 91645
           population2019: 97141
-        - name: "Hamisi (incl. Kakamega Forest)"
+        - name: Hamisi (incl. Kakamega Forest)
           population2009: 148259
           population2019: 159258
-        - name: "Luanda"
+        - name: Luanda
           population2009: 93424
           population2019: 106694
-        - name: "Sabatia"
+        - name: Sabatia
           population2009: 129678
           population2019: 131628
-        - name: "Vihiga"
+        - name: Vihiga
           population2009: 91616
           population2019: 95292
+      constituencies:
+        - subcounty_id: 210
+          name: Vihiga
+          wards:
+            - Central Maragoli
+            - Lugaga-Wamuluma
+            - Mungoma
+            - South Maragoli
+        - subcounty_id: 211
+          name: Sabatia
+          wards:
+            - Busali
+            - Chavakali
+            - Lyaduywa/Izava
+            - North Maragoli
+            - West Sabatia
+            - Wodanga
+        - subcounty_id: 212
+          name: Hamisi
+          wards:
+            - Banja
+            - Gisambai
+            - Jepkoyai
+            - Muhudu
+            - Shamakhokho
+            - Shiru
+            - Tambua
+        - subcounty_id: 213
+          name: Luanda
+          wards:
+            - Emabungo
+            - Luanda South
+            - Luanda Township
+            - Mwibona
+            - Wemilabi
+        - subcounty_id: 214
+          name: Emuhaya
+          wards:
+            - Central Bunyore
+            - North East Bunyore
+            - West Bunyore
     - code: 8
-      name: "Wajir"
+      name: Wajir
       population2009: 661941
       population2019: 781263
       sub-counties:
-        - name: "Buna"
+        - name: Buna
           population2009: 44187
           population2019: 49886
-        - name: "Eldas"
+        - name: Eldas
           population2009: 51775
           population2019: 89104
-        - name: "Habaswein"
+        - name: Habaswein
           population2009: 72397
           population2019: 174134
-        - name: "Tarbaj"
+        - name: Tarbaj
           population2009: 111846
           population2019: 56637
-        - name: "Wajir East"
+        - name: Wajir East
           population2009: 112572
           population2019: 110654
-        - name: "Wajir North"
+        - name: Wajir North
           population2009: 91318
           population2019: 62206
-        - name: "Wajir South"
+        - name: Wajir South
           population2009: 57673
           population2019: 116814
-        - name: "Wajir West"
+        - name: Wajir West
           population2009: 120173
           population2019: 121828
+      constituencies:
+        - subcounty_id: 33
+          name: Wajir North
+          wards:
+            - Batalu
+            - Bute
+            - Danaba
+            - Godoma
+            - Gurar
+            - Korondile
+            - Malkagufu
+        - subcounty_id: 34
+          name: Wajir East
+          wards:
+            - Barwago
+            - Khorof/Harar
+            - Township
+            - Wagberi
+        - subcounty_id: 35
+          name: Tarbaj
+          wards:
+            - Elben
+            - Sarman
+            - Tarbaj
+            - Wargadud
+        - subcounty_id: 36
+          name: Wajir West
+          wards:
+            - Ademasajide
+            - Arbajahan
+            - Hadado/Athibohol
+            - Wagalla/Ganyure
+        - subcounty_id: 37
+          name: Eldas
+          wards:
+            - Della
+            - Eldas
+            - Elnur/Tula Tula
+            - Lakoley South/Basir
+        - subcounty_id: 38
+          name: Wajir South
+          wards:
+            - Benane
+            - Burder
+            - Dadaja Bulla
+            - Diif
+            - Habasswein
+            - Ibrahim Ure
+            - Lagboghol South
     - code: 24
-      name: "West Pokot"
+      name: West Pokot
       population2009: 512690
       population2019: 621241
       sub-counties:
-        - name: "Kipkomo"
+        - name: Kipkomo
           population2009: 66985
           population2019: 102633
-        - name: "Pokot Central"
+        - name: Pokot Central
           population2009: 101022
           population2019: 119016
-        - name: "Pokot North"
+        - name: Pokot North
           population2009: 156011
           population2019: 134485
-        - name: "Pokot South"
+        - name: Pokot South
           population2009: 49172
           population2019: 80661
-        - name: "West Pokot"
+        - name: West Pokot
           population2009: 139500
           population2019: 184446
+      constituencies:
+        - subcounty_id: 128
+          name: Kapenguria
+          wards:
+            - Endugh
+            - Kapenguria
+            - Mnagei
+            - Riwo
+            - Siyoi
+            - Sook
+        - subcounty_id: 129
+          name: Sigor
+          wards:
+            - Lomut
+            - Masool
+            - Sekerr
+            - Weiwei
+        - subcounty_id: 130
+          name: Kacheliba
+          wards:
+            - Alale
+            - Kapckok
+            - Kasei
+            - Kiwawa
+            - Kodich
+            - Suam
+        - subcounty_id: 131
+          name: Pokot South
+          wards:
+            - Batei
+            - Chepareria
+            - Lelan
+            - Tapach
+  ward-data-source:
+    description: Ward assignments are taken from the hci database station table and linked by station.subcounty_id to subcounties.subcounty_id.
+      These constituency-based units are kept separate from the provisional 2009/2019 census sub-counties because their names
+      and boundaries do not consistently match.
+    database: hci
+    tables:
+      - counties
+      - subcounties
+      - station
+    note: An empty wards list means no station rows were linked to that subcounty_id in the supplied export; it does not prove
+      the subcounty has no wards.

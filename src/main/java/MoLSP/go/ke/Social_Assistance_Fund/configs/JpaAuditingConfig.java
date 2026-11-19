@@ -1,6 +1,7 @@
 package MoLSP.go.ke.Social_Assistance_Fund.configs;
 
 import MoLSP.go.ke.Social_Assistance_Fund.models.User;
+import MoLSP.go.ke.Social_Assistance_Fund.utils.PublicRegistrationAuditContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -18,6 +19,9 @@ public class JpaAuditingConfig {
     @Bean
     public AuditorAware<String> authenticatedAuditor() {
         return () -> {
+            if (PublicRegistrationAuditContext.isActive()) {
+                return Optional.of(PublicRegistrationAuditContext.ACTOR);
+            }
             var authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated()
                     || new AuthenticationTrustResolverImpl().isAnonymous(authentication)

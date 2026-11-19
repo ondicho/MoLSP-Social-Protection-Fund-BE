@@ -7,9 +7,12 @@ import java.util.List;
 @ConfigurationProperties(prefix = "geography")
 public record GeographyProperties(List<County> counties) {
     public record County(Integer code, String name, Integer population2009, Integer population2019,
-                         List<SubCounty> subCounties) {
+                         List<SubCounty> subCounties, List<Constituency> constituencies) {
     }
 
     public record SubCounty(String name, Integer population2009, Integer population2019) {
+    }
+
+    public record Constituency(Integer subcountyId, String name, List<String> wards) {
     }
 }

@@ -1,0 +1,3844 @@
+{
+  "info": {
+    "_postman_id": "ed209dd4-1e89-4dab-bad1-a4cf6e44f49f",
+    "name": "Social Assistance Fund - Complete API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Run folders in numeric order against a local/demo database. Creates persistent synthetic staff, funds and applications. Import the accompanying environment and supply adminPassword locally. Tokens, IDs and optimistic versions are captured automatically. Every implemented controller endpoint plus public health/OpenAPI routes is included. See README.md in this package."
+  },
+  "item": [
+    {
+      "name": "00 - Health and API documentation",
+      "description": "Public operational/documentation routes. Actuator uses its native response format; metrics and other management endpoints are intentionally blocked.",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actuator",
+                "health"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('Healthy', () => pm.expect(pm.response.json().status).to.eql('UP'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Readiness",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health/readiness",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actuator",
+                "health",
+                "readiness"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('Ready', () => pm.expect(pm.response.json().status).to.eql('UP'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Liveness",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health/liveness",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actuator",
+                "health",
+                "liveness"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "OpenAPI JSON",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v3/api-docs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v3",
+                "api-docs"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('OpenAPI paths present', () => pm.expect(pm.response.json().paths).to.be.an('object'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Swagger UI",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/swagger-ui/index.html",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "swagger-ui",
+                "index.html"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "01 - Authentication",
+      "description": "Run first after health checks. Starts a fresh demo run with unique emails, applicant identities and generated temporary staff password. Does not change the bootstrap administrator.",
+      "item": [
+        {
+          "name": "Sign in - admin",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Captures this role's bearer token. Re-run if the token expires (default 15 minutes).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.environment.get('adminPassword')) {",
+                  "  throw new Error('Set adminPassword locally from PLATFORM_ADMIN_PASSWORD in .env before running.');",
+                  "}",
+                  "const runId = pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0, 12);",
+                  "pm.environment.set('runId', runId);",
+                  "pm.environment.set('staffPassword', pm.variables.replaceIn('{{$guid}}') + 'aA1!');",
+                  "['officer', 'approver', 'staff'].forEach(role => pm.environment.set(role + 'Email', role + '.' + runId + '@example.test'));",
+                  "const now = new Date();",
+                  "pm.environment.set('today', now.toISOString().slice(0, 10));",
+                  "now.setUTCFullYear(now.getUTCFullYear() + 1);",
+                  "pm.environment.set('fundCloseDate', now.toISOString().slice(0, 10));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('adminToken', result.data.accessToken);",
+                  "pm.test('Bearer token returned', () => pm.expect(result.data.tokenType).to.eql('Bearer'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 - Staff administration",
+      "description": "Bootstrap admin creates one account of each staff role. Lifecycle requests target ONLY the extra demo admin, never the bootstrap admin. End by obtaining officer/approver tokens.",
+      "item": [
+        {
+          "name": "Create DATA_ENTRY_OFFICER",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Officer\",\n  \"email\": \"{{officerEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"DATA_ENTRY_OFFICER\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('officerId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('officerVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Create APPROVER",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Approver\",\n  \"email\": \"{{approverEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"APPROVER\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('approverId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('approverVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Create PLATFORM_ADMIN",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Administrator\",\n  \"email\": \"{{staffEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"PLATFORM_ADMIN\",\n  \"temporaryPassword\": \"{{staffPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List staff - optional filters",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users?pageNo=0&pageSize=2&sortBy=createdAt&sortDirection=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                },
+                {
+                  "key": "search",
+                  "value": "Demo",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "APPROVER",
+                  "disabled": true
+                },
+                {
+                  "key": "enabled",
+                  "value": "true",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get demo administrator",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{staffId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{staffId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Update demo administrator",
+          "request": {
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{staffId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{staffId}}"
+              ]
+            },
+            "description": "newPassword is optional; omit to preserve the existing password.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Updated\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Administrator\",\n  \"email\": \"{{staffEmail}}\",\n  \"phoneNumber\": \"0712345678\",\n  \"role\": \"PLATFORM_ADMIN\",\n  \"version\": {{staffVersion}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Deactivate demo administrator (DELETE)",
+          "request": {
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{staffId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{staffId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
+                  "pm.test('Disabled', () => pm.expect(result.data.enabled).to.eql(false));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Reactivate demo administrator (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{staffId}}/enabled?enabled=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{staffId}}",
+                "enabled"
+              ],
+              "query": [
+                {
+                  "key": "enabled",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Deactivate demo administrator (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{staffId}}/enabled?enabled=false",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{staffId}}",
+                "enabled"
+              ],
+              "query": [
+                {
+                  "key": "enabled",
+                  "value": "false"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('staffId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('staffVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Sign in - officer",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Captures this role's bearer token. Re-run if the token expires (default 15 minutes).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{officerEmail}}\",\n  \"password\": \"{{staffPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('officerToken', result.data.accessToken);",
+                  "pm.test('Bearer token returned', () => pm.expect(result.data.tokenType).to.eql('Bearer'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Sign in - approver",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Captures this role's bearer token. Re-run if the token expires (default 15 minutes).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{approverEmail}}\",\n  \"password\": \"{{staffPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('approverToken', result.data.accessToken);",
+                  "pm.test('Bearer token returned', () => pm.expect(result.data.tokenType).to.eql('Bearer'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 - Geography",
+      "description": "Discovers real integer geography IDs rather than assuming sub-county IDs. Applications send subCountyId only; countyId is for lookup navigation and search.",
+      "item": [
+        {
+          "name": "List counties - select Baringo",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/geography/counties?pageNo=0&pageSize=100&sortBy=name&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "geography",
+                "counties"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "100"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "const county = result.data.content.find(row => row.name === 'Baringo');",
+                  "pm.test('Seeded Baringo exists', () => pm.expect(county).to.be.an('object'));",
+                  "if (county) pm.environment.set('countyId', county.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List sub-counties - select Baringo Central",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/geography/counties/{{countyId}}/sub-counties?pageNo=0&pageSize=100&sortBy=name&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "geography",
+                "counties",
+                "{{countyId}}",
+                "sub-counties"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "100"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "const subCounty = result.data.content.find(row => row.subCountyName === 'Baringo Central');",
+                  "pm.test('Seeded Baringo Central exists', () => pm.expect(subCounty).to.be.an('object'));",
+                  "if (subCounty) pm.environment.set('subCountyId', subCounty.subCountyId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List wards",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/geography/counties/{{countyId}}/sub-counties/{{subCountyId}}/wards?pageNo=0&pageSize=100&sortBy=name&sortDirection=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "geography",
+                "counties",
+                "{{countyId}}",
+                "sub-counties",
+                "{{subCountyId}}",
+                "wards"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "100"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('Matched wards exist', () => pm.expect(result.data.content.length).to.be.greaterThan(0));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "04 - Social funds",
+      "description": "Platform-admin-only CRUD. Slugs are generated by the service; archive toggles replace physical deletion.",
+      "item": [
+        {
+          "name": "Create county fund",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman county fund {{runId}}\",\n  \"type\": \"COUNTY\",\n  \"coverage\": \"OPEN\",\n  \"openDate\": \"{{today}}\",\n  \"closeDate\": \"{{fundCloseDate}}\",\n  \"minAmount\": 500,\n  \"maxAmount\": 5000,\n  \"countyIds\": [\n    {{countyId}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Create national fund",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman national fund {{runId}}\",\n  \"type\": \"NATIONAL\",\n  \"coverage\": \"OPEN\",\n  \"openDate\": \"{{today}}\",\n  \"closeDate\": \"{{fundCloseDate}}\",\n  \"minAmount\": 500,\n  \"maxAmount\": 5000,\n  \"countyIds\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('nationalFundId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('nationalFundVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List funds - optional filters",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds?pageNo=0&pageSize=2&sortBy=createdAt&sortDirection=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                },
+                {
+                  "key": "search",
+                  "value": "Postman",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "COUNTY",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get county fund",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds/{{fundId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds",
+                "{{fundId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Update county fund",
+          "request": {
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds/{{fundId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds",
+                "{{fundId}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated county fund {{runId}}\",\n  \"type\": \"COUNTY\",\n  \"coverage\": \"OPEN\",\n  \"openDate\": \"{{today}}\",\n  \"closeDate\": \"{{fundCloseDate}}\",\n  \"minAmount\": 500,\n  \"maxAmount\": 6000,\n  \"countyIds\": [\n    {{countyId}}\n  ],\n  \"version\": {{fundVersion}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Archive county fund",
+          "request": {
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds/{{fundId}}/archive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds",
+                "{{fundId}}",
+                "archive"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('Archived', () => pm.expect(result.data.archived).to.eql(true));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Archived fund is hidden",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds/{{fundId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds",
+                "{{fundId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 404', () => pm.response.to.have.status(404));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Unarchive county fund",
+          "request": {
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds/{{fundId}}/archive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds",
+                "{{fundId}}",
+                "archive"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('Restored', () => pm.expect(result.data.archived).to.eql(false));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Refresh restored fund version",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/social-funds/{{fundId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "social-funds",
+                "{{fundId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('fundId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('fundVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "05 - Public self-registration",
+      "description": "No authentication or applicant account. Captures only an opaque submitted receipt. Duplicate identity numbers are rejected.",
+      "item": [
+        {
+          "name": "Submit complete public application",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/self-registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "self-registration"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}PUB\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('publicApplicationId', result.data.applicationId);",
+                  "if (result.data.version !== undefined) pm.environment.set('publicApplicationVersion', result.data.version);",
+                  "pm.test('Submitted receipt only', () => {",
+                  "  pm.expect(result.data.status).to.eql('SUBMITTED');",
+                  "  pm.expect(result.data).not.to.have.property('identityNumber');",
+                  "});",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "06 - Assisted application drafts",
+      "description": "Creator-only draft editing; submission validates complete form data. Optimistic versions are captured automatically. No county field is sent in form bodies.",
+      "item": [
+        {
+          "name": "Create assisted draft",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}APP\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
+                  "pm.test('Draft created', () => pm.expect(result.data.status).to.eql('DRAFT'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List my applications - optional filters",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications?pageNo=0&pageSize=2&sortBy=createdAt&sortDirection=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                },
+                {
+                  "key": "search",
+                  "value": "Demo",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "DRAFT",
+                  "disabled": true
+                },
+                {
+                  "key": "applicationDateFrom",
+                  "value": "{{today}}",
+                  "disabled": true
+                },
+                {
+                  "key": "applicationDateTo",
+                  "value": "{{today}}",
+                  "disabled": true
+                },
+                {
+                  "key": "programme",
+                  "value": "OVC",
+                  "disabled": true
+                },
+                {
+                  "key": "countyId",
+                  "value": "{{countyId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "subCountyId",
+                  "value": "{{subCountyId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "location",
+                  "value": "Town",
+                  "disabled": true
+                },
+                {
+                  "key": "subLocation",
+                  "value": "Central",
+                  "disabled": true
+                },
+                {
+                  "key": "village",
+                  "value": "Village",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get my draft",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Update my draft",
+          "request": {
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": {{applicationVersion}},\n  \"form\": {\n    \"firstName\": \"Demo\",\n    \"middleName\": \"Postman\",\n    \"lastName\": \"Applicant\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"maritalStatus\": \"SINGLE\",\n    \"identityNumber\": \"P{{runId}}APP\",\n    \"subCountyId\": {{subCountyId}},\n    \"location\": \"Town\",\n    \"subLocation\": \"Central\",\n    \"village\": \"Village\",\n    \"postalAddress\": \"P.O. Box 1\",\n    \"physicalAddress\": \"Updated Demo Street\",\n    \"telephoneContacts\": [\n      \"0712345678\"\n    ],\n    \"applicationDate\": \"{{today}}\",\n    \"programmeCodes\": [\n      \"OVC\",\n      \"ELDERLY\"\n    ],\n    \"applicantSignedDate\": \"{{today}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Search by derived county",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications?pageNo=0&pageSize=2&sortBy=createdAt&sortDirection=desc&countyId={{countyId}}&search=P{{runId}}APP",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                },
+                {
+                  "key": "countyId",
+                  "value": "{{countyId}}"
+                },
+                {
+                  "key": "search",
+                  "value": "P{{runId}}APP"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.test('Derived county matches', () => pm.expect(result.data.totalElements).to.eql(1));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Submit my draft",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/submit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "submit"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": {{applicationVersion}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "07 - Approver workflows",
+      "description": "Runs approval, rejection and return-for-correction on separate applications. Returned applications remain locked: amendment/resubmission is deferred and no endpoint is invented.",
+      "item": [
+        {
+          "name": "List applications as approver",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications?pageNo=0&pageSize=2&sortBy=createdAt&sortDirection=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortDirection",
+                  "value": "desc"
+                },
+                {
+                  "key": "search",
+                  "value": "Demo",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "DRAFT",
+                  "disabled": true
+                },
+                {
+                  "key": "applicationDateFrom",
+                  "value": "{{today}}",
+                  "disabled": true
+                },
+                {
+                  "key": "applicationDateTo",
+                  "value": "{{today}}",
+                  "disabled": true
+                },
+                {
+                  "key": "programme",
+                  "value": "OVC",
+                  "disabled": true
+                },
+                {
+                  "key": "countyId",
+                  "value": "{{countyId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "subCountyId",
+                  "value": "{{subCountyId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "location",
+                  "value": "Town",
+                  "disabled": true
+                },
+                {
+                  "key": "subLocation",
+                  "value": "Central",
+                  "disabled": true
+                },
+                {
+                  "key": "village",
+                  "value": "Village",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "pm.test('Pagination is inside data', () => {",
+                  "  pm.expect(result.data.content).to.be.an('array');",
+                  "  ['pageNo', 'pageSize', 'totalElements', 'totalPages', 'last'].forEach(key => pm.expect(result.data).to.have.property(key));",
+                  "  pm.expect(result).not.to.have.property('content');",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Start review - approval branch",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/review",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "review"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": {{applicationVersion}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
+                  "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('UNDER_REVIEW'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Approve with official-use section",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "approve"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": {{applicationVersion}},\n  \"officialName\": \"Demo Approver\",\n  \"officialDesignation\": \"Approver\",\n  \"officialSignatureReference\": \"POSTMAN-{{runId}}\",\n  \"officialSignedDate\": \"{{today}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "pm.environment.set('applicationId', result.data.id);",
+                  "if (result.data.version !== undefined) pm.environment.set('applicationVersion', result.data.version);",
+                  "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('APPROVED'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Rejection",
+          "description": "Independent application; does not reuse an already-approved record.",
+          "item": [
+            {
+              "name": "Create separate assisted draft",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{officerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}REJ\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Submit separate draft",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{officerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications/{{rejectionId}}/submit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications",
+                    "{{rejectionId}}",
+                    "submit"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": {{rejectionVersion}}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Start review",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{approverToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications/{{rejectionId}}/review",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications",
+                    "{{rejectionId}}",
+                    "review"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": {{rejectionVersion}}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
+                      "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('UNDER_REVIEW'));",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Rejection with reason",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{approverToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications/{{rejectionId}}/reject",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications",
+                    "{{rejectionId}}",
+                    "reject"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": {{rejectionVersion}},\n  \"reason\": \"Demo review: supporting details require attention\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('rejectionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('rejectionVersion', result.data.version);",
+                      "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('REJECTED'));",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Return for correction",
+          "description": "Independent application; does not reuse an already-approved record.",
+          "item": [
+            {
+              "name": "Create separate assisted draft",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{officerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}COR\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Submit separate draft",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{officerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications/{{correctionId}}/submit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications",
+                    "{{correctionId}}",
+                    "submit"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": {{correctionVersion}}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Start review",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{approverToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications/{{correctionId}}/review",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications",
+                    "{{correctionId}}",
+                    "review"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": {{correctionVersion}}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
+                      "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('UNDER_REVIEW'));",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Return for correction with reason",
+              "request": {
+                "method": "POST",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{approverToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "X-Request-ID",
+                    "value": "{{$guid}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/applications/{{correctionId}}/return-for-correction",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "applications",
+                    "{{correctionId}}",
+                    "return-for-correction"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": {{correctionVersion}},\n  \"reason\": \"Demo review: supporting details require attention\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(true));",
+                      "pm.test('Request correlation', () => {",
+                      "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                      "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                      "});",
+                      "if (pm.response.code < 400) {",
+                      "pm.environment.set('correctionId', result.data.id);",
+                      "if (result.data.version !== undefined) pm.environment.set('correctionVersion', result.data.version);",
+                      "pm.test('Workflow status', () => pm.expect(result.data.status).to.eql('RETURNED_FOR_CORRECTION'));",
+                      "}"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08 - Validation and access boundaries",
+      "description": "Expected error responses are asserted rather than treated as runner failures. Does not change security configuration.",
+      "item": [
+        {
+          "name": "Protected staff endpoint without token",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', () => pm.response.to.have.status(401));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Officer cannot manage staff",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Admin cannot create assisted applications",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}BAD\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Public form requires mandatory fields",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/self-registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "self-registration"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Unknown sub-county is rejected",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subCountyId\": 2147483647\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 404', () => pm.response.to.have.status(404));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Stale draft version is rejected",
+          "request": {
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{officerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": 0,\n  \"form\": {\n    \"firstName\": \"Demo\",\n    \"middleName\": \"Postman\",\n    \"lastName\": \"Applicant\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"maritalStatus\": \"SINGLE\",\n    \"identityNumber\": \"P{{runId}}APP\",\n    \"subCountyId\": {{subCountyId}},\n    \"location\": \"Town\",\n    \"subLocation\": \"Central\",\n    \"village\": \"Village\",\n    \"postalAddress\": \"P.O. Box 1\",\n    \"physicalAddress\": \"Demo Street\",\n    \"telephoneContacts\": [\n      \"0712345678\"\n    ],\n    \"applicationDate\": \"{{today}}\",\n    \"programmeCodes\": [\n      \"OVC\",\n      \"ELDERLY\"\n    ],\n    \"applicantSignedDate\": \"{{today}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', () => pm.response.to.have.status(409));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Approved application cannot enter review again",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{approverToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/{{applicationId}}/review",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "{{applicationId}}",
+                "review"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": {{applicationVersion}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', () => pm.response.to.have.status(409));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Duplicate public identity is rejected",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/applications/self-registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applications",
+                "self-registration"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Demo\",\n  \"middleName\": \"Postman\",\n  \"lastName\": \"Applicant\",\n  \"gender\": \"FEMALE\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"maritalStatus\": \"SINGLE\",\n  \"identityNumber\": \"P{{runId}}PUB\",\n  \"subCountyId\": {{subCountyId}},\n  \"location\": \"Town\",\n  \"subLocation\": \"Central\",\n  \"village\": \"Village\",\n  \"postalAddress\": \"P.O. Box 1\",\n  \"physicalAddress\": \"Demo Street\",\n  \"telephoneContacts\": [\n    \"0712345678\"\n  ],\n  \"applicationDate\": \"{{today}}\",\n  \"programmeCodes\": [\n    \"OVC\",\n    \"ELDERLY\"\n  ],\n  \"applicantSignedDate\": \"{{today}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', () => pm.response.to.have.status(409));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Page size over 100 is rejected",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users?pageSize=101",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "101"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "const result = pm.response.json();",
+                  "pm.test('Wrapped response', () => pm.expect(result.success).to.eql(false));",
+                  "pm.test('Request correlation', () => {",
+                  "  pm.expect(result.requestId).to.eql(pm.response.headers.get('X-Request-ID'));",
+                  "  pm.expect(result.requestId).to.eql(pm.request.headers.get('X-Request-ID'));",
+                  "});",
+                  "if (pm.response.code < 400) {",
+                  "",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}

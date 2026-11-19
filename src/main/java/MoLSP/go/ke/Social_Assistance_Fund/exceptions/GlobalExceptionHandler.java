@@ -158,6 +158,12 @@ public class GlobalExceptionHandler {
         return respond(HttpStatus.CONFLICT, exception.getMessage(), request);
     }
 
+    @ExceptionHandler(InvalidStateTransitionException.class)
+    public ResponseEntity<ResponseWrapper<ProblemDetail>> handleInvalidTransition(
+            InvalidStateTransitionException exception, HttpServletRequest request) {
+        return respond(HttpStatus.CONFLICT, exception.getMessage(), request);
+    }
+
     @ExceptionHandler({DataIntegrityViolationException.class, OptimisticLockingFailureException.class})
     public ResponseEntity<ResponseWrapper<ProblemDetail>> handleConflict(HttpServletRequest request) {
         return respond(HttpStatus.CONFLICT, "The request conflicts with the current resource state", request);

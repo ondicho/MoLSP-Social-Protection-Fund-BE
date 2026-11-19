@@ -1,7 +1,9 @@
 package MoLSP.go.ke.Social_Assistance_Fund.utils;
 
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.ResponseWrapper;
+import MoLSP.go.ke.Social_Assistance_Fund.dtos.PaginatedResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
@@ -39,6 +41,11 @@ public class ResponseHandler {
 
     public <T> ResponseEntity<ResponseWrapper<T>> created(T data, String message, String requestId) {
         return createResponse(true, message, data, null, HttpStatus.CREATED, requestId);
+    }
+
+    public <T> ResponseEntity<ResponseWrapper<PaginatedResponse<T>>> paginated(
+            Page<T> page, String message, String requestId) {
+        return success(PaginatedResponse.from(page), message, requestId);
     }
 
     public ResponseEntity<ResponseWrapper<ProblemDetail>> error(

@@ -26,6 +26,18 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    public static final String[] WHITELISTED_URLS = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/api/auth/login",
+            "/api/applications/self-registration",
+    };
+
+    public static final String[] BLOCKED_URLS = {
+            "/actuator",
+            "/actuator/**"
+    };
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtProvider jwtProvider,
                                             SecurityErrorHandler errorHandler,
@@ -39,9 +51,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).denyAll()
-                        .requestMatchers("/actuator", "/actuator/**").denyAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(BLOCKED_URLS).denyAll()
+                        .requestMatchers(WHITELISTED_URLS).permitAll()
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(jwtProvider, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

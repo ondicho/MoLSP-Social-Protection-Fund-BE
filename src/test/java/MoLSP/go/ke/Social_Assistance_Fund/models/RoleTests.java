@@ -25,7 +25,7 @@ class RoleTests {
 
     @Test
     void rolesSortByDisplayName() {
-        assertEquals(List.of(Role.APPLICANT, Role.APPROVER, Role.DATA_ENTRY_OFFICER),
+        assertEquals(List.of(Role.APPLICANT, Role.APPROVER, Role.DATA_ENTRY_OFFICER, Role.PLATFORM_ADMIN),
                 BaseEnum.sortAlphabetically(Role.class));
     }
 }

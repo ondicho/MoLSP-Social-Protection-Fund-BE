@@ -81,23 +81,41 @@ MySQL DDL is not transactional; a failed migration requires inspecting and repai
 the partially applied schema before using Flyway repair and retrying.
 
 `Role` is now an enum implementing the project's `enums.BaseEnum`, with stable
-codes, display names and active flags. Supported roles are `DATA_ENTRY_OFFICER`,
-`APPROVER` and `APPLICANT`. Use `BaseEnum.sortAlphabetically(Role.class)` for
+codes, display names and active flags. Supported roles are `PLATFORM_ADMIN`,
+`DATA_ENTRY_OFFICER`, `APPROVER` and `APPLICANT`. Use `BaseEnum.sortAlphabetically(Role.class)` for
 display-name ordering. Migration V3 converts `role_id` to a required `role_code`
 string, preserving assignments and retaining the roles lookup table as a foreign-key
-target. A check constraint limits assignments to the enum values. Adding a role
-requires updating both the enum and database constraints/lookup data.
+target. Migration V8 adds `PLATFORM_ADMIN` and updates the database role
+constraint. Adding a role requires updating both the enum and database constraints/
+lookup data.
 
-Use the provided BCrypt `PasswordEncoder` to populate `passwordHash`; never persist
-plaintext passwords. Return DTOs from future account endpoints rather than entities.
-Authorities are prefixed with `ROLE_`; protect future approval operations with
-`@PreAuthorize("hasRole('APPROVER')")` and enforce ownership in the service layer.
+The first platform admin is seeded idempotently at startup using
+`PLATFORM_ADMIN_FIRST_NAME`, `PLATFORM_ADMIN_LAST_NAME`, `PLATFORM_ADMIN_EMAIL`,
+and `PLATFORM_ADMIN_PASSWORD`. The password must be at least 12 characters and is
+BCrypt-hashed. Bootstrap does not change an existing user's password or profile;
+an email already used by a non-admin stops startup. The seeded admin signs in
+through `POST /api/auth/login`; token responses are wrapped and contain no password
+fields. Never log request credentials or bearer tokens.
 
-Login/token-issuance endpoints, user provisioning, refresh/revocation flows and
-approval endpoints are not implemented yet. `generateAccessToken(UUID)` is the
-issuance primitive for a future login service, after credentials are authenticated.
-User UUIDs intentionally follow the supplied model but differ from the practical
-test's integer-primary-key requirement; resolve that deviation before submission.
+`PLATFORM_ADMIN` can manage staff roles `PLATFORM_ADMIN`, `APPROVER`, and
+`DATA_ENTRY_OFFICER` through `/api/admin/users`. Applicant accounts are deliberately
+not created: applicants are application records created through assisted or public
+intake. Staff creation requires an admin-provided temporary password which is
+hashed and never returned. User deletion deactivates the account; at least one
+enabled platform admin must remain. Users can sign in with their temporary password,
+but password reset/rotation and login rate limiting are future hardening work.
+
+Authorities are prefixed with `ROLE_`; application review routes use method security
+and enforce ownership/state rules in the service layer. `generateAccessToken(UUID)`
+is called only after the login service verifies the password. User UUIDs intentionally
+follow the supplied model but differ from the practical test's integer-primary-key
+requirement; resolve that deviation before submission.
+
+The public self-registration audit actor is `PUBLIC_SELF_REGISTRATION`, a fixed
+service marker used only in the scoped auditing context for the public form write.
+All authenticated changes use the authenticated user's UUID. Public submissions
+have no applicant login or continuation token; returned-for-correction forms cannot
+currently be amended or resubmitted.
 
 Run the focused authentication and user-model checks without a database:
 

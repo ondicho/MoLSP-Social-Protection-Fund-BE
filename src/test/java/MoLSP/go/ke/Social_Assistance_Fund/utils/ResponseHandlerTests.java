@@ -1,6 +1,8 @@
 package MoLSP.go.ke.Social_Assistance_Fund.utils;
 
 import MoLSP.go.ke.Social_Assistance_Fund.dtos.ResponseWrapper;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -8,6 +10,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,6 +66,27 @@ class ResponseHandlerTests {
         assertEquals("2026-11-17", json.get("data").get("date").asString());
         assertNotNull(Instant.parse(json.get("timestamp").asString()));
         assertTrue(json.has("error"));
+    }
+
+    @Test
+    void paginationAndSingleObjectsStayInsideResponseWrapperData() throws Exception {
+        var paginated = handler.paginated(
+                new PageImpl<>(List.of("item"), PageRequest.of(0, 2), 1),
+                "Records retrieved", "page-request");
+        var mapper = JsonMapper.builder().build();
+        var pageJson = mapper.readTree(mapper.writeValueAsString(paginated.getBody()));
+
+        assertTrue(pageJson.has("success"));
+        assertEquals("page-request", pageJson.get("requestId").asString());
+        assertTrue(pageJson.get("data").has("content"));
+        assertEquals(1, pageJson.get("data").get("content").size());
+        assertTrue(pageJson.get("data").has("pageNo"));
+        assertFalse(pageJson.has("content"));
+        assertFalse(pageJson.has("pageNo"));
+
+        var singleJson = mapper.readTree(mapper.writeValueAsString(handler.success("item", "single-request").getBody()));
+        assertEquals("item", singleJson.get("data").asString());
+        assertEquals("single-request", singleJson.get("requestId").asString());
     }
 
     @Test
